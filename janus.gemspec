@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{janus}
-  s.version = "0.0.1"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julien Portalier"]
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "examples/action_controller.rb",
     "test/rails_app/app/controllers/application_controller.rb",
     "test/rails_app/app/controllers/users/sessions_controller.rb",
+    "test/rails_app/app/controllers/users_controller.rb",
     "test/rails_app/app/helpers/application_helper.rb",
     "test/rails_app/app/helpers/users/sessions_helper.rb",
     "test/rails_app/app/models/user.rb",
@@ -43,14 +44,14 @@ Gem::Specification.new do |s|
     "test/rails_app/config/initializers/session_store.rb",
     "test/rails_app/config/routes.rb",
     "test/rails_app/db/migrate/20110323153820_create_users.rb",
+    "test/rails_app/db/schema.rb",
     "test/rails_app/db/seeds.rb",
     "test/rails_app/test/functional/users/sessions_controller_test.rb",
+    "test/rails_app/test/functional/users_controller_test.rb",
     "test/rails_app/test/integration/users/sessions_test.rb",
     "test/rails_app/test/performance/browsing_test.rb",
     "test/rails_app/test/test_helper.rb",
-    "test/rails_app/test/unit/helpers/users/sessions_helper_test.rb",
-    "test/rails_app/test/unit/user_test.rb",
-    "test/test_helper.rb"
+    "test/rails_app/test/unit/user_test.rb"
   ]
 
   if s.respond_to? :specification_version then
