@@ -10,7 +10,7 @@ class Users::SessionsControllerTest < ActionController::TestCase
 
   test "should create" do
     post :create, :user => { :email => users(:julien).email, :password => 'secret' }
-    assert_redirected_to user_url(users(:julien))
+    assert_redirected_to user_url
     assert_authenticated(:user)
   end
 
@@ -49,7 +49,7 @@ class Users::SessionsControllerTest < ActionController::TestCase
 
   test "should destroy user" do
     post :create, :user => { :email => users(:julien).email, :password => 'secret' }
-    assert_redirected_to user_url(users(:julien))
+    assert_authenticated(:user)
     
     get :destroy
     assert_redirected_to root_url

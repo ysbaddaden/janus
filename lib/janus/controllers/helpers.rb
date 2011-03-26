@@ -15,6 +15,10 @@ module Janus
       @janus ||= Janus::Manager.new(request)
     end
 
+    def handle_unverified_requests
+      janus.logout
+    end
+
     module ClassMethods
       def janus(*scopes)
         scopes.each do |scope|

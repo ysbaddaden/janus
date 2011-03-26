@@ -10,6 +10,8 @@ module Janus
     # 
     # Runs the after_authenticate(user, manager, options) callback before
     # actually returning the user.
+    # 
+    # TODO: run strategies to authenticate the user (unless authenticated).
     def authenticate(scope)
       Janus::Manager.run_callbacks(:authenticate, user(scope), self, :scope => scope)
       user(scope)
@@ -41,11 +43,12 @@ module Janus
     end
 
     # Logs a user out from the given scopes or from all scopes at once
-    # if no scope is defined. If no scope is left the session will be resetted.
+    # if no scope is defined. If no scope is left after logout, then the
+    # whole session will be resetted.
     # 
     # Runs the after_logout(user, manager, options) callback.
     def logout(*scopes)
-      scopes ||= janus_sessions.keys
+      scopes = janus_sessions.keys if scopes.empty?
       
       scopes.each do |scope|
         unset_user(scope)

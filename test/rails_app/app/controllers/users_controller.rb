@@ -6,8 +6,4 @@ class UsersController < ApplicationController
   def show
     respond_with(current_user)
   end
-
-  def after_sign_in_url(user)
-    user_url
-  end
 end
