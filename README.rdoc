@@ -1,4 +1,17 @@
 = Janus
 
+Janus is an authentication engine for Ruby on Rails 3 and is an alternative
+to the Warden + Devise combo, except there is no Rack middleware.
 
+Janus is a work in progress and even thought it may log users in different
+scopes, it doesn't encrypt passwords nor provides automated registration,
+confirmation, etc.
+
+== License
+
+Janus is distributed under the MIT-License.
+
+== Authors
+
+- Julien Portalier <ysbaddaden@gmail.com>
 
