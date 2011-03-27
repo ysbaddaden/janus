@@ -15,7 +15,7 @@ begin
   Jeweler::Tasks.new do |s|
     root_files = FileList["README.rdoc"]
     s.name = "janus"
-    s.version = "0.1.0"
+    s.version = "0.1.2"
     s.summary = "Authentication engine for Ruby on Rails."
     s.email = "ysbaddaden@gmail.com"
     s.homepage = "http://github.com/ysbaddaden/janus"

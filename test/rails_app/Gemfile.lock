@@ -1,7 +1,7 @@
 PATH
   remote: ../..
   specs:
-    janus (0.1.0)
+    janus (0.1.2)
 
 GEM
   remote: http://rubygems.org/
