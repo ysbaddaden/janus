@@ -1,8 +1,6 @@
 class Janus::SessionsController < ApplicationController
   skip_before_filter :authenticate_user!
 
-  respond_to :html
-
   def new
     @user = User.new
     respond_with(@user)
@@ -21,10 +19,11 @@ class Janus::SessionsController < ApplicationController
     else
       respond_to do |format|
         format.html do
-          @user = User.new(:email => params[:user][:email])
+          @user ||= User.new(params[:user])
+          @user.clean_up_passwords
           render "new", :status => :unauthorized
         end
-        format.any  { head :unauthorized }
+        format.any { head :unauthorized }
       end
     end
   end

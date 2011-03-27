@@ -10,19 +10,26 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julien Portalier"]
   s.date = %q{2011-03-26}
-  s.description = %q{Authentication engine for Ruby on Rails.}
+  s.description = %q{Authentication engine for Ruby on Rails 3.}
   s.email = %q{ysbaddaden@gmail.com}
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
   s.files = [
     "README.rdoc",
-    "lib/janus.rb"
+    "lib/janus.rb",
+    "lib/janus/config.rb",
+    "lib/janus/controllers/helpers.rb",
+    "lib/janus/controllers/sessions_controller.rb",
+    "lib/janus/hooks.rb",
+    "lib/janus/manager.rb",
+    "lib/janus/models/database_authenticatable.rb",
+    "lib/janus/test_helper.rb"
   ]
   s.homepage = %q{http://github.com/ysbaddaden/janus}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Authentication engine for Ruby on Rails.}
+  s.summary = %q{Authentication engine for Ruby on Rails 3.}
   s.test_files = [
     "test/functional/home_controller_test.rb",
     "test/functional/janus/manager_test.rb",
@@ -34,7 +41,6 @@ Gem::Specification.new do |s|
     "test/rails_app/app/controllers/users/sessions_controller.rb",
     "test/rails_app/app/controllers/users_controller.rb",
     "test/rails_app/app/helpers/application_helper.rb",
-    "test/rails_app/app/helpers/users/sessions_helper.rb",
     "test/rails_app/app/models/user.rb",
     "test/rails_app/config/application.rb",
     "test/rails_app/config/boot.rb",
@@ -42,10 +48,7 @@ Gem::Specification.new do |s|
     "test/rails_app/config/environments/development.rb",
     "test/rails_app/config/environments/production.rb",
     "test/rails_app/config/environments/test.rb",
-    "test/rails_app/config/initializers/backtrace_silencers.rb",
-    "test/rails_app/config/initializers/inflections.rb",
     "test/rails_app/config/initializers/janus.rb",
-    "test/rails_app/config/initializers/mime_types.rb",
     "test/rails_app/config/initializers/secret_token.rb",
     "test/rails_app/config/initializers/session_store.rb",
     "test/rails_app/config/routes.rb",

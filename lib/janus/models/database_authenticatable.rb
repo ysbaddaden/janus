@@ -24,6 +24,10 @@ module Janus
         ::BCrypt::Password.create("#{password}#{self.class.pepper}", :cost => self.class.stretches).to_s
       end
 
+      def clean_up_passwords
+        @password = nil
+      end
+
       module ClassMethods
         def find_for_database_authentication(params)
           where(:email => params[:email]).first
