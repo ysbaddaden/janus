@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{janus}
-  s.version = "0.1.2"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julien Portalier"]
@@ -20,10 +20,12 @@ Gem::Specification.new do |s|
     "lib/janus.rb",
     "lib/janus/config.rb",
     "lib/janus/controllers/helpers.rb",
+    "lib/janus/controllers/registrations_controller.rb",
     "lib/janus/controllers/sessions_controller.rb",
     "lib/janus/hooks.rb",
     "lib/janus/manager.rb",
     "lib/janus/models/database_authenticatable.rb",
+    "lib/janus/routes.rb",
     "lib/janus/test_helper.rb"
   ]
   s.homepage = %q{http://github.com/ysbaddaden/janus}
@@ -33,11 +35,13 @@ Gem::Specification.new do |s|
   s.test_files = [
     "test/functional/home_controller_test.rb",
     "test/functional/janus/manager_test.rb",
+    "test/functional/users/registrations_controller_test.rb",
     "test/functional/users/sessions_controller_test.rb",
     "test/functional/users_controller_test.rb",
     "test/integration/users/sessions_test.rb",
     "test/rails_app/app/controllers/application_controller.rb",
     "test/rails_app/app/controllers/home_controller.rb",
+    "test/rails_app/app/controllers/users/registrations_controller.rb",
     "test/rails_app/app/controllers/users/sessions_controller.rb",
     "test/rails_app/app/controllers/users_controller.rb",
     "test/rails_app/app/helpers/application_helper.rb",
