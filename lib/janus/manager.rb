@@ -36,6 +36,8 @@ module Janus
     # Logs a user in.
     # 
     # Runs the after_login(user, manager, options) callback.
+    # 
+    # FIXME: what should happen when trying to log a user in but a user is already logged in?
     def login(user, options = {})
       options[:scope] ||= Janus.scope_for(user)
       set_user(user, options)
@@ -58,7 +60,7 @@ module Janus
       @request.reset_session if janus_sessions.empty?
     end
 
-    # Manually sets a user without going throught the whole authentication
+    # Manually sets a user without going throught the whole login/authenticate
     # process. This is useful for keeping a user connected on multiple domains.
     def set_user(user, options = {})
       scope = options[:scope] || Janus.scope_for(user)
@@ -78,6 +80,7 @@ module Janus
       @users[scope.to_sym] = session(scope)[0].constantize.find(session(scope)[1]) if authenticated?(scope)
     end
 
+    # Returns the current session for user.
     def session(scope)
       janus_sessions[scope.to_sym]
     end
