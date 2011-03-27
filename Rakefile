@@ -12,17 +12,19 @@ end
 
 begin
   require 'jeweler'
-  Jeweler::Tasks.new do |s|
+
+  Jeweler::Tasks.new do |gem|
     root_files = FileList["README.rdoc"]
-    s.name = "janus"
-    s.version = "0.1.2"
-    s.summary = "Authentication engine for Ruby on Rails."
-    s.email = "ysbaddaden@gmail.com"
-    s.homepage = "http://github.com/ysbaddaden/janus"
-    s.description = "Authentication engine for Ruby on Rails."
-    s.authors = ['Julien Portalier']
-    s.files =  root_files + FileList["{lib}/*"]
-    s.extra_rdoc_files = root_files
+    gem.name = "janus"
+    gem.version = "0.1.2"
+    gem.summary = "Authentication engine for Ruby on Rails."
+    gem.email = "ysbaddaden@gmail.com"
+    gem.homepage = "http://github.com/ysbaddaden/janus"
+    gem.description = "Authentication engine for Ruby on Rails."
+    gem.authors = ['Julien Portalier']
+    gem.files =  root_files + FileList["{lib}/*"]
+    gem.extra_rdoc_files = root_files
+    gem.add_dependency 'bcrypt-ruby'
   end
 
   Jeweler::GemcutterTasks.new

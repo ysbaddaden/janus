@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(:version => 20110323153820) do
 
   create_table "users", :force => true do |t|
     t.string "email"
-    t.string "password"
+    t.string "encrypted_password"
   end
 
 end

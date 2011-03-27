@@ -7,6 +7,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "valid_password?" do
+    user = User.new(:password => "azerty")
+    assert  user.valid_password?("azerty")
+    assert !user.valid_password?("secret")
+    
     assert users(:julien).valid_password?('secret')
     assert users(:martha).valid_password?('vacances')
   end

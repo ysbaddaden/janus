@@ -1,3 +1,4 @@
+require 'janus/config'
 require 'janus/hooks'
 require 'janus/manager'
 
@@ -32,5 +33,10 @@ module Janus
     when String then user_or_scope.to_sym
     else user_or_scope.class.name.underscore.to_sym
     end
+  end
+
+  def self.config
+    yield(Janus::Config) if block_given?
+    Janus::Config
   end
 end

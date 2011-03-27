@@ -29,7 +29,6 @@ Gem::Specification.new do |s|
     "test/functional/users/sessions_controller_test.rb",
     "test/functional/users_controller_test.rb",
     "test/integration/users/sessions_test.rb",
-    "test/performance/browsing_test.rb",
     "test/rails_app/app/controllers/application_controller.rb",
     "test/rails_app/app/controllers/home_controller.rb",
     "test/rails_app/app/controllers/users/sessions_controller.rb",
@@ -45,6 +44,7 @@ Gem::Specification.new do |s|
     "test/rails_app/config/environments/test.rb",
     "test/rails_app/config/initializers/backtrace_silencers.rb",
     "test/rails_app/config/initializers/inflections.rb",
+    "test/rails_app/config/initializers/janus.rb",
     "test/rails_app/config/initializers/mime_types.rb",
     "test/rails_app/config/initializers/secret_token.rb",
     "test/rails_app/config/initializers/session_store.rb",
@@ -62,9 +62,12 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 0"])
     else
+      s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
     end
   else
+    s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
   end
 end
 

@@ -1,8 +1,10 @@
 julien:
   email: "julien@example.com"
-  password: "secret"
+  encrypted_password: "$2a$10$MFILoaQqegEY7swhM1KVeu7f1hls.3YhRRvrhWVX/NULJsqpyTLeO"
+# password: "secret"
 
 martha:
   email: "martha@fai.fr"
-  password: "vacances"
+  encrypted_password: "$2a$10$EBsYVyy9rvhC51.5HzQRDet4lh.0hAYwYbM0l6t3x0YfjKFKJNQm6"
+# password: "vacances"
 
