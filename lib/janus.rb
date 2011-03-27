@@ -1,6 +1,7 @@
 require 'janus/config'
 require 'janus/hooks'
 require 'janus/manager'
+require 'janus/routes'
 
 module Janus
   class NotAuthenticated < StandardError
@@ -16,7 +17,7 @@ module Janus
 
   autoload :Helpers,                  'janus/controllers/helpers'
   autoload :SessionsController,       'janus/controllers/sessions_controller'
-#  autoload :RegistrationsController,  'janus/controllers/registrations_controller'
+  autoload :RegistrationsController,  'janus/controllers/registrations_controller'
 #  autoload :ConfirmationsController,  'janus/controllers/confirmations_controller'
 #  autoload :PasswordsController,      'janus/controllers/password_controller'
 
