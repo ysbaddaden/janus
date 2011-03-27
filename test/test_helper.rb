@@ -1,10 +1,11 @@
 ENV["RAILS_ENV"] = "test"
 
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../rails_app/config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
 
 class ActiveSupport::TestCase
+  self.fixture_path = File.expand_path('../fixtures', __FILE__)
   fixtures :all
 end
 
@@ -13,6 +14,8 @@ class ActionController::TestCase
 end
 
 class ActionDispatch::IntegrationTest
+  self.fixture_path = File.expand_path('../fixtures', __FILE__)
+
   def sign_in(user, options = {})
     scope = Janus.scope_for(user_or_scope)
     route = "new_#{scope}_session_path"
