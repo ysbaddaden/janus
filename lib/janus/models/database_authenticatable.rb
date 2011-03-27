@@ -8,16 +8,20 @@ module Janus
       extend ActiveSupport::Concern
 
       included do
-        attr_reader :password
+        attr_reader   :password
+        attr_accessor :current_password
+        
+        validates :password, :presence => true, :confirmation => true, :if => :password_required?
+        validate :validate_current_password, :on => :update, :if => :current_password
       end
 
-      def password=(new_password)
-        @password = new_password
+      def password=(password)
+        @password = password
         self.encrypted_password = digest_password(@password) unless @password.blank?
       end
 
       def valid_password?(password)
-        ::BCrypt::Password.new(self.encrypted_password) == "#{password}#{self.class.pepper}"
+        ::BCrypt::Password.new(encrypted_password) == "#{password}#{self.class.pepper}"
       end
 
       def digest_password(password)
@@ -25,12 +29,30 @@ module Janus
       end
 
       def clean_up_passwords
-        @password = nil
+        self.password = self.password_confirmation = nil
       end
+
+      protected
+        def password_required?
+          !persisted? || !!password || !!password_confirmation
+        end
+
+        def validate_current_password
+          errors.add(:current_password, :invalid) unless valid_password?(current_password)
+        end
 
       module ClassMethods
         def find_for_database_authentication(params)
-          where(:email => params[:email]).first
+          params = params.reject { |k,v| !authentication_keys.include?(k.to_sym) }
+          where(params).first
+        end
+
+        def authentication_keys
+          @authentication_keys || Janus.config.authentication_keys
+        end
+
+        def authentication_keys=(authentication_keys)
+          @authentication_keys = authentication_keys
         end
 
         def stretches

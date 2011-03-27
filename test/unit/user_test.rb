@@ -14,4 +14,8 @@ class UserTest < ActiveSupport::TestCase
     assert users(:julien).valid_password?('secret')
     assert users(:martha).valid_password?('vacances')
   end
+
+  test "should update" do
+    users(:julien).update_attributes(:email => 'julien@example.fr')
+  end
 end

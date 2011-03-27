@@ -1,4 +1,4 @@
-<%= form_for @user, :url => new_user_session_url do |f| %>
+<%= form_for @user, :url => user_registration_url do |f| %>
   <% @user.class.authentication_keys.each do |key| %>
     <div class="field">
       <%= f.label key %>
@@ -9,6 +9,11 @@
   <div class="field">
     <%= f.label :password %>
     <%= f.password_field :password %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
   </div>
 
   <div class="actions">
