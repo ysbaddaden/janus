@@ -5,10 +5,11 @@ to the Warden + Devise combo, but without a Rack middleware.
 
 == Features
 
-- database authentication based on email --or custom keys-- and password
-- password encryption
-- password validation
+- authentication system (somehow copied on Warden API)
+- database authentication (copied from Devise)
+- password encryption and validation
 
+- routes
 - registrations controller
 - sessions controller
 
@@ -38,7 +39,8 @@ Janus is distributed under the MIT-License.
 == Authors
 
 Most of the API and some code like password encryption is copied from
-plataformatec's Devise: http://github.com/plataformatec/devise.git
+Devise: http://github.com/plataformatec/devise.git and Warden:
+http://github.com/hassox/warden
 
 - Julien Portalier <ysbaddaden@gmail.com>
 
