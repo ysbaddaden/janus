@@ -1,6 +1,7 @@
 module ActionDispatch::Routing
   class Mapper
     def janus(*resources)
+      ApplicationController.send(:include, Janus::Helpers)
       options = resources.extract_options!
       
       resources.each do |resource|
@@ -19,6 +20,8 @@ module ActionDispatch::Routing
           match "/#{resource}(.:format)"          => "#{resource}/registrations#update",  :via => :put
           match "/#{resource}(.:format)"          => "#{resource}/registrations#destroy", :via => :delete
         end
+        
+        ApplicationController.janus(singular)
       end
     end
   end

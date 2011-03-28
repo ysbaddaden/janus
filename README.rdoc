@@ -18,7 +18,6 @@ to the Warden + Devise combo, but without a Rack middleware.
 - remember me
 - cross domains authentication (single sign in / out)
 - hooks: after_authenticate, after_login, after_logout
-- automatically generate helpers ApplicationController from the route definition
 - automatically generate routes from the model strategies
 
 - abstract authentication scope in controllers
