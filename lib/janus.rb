@@ -1,5 +1,6 @@
 require 'janus/config'
 require 'janus/hooks'
+require 'janus/strategies'
 require 'janus/manager'
 require 'janus/routes'
 
@@ -23,9 +24,15 @@ module Janus
 
   module Models
     autoload :DatabaseAuthenticatable, 'janus/models/database_authenticatable'
-#    autoload :TokenAuthenticatable,    'janus/models/token_authenticatable'
-#    autoload :Rememberable,            'janus/models/rememberable'
+    autoload :Rememberable,            'janus/models/rememberable'
 #    autoload :SingleSignable,          'janus/models/single_signable'
+#    autoload :TokenAuthenticatable,    'janus/models/token_authenticatable'
+  end
+
+  module Strategies
+    autoload :Rememberable,          'janus/strategies/rememberable'
+    autoload :SingleSignable,        'janus/strategies/single_signable'
+#    autoload :TokenAuthenticatable,  'janus/models/token_authenticatable'
   end
 
   def self.scope_for(user_or_scope)

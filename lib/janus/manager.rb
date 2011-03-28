@@ -1,19 +1,16 @@
 module Janus
   class Manager
     include Janus::Hooks
+    include Janus::Strategies
 
     def initialize(request)
       @request = request
     end
 
-    # Fetches the user from session.
-    # 
-    # Runs the after_authenticate(user, manager, options) callback before
-    # actually returning the user.
-    # 
-    # TODO: run strategies to authenticate the user (unless authenticated).
+    # Tries to authenticate the user using strategies, before returning
+    # the current user or nil.
     def authenticate(scope)
-      Janus::Manager.run_callbacks(:authenticate, user(scope), self, :scope => scope)
+      run_strategies(scope) unless authenticated?(scope)
       user(scope)
     end
 
