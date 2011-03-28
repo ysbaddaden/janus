@@ -3,6 +3,7 @@ PATH
   specs:
     janus (0.2.0)
       bcrypt-ruby
+      rails (~> 3.0.5)
 
 GEM
   remote: http://rubygems.org/
