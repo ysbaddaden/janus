@@ -1,7 +1,7 @@
 PATH
   remote: ../..
   specs:
-    janus (0.1.2)
+    janus (0.2.0)
       bcrypt-ruby
 
 GEM

@@ -1,17 +1,45 @@
 = Janus
 
 Janus is an authentication engine for Ruby on Rails 3 and is an alternative
-to the Warden + Devise combo, with no Rack middleware.
+to the Warden + Devise combo, but without a Rack middleware.
 
-Janus is a work in progress and even thought it may log users in different
-scopes it doesn't encrypt passwords nor provides automated registration,
-confirmation, etc.
+== Features
+
+- database authentication based on email --or custom keys-- and password
+- password encryption
+- password validation
+
+- registrations controller
+- sessions controller
+
+== TODO
+
+- authentication strategies
+- remember me
+- cross domains authentication (single sign in / out)
+- hooks: after_authenticate, after_login, after_logout
+- automatically generate helpers ApplicationController from the route definition
+- automatically generate routes from the model strategies
+
+- abstract authentication scope in controllers
+- passwords controller
+- confirmations controller
+
+- generators (janus:install, janus)
+
+== Install
+
+There is no easy way to install and configure Janus yet. Have a look to the
+test app in <tt>test/rails_app</tt>.
 
 == License
 
 Janus is distributed under the MIT-License.
 
 == Authors
+
+Most of the API and some code like password encryption is copied from
+plataformatec's Devise: http://github.com/plataformatec/devise.git
 
 - Julien Portalier <ysbaddaden@gmail.com>
 
