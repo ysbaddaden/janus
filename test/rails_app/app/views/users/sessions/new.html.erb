@@ -11,6 +11,13 @@
     <%= f.password_field :password %>
   </div>
 
+  <%# if @user.respond_to?(:remember_me!) %>
+    <!--div class="field">
+      <%#= check_box_tag :remember_me, @user.class.human_attribute_name(:remember_me) %>
+      <%#= label_tag :remember_me %>
+    </div-->
+  <%# end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>
