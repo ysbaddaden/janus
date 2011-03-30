@@ -31,21 +31,23 @@ module ActionDispatch::Routing
       ApplicationController.send(:include, Janus::Helpers) unless ApplicationController.include?(Janus::Helpers)
       options = resources.extract_options!
       
-      resources.each do |resource|
-        singular = resource.to_s.singularize
+      resources.each do |plural|
+        singular = plural.to_s.singularize
         
         if options[:session]
-          match "/#{resource}/sign_in(.:format)"  => "#{resource}/sessions#new",     :via => :get,  :as => "new_#{singular}_session"
-          match "/#{resource}/sign_in(.:format)"  => "#{resource}/sessions#create",  :via => :post, :as => "#{singular}_session"
-          match "/#{resource}/sign_out(.:format)" => "#{resource}/sessions#destroy",                :as => "destroy_#{singular}_session"
+          match "/#{plural}/sign_in(.:format)"  => "#{plural}/sessions#new",
+            :via => :get, :as => "new_#{singular}_session"
+          
+          match "/#{plural}/sign_in(.:format)"  => "#{plural}/sessions#create",
+            :via => :post, :as => "#{singular}_session"
+          
+          match "/#{plural}/sign_out(.:format)" => "#{plural}/sessions#destroy",
+            :as => "destroy_#{singular}_session"
         end
         
         if options[:registration]
-          match "/#{resource}/sign_up(.:format)"  => "#{resource}/registrations#new",     :via => :get,  :as => "new_#{singular}_registration"
-          match "/#{resource}(.:format)"          => "#{resource}/registrations#create",  :via => :post, :as => "#{singular}_registration"
-          match "/#{resource}/edit(.:format)"     => "#{resource}/registrations#edit",    :via => :get,  :as => "edit_#{singular}_registration"
-          match "/#{resource}(.:format)"          => "#{resource}/registrations#update",  :via => :put
-          match "/#{resource}(.:format)"          => "#{resource}/registrations#destroy", :via => :delete
+          resource plural, :except => [:index, :show], :as => "#{singular}_registration",
+            :controller => "#{plural}/registrations", :path_names => { :new => 'sign_in' }
         end
         
         ApplicationController.janus(singular)
