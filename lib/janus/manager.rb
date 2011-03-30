@@ -3,6 +3,8 @@ module Janus
     include Janus::Hooks
     include Janus::Strategies
 
+    attr_reader :request
+
     def initialize(request)
       @request = request
     end
@@ -14,7 +16,7 @@ module Janus
       user(scope)
     end
 
-    # Raises a Janus::NotAuthenticated exeception unless a user is authenticated.
+    # Raises a Janus::NotAuthenticated exception unless a user is authenticated.
     def authenticate!(scope)
       raise Janus::NotAuthenticated.new(scope) unless authenticate?(scope)
     end
@@ -54,7 +56,7 @@ module Janus
         Janus::Manager.run_callbacks(:logout, user(scope), self, :options => scope)
       end
       
-      @request.reset_session if janus_sessions.empty?
+      request.reset_session if janus_sessions.empty?
     end
 
     # Manually sets a user without going throught the whole login/authenticate
@@ -84,7 +86,7 @@ module Janus
 
     private
       def janus_sessions
-        @request.session['janus'] ||= {}
+        request.session['janus'] ||= {}
       end
   end
 end
