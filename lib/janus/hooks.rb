@@ -4,29 +4,29 @@ module Janus
 
     module ClassMethods
       def after_authenticate(&block)
-        set_callback(:authenticate, block)
+        add_callback(:authenticate, block)
       end
 
       def after_login(&block)
-        set_callback(:login, block)
+        add_callback(:login, block)
       end
 
       def after_logout(&block)
-        set_callback(:logout, block)
+        add_callback(:logout, block)
       end
 
       def run_callbacks(kind, *args)
-        _callbacks(kind).each { |block| block.call(*args) }
+        callbacks(kind).each { |block| block.call(*args) }
       end
 
       private
-        def set_callback(kind, block)
-          _callbacks(kind) << block
+        def add_callback(kind, block)
+          callbacks(kind) << block
         end
 
-        def _callbacks(kind)
-          @_callbacks ||= {}
-          @_callbacks[kind] ||= []
+        def callbacks(kind)
+          @callbacks ||= {}
+          @callbacks[kind] ||= []
         end
     end
   end
