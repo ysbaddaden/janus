@@ -48,7 +48,7 @@ module Janus
         end
 
         def authentication_keys
-          @authentication_keys || Janus.config.authentication_keys
+          (@authentication_keys || Janus.config.authentication_keys).dup
         end
 
         def authentication_keys=(authentication_keys)
