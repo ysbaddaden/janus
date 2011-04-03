@@ -16,14 +16,13 @@ the +after_login+ and +after_logout+ hooks.
 == Features
 
 - authentication system with strategies and hooks
-- database authentication with password encryption and validation
+- database authentication with password encryption, validation and remember strategy
 - remote authentication for cross domain sign in / sign out
 - controllers: registrations, sessions and their routes
 
 == TODO
 
 - rename RemoteAuthenticatable to something like CrossDomainAuthenticatable.
-- remember user strategy
 - automatically generate routes from the model strategies
 - abstract authentication scope in controllers
 - passwords controller

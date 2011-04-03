@@ -1,5 +1,5 @@
 Janus::Manager.after_login do |user, manager, options|
-  if options[:rememberable] && user.respond_to?(:remember_me!) && manager.request.params[:remember_me]
+  if options[:rememberable] && user.respond_to?(:remember_me!)
     user.remember_me!
     remember_cookie_name = Janus::Strategies::Rememberable.remember_cookie_name(options[:scope])
     
