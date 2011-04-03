@@ -1,36 +1,39 @@
 = Janus
 
 Janus is an authentication engine for Ruby on Rails 3 and is an alternative
-to the Warden + Devise combo, but without a Rack middleware.
+to the Warden + Devise combo, without the Rack middleware. The whole project
+is inspired by the Warden and Devise API but shall eventually be quite
+different since everything happens within ActionDispatch and not at the Rack
+level.
+
+The main difference for now is the cross domain authentication --which allows
+a user to single sign in and out across top level domains-- which required
+a finer grained control over setting and unsetting a user than Warden provides.
+Janus uses +login+ and +logout+ to actually sign the user in and out, while
++set_user+ and +unset_user+ will manually set the session, without dispatching
+the +after_login+ and +after_logout+ hooks.
 
 == Features
 
-- authentication system (somehow copied on Warden API)
-- database authentication (copied from Devise)
-- password encryption and validation
-
-- routes
-- registrations controller
-- sessions controller
+- authentication system with strategies and hooks
+- database authentication with password encryption and validation
+- remote authentication for cross domain sign in / sign out
+- controllers: registrations, sessions and their routes
 
 == TODO
 
-- authentication strategies
-- remember me
-- cross domains authentication (single sign in / out)
-- hooks: after_authenticate, after_login, after_logout
+- rename RemoteAuthenticatable to something like CrossDomainAuthenticatable.
+- remember user strategy
 - automatically generate routes from the model strategies
-
 - abstract authentication scope in controllers
 - passwords controller
 - confirmations controller
-
 - generators (janus:install, janus)
 
 == Install
 
 There is no easy way to install and configure Janus yet. Have a look to the
-test app in <tt>test/rails_app</tt>.
+test app in <tt>test/rails_app</tt> for hints.
 
 == License
 

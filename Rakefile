@@ -1,5 +1,6 @@
 require 'rake'
 require 'rake/testtask'
+require 'rake/rdoctask'
 
 task :default => :test
 
@@ -10,10 +11,30 @@ Rake::TestTask.new(:test) do |t|
   t.verbose = true
 end
 
+Rake::TestTask.new(:"test:units") do |t|
+  t.libs << 'test'
+  t.pattern = 'test/unit/**/*_test.rb'
+  t.verbose = true
+end
+
+Rake::TestTask.new(:"test:functionals") do |t|
+  t.libs << 'test'
+  t.pattern = 'test/functional/**/*_test.rb'
+  t.verbose = true
+end
+
 Rake::TestTask.new(:"test:integration") do |t|
   t.libs << 'test'
   t.pattern = 'test/integration/**/*_test.rb'
   t.verbose = true
+end
+
+Rake::RDocTask.new do |rdoc|
+  rdoc.title = "Janus"
+  rdoc.main = "README.rdoc"
+  rdoc.rdoc_dir = "doc"
+  rdoc.rdoc_files.include("README.rdoc", "lib/**/*.rb")
+  rdoc.options << "--charset=utf-8"
 end
 
 begin

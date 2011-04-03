@@ -5,7 +5,7 @@ module Janus
     included do
       rescue_from Janus::NotAuthenticated do |exception|
         respond_to do |format|
-          format.html { redirect_to send(:"new_#{exception.scope}_session_url") }
+          format.html { redirect_to send("new_#{exception.scope}_session_url") }
           format.any  { head :unauthorized }
         end
       end
