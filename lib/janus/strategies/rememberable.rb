@@ -1,5 +1,5 @@
-#module Janus
-#  module Strategies
+module Janus
+  module Strategies
 #    class Base
 #      protected
 #        def remember_cookie_name
@@ -31,7 +31,7 @@
 #        alias_method_chain :success!, :remember
 #    end
 
-#    class Rememberable < Base
+    class Rememberable < Base
 #      def valid?
 #        rememberable? && !remember_cookie.nil?
 #      end
@@ -51,6 +51,6 @@
 #        def destroy_remember_cookie
 #          request.cookies.delete(remember_cookie_name)
 #        end
-#    end
-#  end
-#end
+    end
+  end
+end

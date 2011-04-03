@@ -27,7 +27,7 @@ class Janus::RegistrationsController < ApplicationController
 
   def destroy
     @user = current_user
-    @user.destroy
+    janus.unset_user(:user) if @user.destroy
     respond_with(@user) do |format|
       format.html { redirect_to root_url }
     end

@@ -14,7 +14,7 @@ class Janus::SessionsController < ApplicationController
     @user = User.find_for_database_authentication(params[:user])
     
     if @user && @user.valid_password?(params[:user][:password])
-      janus.login(@user)
+      janus.login(@user, :rememberable => true)
       
       respond_to do |format|
         format.html { redirect_after_sign_in(@user) }

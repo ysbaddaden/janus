@@ -53,9 +53,48 @@ class UserTest < ActiveSupport::TestCase
     assert @user.persisted?
   end
 
+  test "remember_token" do
+    assert_nil @user.remember_token
+    
+    @user.remember_me!
+    assert_not_nil @user.remember_token
+    
+    @user.forget_me!
+    assert_nil @user.remember_token
+  end
+
+  test "remember_me should overwrite remote_token" do
+    @user.remember_me!
+    token1 = @user.remember_token
+    @user.remember_me!
+    assert_not_equal token1, @user.remember_token
+  end
+
+  test "session token" do
+    @user.generate_session_token!
+    assert_not_nil @user.session_token
+    
+    @user.destroy_session_token!
+    assert_nil @user.session_token
+  end
+
   test "find_for_database_authentication" do
     assert_equal @user, User.find_for_database_authentication(:email => @user.email)
     assert_equal users(:martha), User.find_for_database_authentication(:email => users(:martha).email)
+  end
+
+  test "find_for_remember_authentication" do
+    @user.remember_me!
+    token = @user.remember_token
+    
+    assert_equal @user, User.find_for_remember_authentication(token)
+    assert_equal @user, User.find_for_remember_authentication(token)
+
+    @user.remember_me!
+    assert_nil User.find_for_remember_authentication(token), "token should no longer be valid"
+    
+    @user.forget_me!
+    assert_nil User.find_for_remember_authentication(token), "token should have been erased"
   end
 
   test "find_for_remote_authentication" do
@@ -75,13 +114,5 @@ class UserTest < ActiveSupport::TestCase
       assert_equal @user, User.find_for_remote_authentication(token2)
       assert_nil User.find_for_remote_authentication(token2)
     end
-  end
-
-  test "session token" do
-    @user.generate_session_token!
-    assert_not_nil @user.session_token
-    
-    @user.destroy_session_token!
-    assert_nil @user.session_token
   end
 end
