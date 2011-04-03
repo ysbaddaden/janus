@@ -41,7 +41,7 @@
 #        
 #        if user.nil?
 #          destroy_remember_cookie
-#          pass!
+#          pass
 #        else
 #          success!(user)
 #        end

@@ -11,7 +11,7 @@ module Janus
         true
       end
 
-      def pass!
+      def pass
       end
 
       def success!(user)

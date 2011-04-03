@@ -6,8 +6,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :remember_token
     end
     
-    add_index :users, :email
-    add_index :users, :remember_token
+    add_index :users, :email,          :unique => true
+    add_index :users, :remember_token, :unique => true
   end
 
   def self.down

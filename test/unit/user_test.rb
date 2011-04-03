@@ -18,4 +18,8 @@ class UserTest < ActiveSupport::TestCase
   test "should update" do
     users(:julien).update_attributes(:email => 'julien@example.fr')
   end
+
+  test "find_for_remote_authentication" do
+    flunk "should test find_for_remote_authentication"
+  end
 end

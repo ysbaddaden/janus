@@ -28,7 +28,7 @@ module Janus
 
     module ClassMethods
       def strategies
-        @strategies ||= []
+        @strategies ||= [:remote_authenticatable]
       end
     end
   end

@@ -1,4 +1,8 @@
+<h1>Sign in</h1>
+
 <%= form_for @user, :url => new_user_session_url do |f| %>
+  <%= hidden_field_tag :return_to, params[:return_to] if params[:return_to] %>
+
   <% @user.class.authentication_keys.each do |key| %>
     <div class="field">
       <%= f.label key %>

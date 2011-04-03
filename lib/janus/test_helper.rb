@@ -11,8 +11,7 @@ module Janus
     end
 
     def sign_out(user_or_scope)
-      scope = user_or_scope.is_a?(Symbol) ? user_or_scope : user.class.name
-      @janus.logout(user)
+      @janus.logout(Janus.scope_for(user_or_scope))
     end
 
     def assert_authenticated(scope)

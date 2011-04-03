@@ -10,6 +10,12 @@ Rake::TestTask.new(:test) do |t|
   t.verbose = true
 end
 
+Rake::TestTask.new(:"test:integration") do |t|
+  t.libs << 'test'
+  t.pattern = 'test/integration/**/*_test.rb'
+  t.verbose = true
+end
+
 begin
   require 'jeweler'
 

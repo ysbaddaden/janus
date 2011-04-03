@@ -10,11 +10,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110323153820) do
+ActiveRecord::Schema.define(:version => 20110331153546) do
+
+  create_table "remote_tokens", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "token"
+    t.datetime "created_at"
+  end
+
+  add_index "remote_tokens", ["token"], :name => "index_remote_tokens_on_token", :unique => true
 
   create_table "users", :force => true do |t|
     t.string "email"
     t.string "encrypted_password"
+    t.string "remember_token"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["remember_token"], :name => "index_users_on_remember_token", :unique => true
 
 end

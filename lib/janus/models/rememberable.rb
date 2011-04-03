@@ -12,7 +12,6 @@
 #          self.remember_token = ActiveSupport::SecureRandom.hex(64)
 #          break unless self.class.find_for_remember_authentication(remember_token)
 #        end
-#        
 #        update_attribute(:remember_token, remember_token)
 #      end
 

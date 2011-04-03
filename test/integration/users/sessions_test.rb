@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class Users::SessionsTest < ActionDispatch::IntegrationTest
-  include Capybara
-
   fixtures :all
 
   test "sign in and out" do

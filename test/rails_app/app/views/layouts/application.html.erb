@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>RailsApp</title>
+  <title>Janus</title>
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
 </head>
 <body>
+
+<header>
+  <p>Janus</p>
+  
+  <p class="user">
+    <% if user_signed_in? %>
+      <%= link_to current_user.email, user_url(:host => main_site_host), :id => 'my_page' %>
+    <% else %>
+      <%= link_to 'Sign in',
+        new_user_session_url(:host => main_site_host, :return_to => request.url),
+        :id => 'sign_in' %>
+    <% end %>
+  </p>
+</header>
 
 <%= yield %>
 

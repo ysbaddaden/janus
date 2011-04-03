@@ -23,15 +23,17 @@ module Janus
 #  autoload :PasswordsController,      'janus/controllers/password_controller'
 
   module Models
+    autoload :Base,                    'janus/models/base'
     autoload :DatabaseAuthenticatable, 'janus/models/database_authenticatable'
+    autoload :RemoteAuthenticatable,   'janus/models/remote_authenticatable'
 #    autoload :Rememberable,            'janus/models/rememberable'
-#    autoload :SingleSignable,          'janus/models/single_signable'
+    autoload :RemoteToken,             'janus/models/remote_token'
   end
 
   module Strategies
     autoload :Base,                  'janus/strategies/base'
+    autoload :RemoteAuthenticatable, 'janus/strategies/remote_authenticatable'
 #    autoload :Rememberable,          'janus/strategies/rememberable'
-#    autoload :SingleSignable,        'janus/strategies/single_signable'
   end
 
   def self.scope_for(user_or_scope)
@@ -47,3 +49,4 @@ module Janus
     Janus::Config
   end
 end
+

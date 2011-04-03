@@ -1,3 +1,5 @@
+<h1>My account</h1>
+
 <%= form_for @user, :url => user_registration_url, :method => :put do |f| %>
   <% @user.class.authentication_keys.each do |key| %>
     <div class="field">

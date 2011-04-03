@@ -1,0 +1,55 @@
+require 'test_helper'
+
+class Users::RemoteTest < ActionDispatch::IntegrationTest
+  fixtures :all
+
+  test "service login" do
+    # user visits a remote site
+    visit blog_url(:host => 'test.host')
+      assert_not_authenticated
+    
+    # user clicks the sign in link
+    click_link 'sign_in'
+    assert_match Regexp.new('^' + Regexp.quote(new_user_session_url(:return_to => '')) + '.+'), current_url
+    assert_select 'input[name=return_to]'
+    assert_select '#user_email'
+    assert_select '#user_password'
+    
+    # user signs in and should be redirected to remote site
+    fill_in 'user_email', :with => users(:julien).email
+    fill_in 'user_password', :with => 'secret'
+    click_button 'user_submit'
+    assert_match Regexp.new('^' + Regexp.quote(blog_url(:host => 'test.host', :auth_token => '')) + '.+'), current_url
+    
+    # user should be authenticated on remote site
+    assert_authenticated
+  end
+
+  test "service login with signed in user" do
+    # user signs in on main site
+    sign_in users(:julien)
+    
+    # user visits a remote site
+    visit blog_url(:host => 'test.host')
+    assert_not_authenticated
+    
+    # user clicks the sign in link of remote site which should redirect her back
+    click_link 'sign_in'
+    assert_match Regexp.new('^' + Regexp.quote(blog_url(:host => 'test.host', :auth_token => '')) + '.+'), current_url
+    
+    # user should have been transparently logged in
+    assert_authenticated
+  end
+
+  def assert_authenticated
+    assert has_selector?("a#my_page"), "Expected user to be authenticated."
+  end
+
+  def assert_not_authenticated
+    assert has_selector?("a#sign_in"), "Expected user to not be authenticated."
+  end
+
+  def assert_select(selector)
+    assert has_selector?(selector), "Expected selector <#{selector}> but found none."
+  end
+end
