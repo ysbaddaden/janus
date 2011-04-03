@@ -48,7 +48,7 @@ module ActionDispatch # :nodoc:
           
           if options[:registration]
             resource plural, :except => [:index, :show], :as => "#{singular}_registration",
-              :controller => "#{plural}/registrations", :path_names => { :new => 'sign_in' }
+              :controller => "#{plural}/registrations", :path_names => { :new => 'sign_up' }
           end
           
           ApplicationController.janus(singular)
