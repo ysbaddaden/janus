@@ -14,26 +14,26 @@ module Janus
     end
   end
 
-  autoload :TestHelper,               'janus/test_helper'
+  autoload :TestHelper,                'janus/test_helper'
 
-  autoload :Helpers,                  'janus/controllers/helpers'
-  autoload :SessionsController,       'janus/controllers/sessions_controller'
-  autoload :RegistrationsController,  'janus/controllers/registrations_controller'
-#  autoload :ConfirmationsController,  'janus/controllers/confirmations_controller'
-#  autoload :PasswordsController,      'janus/controllers/password_controller'
+  autoload :Helpers,                   'janus/controllers/helpers'
+  autoload :SessionsController,        'janus/controllers/sessions_controller'
+  autoload :RegistrationsController,   'janus/controllers/registrations_controller'
+#  autoload :ConfirmationsController,   'janus/controllers/confirmations_controller'
+#  autoload :PasswordsController,       'janus/controllers/password_controller'
 
   module Models
     autoload :Base,                    'janus/models/base'
     autoload :DatabaseAuthenticatable, 'janus/models/database_authenticatable'
-    autoload :RemoteAuthenticatable,   'janus/models/remote_authenticatable'
     autoload :Rememberable,            'janus/models/rememberable'
+    autoload :RemoteAuthenticatable,   'janus/models/remote_authenticatable'
     autoload :RemoteToken,             'janus/models/remote_token'
   end
 
   module Strategies
-    autoload :Base,                  'janus/strategies/base'
-    autoload :RemoteAuthenticatable, 'janus/strategies/remote_authenticatable'
-    autoload :Rememberable,          'janus/strategies/rememberable'
+    autoload :Base,                    'janus/strategies/base'
+    autoload :Rememberable,            'janus/strategies/rememberable'
+    autoload :RemoteAuthenticatable,   'janus/strategies/remote_authenticatable'
   end
 
   def self.scope_for(user_or_scope)

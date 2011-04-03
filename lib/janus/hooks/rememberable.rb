@@ -1,6 +1,15 @@
 Warden::Manager.after_login do |user, manager, options|
   if options[:rememberable] && user.respond_to?(:remember_me!)
     user.remember_me!
-    manager.request.cookies["remember_#{options[:scope]}_token"] = user.remember_token
+    remember_cookie_name = Janus::Strategies::Rememberable.remember_cookie_name(options[:scope])
+    manager.request.cookies[remember_cookie_name] = user.remember_token
+  end
+end
+
+Warden::Manager.after_logout do |user, manager, options|
+  if user.respond_to?(:forget_me!)
+    user.forget_me!
+    remember_cookie_name = Janus::Strategies::Rememberable.remember_cookie_name(options[:scope])
+    manager.request.cookies.delete(remember_cookie_name)
   end
 end

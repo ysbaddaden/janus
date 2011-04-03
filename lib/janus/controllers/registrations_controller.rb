@@ -14,7 +14,7 @@ class Janus::RegistrationsController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    janus.login(@user) if @user.save
+    janus.login(@user, :rememberable => true) if @user.save
     respond_with(@user, :location => after_sign_up_url(@user))
   end
 

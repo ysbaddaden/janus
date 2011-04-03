@@ -26,7 +26,7 @@ module Janus
     module ClassMethods
       # Returns the list of strategies as underscore symbols.
       def strategies
-        @strategies ||= [:remote_authenticatable]
+        @strategies ||= [:rememberable, :remote_authenticatable]
       end
     end
   end
