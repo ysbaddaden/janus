@@ -1,5 +1,7 @@
 module Janus
   module Strategies
+    # Base class for writing authentication strategies.
+    # 
     class Base
       attr_reader :request, :scope, :user
 

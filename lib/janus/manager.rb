@@ -11,8 +11,6 @@ module Janus
 
     # Tries to authenticate the user using strategies, before returning
     # the current user or nil.
-    # 
-    # Runs the after_fetch hook before actually returning the user.
     def authenticate(scope)
       run_strategies(scope) unless authenticated?(scope)
       user(scope)
@@ -36,8 +34,6 @@ module Janus
 
     # Logs a user in.
     # 
-    # Runs the after_login hook.
-    # 
     # FIXME: what should happen when a user signs in but a user is already signed in?!
     def login(user, options = {})
       options[:scope] ||= Janus.scope_for(user)
@@ -48,8 +44,6 @@ module Janus
     # Logs a user out from the given scopes or from all scopes at once
     # if no scope is defined. If no scope is left after logout, then the
     # whole session will be resetted.
-    # 
-    # Runs the after_logout hook.
     def logout(*scopes)
       scopes = janus_sessions.keys if scopes.empty?
       
@@ -62,7 +56,8 @@ module Janus
       request.reset_session if janus_sessions.empty?
     end
 
-    # Manually sets a user without going throught the whole login/authenticate process.
+    # Manually sets a user without going throught the whole login or
+    # authenticate process.
     def set_user(user, options = {})
       scope = options[:scope] || Janus.scope_for(user)
       janus_sessions[scope.to_sym] = { :user_class => user.class, :user_id => user.id }

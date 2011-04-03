@@ -3,8 +3,6 @@ module Janus
     extend ActiveSupport::Concern
 
     # Runs authentication strategies to log a user in.
-    # 
-    # Runs the after_authenticate hook when a strategy succeeds.
     def run_strategies(scope)
       Janus::Manager.strategies.each { |name| break if run_strategy(name, scope) }
     end
@@ -26,6 +24,7 @@ module Janus
     end
 
     module ClassMethods
+      # Returns the list of strategies as underscore symbols.
       def strategies
         @strategies ||= [:remote_authenticatable]
       end
