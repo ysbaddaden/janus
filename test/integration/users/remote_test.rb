@@ -69,16 +69,4 @@ class Users::RemoteTest < ActionDispatch::IntegrationTest
     visit root_url
     assert_authenticated
   end
-
-  def assert_authenticated
-    assert has_selector?("a#my_page"), "Expected user to be authenticated."
-  end
-
-  def assert_not_authenticated
-    assert has_selector?("a#sign_in"), "Expected user to not be authenticated."
-  end
-
-  def assert_select(selector)
-    assert has_selector?(selector), "Expected selector <#{selector}> but found none."
-  end
 end

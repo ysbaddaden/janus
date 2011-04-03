@@ -12,7 +12,7 @@ module Janus
     end
 
     def janus
-      @janus ||= Janus::Manager.new(request)
+      @janus ||= Janus::Manager.new(request, cookies)
     end
 
     def handle_unverified_requests

@@ -3,10 +3,10 @@ module Janus
     include Janus::Hooks
     include Janus::Strategies
 
-    attr_reader :request
+    attr_reader :request, :cookies
 
-    def initialize(request)
-      @request = request
+    def initialize(request, cookies)
+      @request, @cookies = request, cookies
     end
 
     # Tries to authenticate the user using strategies, before returning

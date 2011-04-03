@@ -2,7 +2,7 @@ module Janus
   module TestHelper
     def self.included(klass)
       klass.class_eval do
-        setup { @janus = Janus::Manager.new(request) }
+        setup { @janus = Janus::Manager.new(request, cookies) }
       end
     end
 

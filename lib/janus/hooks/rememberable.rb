@@ -1,15 +1,19 @@
-Warden::Manager.after_login do |user, manager, options|
-  if options[:rememberable] && user.respond_to?(:remember_me!)
+Janus::Manager.after_login do |user, manager, options|
+  if options[:rememberable] && user.respond_to?(:remember_me!) && manager.request.params[:remember_me]
     user.remember_me!
     remember_cookie_name = Janus::Strategies::Rememberable.remember_cookie_name(options[:scope])
-    manager.request.cookies[remember_cookie_name] = user.remember_token
+    
+    manager.cookies[remember_cookie_name] = {
+      :value   => user.remember_token,
+      :expires => 15.days.from_now
+    }
   end
 end
 
-Warden::Manager.after_logout do |user, manager, options|
+Janus::Manager.after_logout do |user, manager, options|
   if user.respond_to?(:forget_me!)
     user.forget_me!
     remember_cookie_name = Janus::Strategies::Rememberable.remember_cookie_name(options[:scope])
-    manager.request.cookies.delete(remember_cookie_name)
+    manager.cookies.delete(remember_cookie_name)
   end
 end

@@ -1,4 +1,4 @@
-#require 'janus/hooks/rememberable'
+require 'janus/hooks/rememberable'
 
 module Janus
   module Strategies

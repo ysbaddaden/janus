@@ -27,6 +27,7 @@ class ActionDispatch::IntegrationTest
     visit send(route, options[:url])
     fill_in "#{scope}_email",    :with => user.email
     fill_in "#{scope}_password", :with => 'secret'
+    check "remember_me" if options[:remember_me]
     click_button "#{scope}_submit"
   end
 
@@ -39,5 +40,32 @@ class ActionDispatch::IntegrationTest
   def service_login(scope, options)
     route = "new_#{scope}_session_url"
     visit send(route, options)
+  end
+
+  def close_user_session
+    driver = Capybara.current_session.driver
+#    case driver
+#    when Capybara::Driver::Selenium
+#      browser = Capybara.current_session.driver.browser
+#      browser.manage.delete_cookie(cookie_name)
+#    when Capybara::Driver::RackTest
+      cookie_jar = driver.current_session.instance_variable_get(:@rack_mock_session).cookie_jar
+      cookie_jar.instance_variable_get(:@cookies).reject! do |cookie|
+        expires = cookie.instance_variable_get(:@options)["expires"]
+        expires.nil? || Time.parse(expires) < Time.now
+      end
+#    end
+  end
+
+  def assert_authenticated
+    assert has_selector?("a#my_page"), "Expected user to be authenticated."
+  end
+
+  def assert_not_authenticated
+    assert has_selector?("a#sign_in"), "Expected user to not be authenticated."
+  end
+
+  def assert_select(selector)
+    assert has_selector?(selector), "Expected selector <#{selector}> but found none."
   end
 end
