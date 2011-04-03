@@ -22,13 +22,13 @@ begin
   Jeweler::Tasks.new do |gem|
     root_files = FileList["README.rdoc"]
     gem.name = "janus"
-    gem.version = "0.2.0"
-    gem.summary = "Authentication engine for Ruby on Rails 3."
+    gem.version = "0.3.0"
+    gem.summary = "Authentication engine for Ruby on Rails."
     gem.email = "ysbaddaden@gmail.com"
     gem.homepage = "http://github.com/ysbaddaden/janus"
-    gem.description = "Authentication engine for Ruby on Rails 3."
+    gem.description = "Authentication engine for Ruby on Rails."
     gem.authors = ['Julien Portalier']
-    gem.files =  root_files + FileList["{lib}/*"] + FileList["{lib}/**/*"]
+    gem.files = root_files + FileList["{lib}/*"] + FileList["{lib}/**/*"]
     gem.extra_rdoc_files = root_files
     gem.add_dependency 'rails', '~> 3.0.5'
     gem.add_dependency 'bcrypt-ruby'
