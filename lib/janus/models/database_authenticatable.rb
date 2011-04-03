@@ -32,14 +32,6 @@ module Janus
         self.password = self.password_confirmation = nil
       end
 
-#      def registerable?
-#        true
-#      end
-
-#      def database_authenticatable?
-#        true
-#      end
-
       protected
         def password_required?
           !persisted? || !!password || !!password_confirmation
