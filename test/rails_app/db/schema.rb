@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20110331153546) do
     t.string "email"
     t.string "encrypted_password"
     t.string "remember_token"
+    t.string "session_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

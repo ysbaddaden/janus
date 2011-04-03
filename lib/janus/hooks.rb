@@ -7,6 +7,10 @@ module Janus
         add_callback(:authenticate, block)
       end
 
+      def after_fetch(&block)
+        add_callback(:fetch, block)
+      end
+
       def after_login(&block)
         add_callback(:login, block)
       end

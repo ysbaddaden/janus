@@ -11,6 +11,8 @@ module Janus
 
     # Tries to authenticate the user using strategies, before returning
     # the current user or nil.
+    # 
+    # Runs the after_fetch hook before actually returning the user.
     def authenticate(scope)
       run_strategies(scope) unless authenticated?(scope)
       user(scope)
@@ -23,60 +25,68 @@ module Janus
 
     # Tries to authenticate the user before checking if it's authenticated.
     def authenticate?(scope)
-      authenticate(scope) unless authenticated?(scope)
+      authenticate(scope)
       authenticated?(scope)
     end
 
     # Returns true if a user is authenticated.
-    def authenticated?(scope)
+    def authenticated?(scope) # :nodoc:
       !!session(scope)
     end
 
     # Logs a user in.
     # 
-    # Runs the after_login(user, manager, options) callback.
+    # Runs the after_login hook.
     # 
-    # FIXME: what should happen when trying to log a user in but a user is already logged in?
+    # FIXME: what should happen when a user signs in but a user is already signed in?!
     def login(user, options = {})
       options[:scope] ||= Janus.scope_for(user)
       set_user(user, options)
-      Janus::Manager.run_callbacks(:login, user(options[:scope]), self, options)
+      Janus::Manager.run_callbacks(:login, user, self, options)
     end
 
     # Logs a user out from the given scopes or from all scopes at once
     # if no scope is defined. If no scope is left after logout, then the
     # whole session will be resetted.
     # 
-    # Runs the after_logout(user, manager, options) callback.
+    # Runs the after_logout hook.
     def logout(*scopes)
       scopes = janus_sessions.keys if scopes.empty?
       
       scopes.each do |scope|
+        _user = user(scope)
         unset_user(scope)
-        Janus::Manager.run_callbacks(:logout, user(scope), self, :options => scope)
+        Janus::Manager.run_callbacks(:logout, _user, self, :scope => scope)
       end
       
       request.reset_session if janus_sessions.empty?
     end
 
-    # Manually sets a user without going throught the whole login/authenticate
-    # process. This is useful for keeping a user connected on multiple domains.
+    # Manually sets a user without going throught the whole login/authenticate process.
     def set_user(user, options = {})
       scope = options[:scope] || Janus.scope_for(user)
-      janus_sessions[scope.to_sym] = [user.class.name, user.id]
+      janus_sessions[scope.to_sym] = { :user_class => user.class, :user_id => user.id }
     end
 
     # Manually removes the user without going throught the whole logout process.
-    # This is useful for invalidating a session.
     def unset_user(scope)
       janus_sessions.delete(scope.to_sym)
-      @users.delete(scope.to_sym) if @users
+      @users.delete(scope.to_sym) unless @users.nil?
     end
 
     # Returns the currently connected user.
     def user(scope)
+      scope = scope.to_sym
       @users ||= {}
-      @users[scope.to_sym] = session(scope)[0].constantize.find(session(scope)[1]) if authenticated?(scope)
+      
+      if authenticated?(scope)
+        if @users[scope].nil?
+          @users[scope] = session(scope)[:user_class].find(session(scope)[:user_id])
+          Janus::Manager.run_callbacks(:fetch, @users[scope], self, :scope => scope)
+        end
+        
+        @users[scope]
+      end
     end
 
     # Returns the current session for user.

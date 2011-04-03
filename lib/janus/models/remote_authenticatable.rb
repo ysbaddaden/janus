@@ -1,3 +1,5 @@
+require 'janus/hooks/remote_authenticatable'
+
 module Janus
   module Models
     module RemoteAuthenticatable
@@ -7,23 +9,25 @@ module Janus
         klass.class_eval { has_many :remote_tokens }
       end
 
-      # Generates an unique session token unless one already exists. This token
-      # will be used to validate the current session, and must be generated
-      # whenever a user signs in on the main site.
-      def generate_session_token
+      # Generates an unique session token. This token will be used to validate
+      # the current session, and must be generated whenever a user signs in on
+      # the main site.
+      # 
+      # The token won't be regenerated if it already exists.
+      def generate_session_token!
         update_attribute(:session_token, self.class.generate_token(:session_token)) unless session_token
         session_token
       end
 
-      # Destroys the session token, this must be called whenever the user signs
+      # Destroys the session token. This must be called whenever the user signs
       # out. Doing so will invalidate all sessions using this token at once
       # --hence single sign out.
-      def destroy_session_token
-        update_attribute(:session_token, nil) if session_token
+      def destroy_session_token!
+        update_attribute(:session_token, nil)
       end
 
       # Returns a temporary token to be used with find_for_remote_authentication.
-      def generate_remote_token
+      def generate_remote_token!
         remote_tokens.create.token
       end
 

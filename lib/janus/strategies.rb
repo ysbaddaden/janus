@@ -4,8 +4,7 @@ module Janus
 
     # Runs authentication strategies to log a user in.
     # 
-    # Runs the after_authenticate(user, manager, options) if user callback before
-    # actually returning the user.
+    # Runs the after_authenticate hook when a strategy succeeds.
     def run_strategies(scope)
       Janus::Manager.strategies.each { |name| break if run_strategy(name, scope) }
     end
@@ -18,7 +17,7 @@ module Janus
         strategy.authenticate!
         
         if strategy.success?
-          login(strategy.user, :scope => scope)
+          send(strategy.auth_method, strategy.user, :scope => scope)
           Janus::Manager.run_callbacks(:authenticate, strategy.user, self, :scope => scope)
         end
       end

@@ -41,6 +41,35 @@ class Users::RemoteTest < ActionDispatch::IntegrationTest
     assert_authenticated
   end
 
+  test "single sign out" do
+    # user signs in on main and remote site
+    sign_in users(:julien)
+    service_login :user, :return_to => root_url(:host => 'test.host')
+    
+    # user signs out from main site
+    sign_out :user
+    
+    # somebody visits the remote site using the user session
+    visit root_url(:host => 'test.host')
+    
+    # session should have been invalidated
+    assert_not_authenticated
+  end
+
+  test "session invalidation should not reset the user session_token" do
+    sign_in users(:julien)
+    service_login :user, :return_to => root_url(:host => 'test.host')
+    
+    sign_out :user
+    sign_in users(:julien)
+    
+    visit root_url(:host => 'test.host')
+    assert_not_authenticated
+    
+    visit root_url
+    assert_authenticated
+  end
+
   def assert_authenticated
     assert has_selector?("a#my_page"), "Expected user to be authenticated."
   end

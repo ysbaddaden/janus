@@ -19,6 +19,10 @@ module Janus
       def auth_token
         request.params[:auth_token]
       end
+
+      def auth_method
+        :set_user
+      end
     end
   end
 end

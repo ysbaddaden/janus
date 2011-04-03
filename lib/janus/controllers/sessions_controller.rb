@@ -71,7 +71,7 @@ class Janus::SessionsController < ApplicationController
         elsif valid_remote_host?(return_to.host)
           if user.class.include?(Janus::Models::RemoteAuthenticatable)
             query = return_to.query_values || {}
-            return_to.query_values = query.merge(:auth_token => user.generate_remote_token)
+            return_to.query_values = query.merge(:auth_token => user.generate_remote_token!)
           end
           
           redirect_to return_to.to_s

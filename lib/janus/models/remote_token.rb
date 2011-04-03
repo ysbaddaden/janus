@@ -10,7 +10,7 @@ module Janus
 
       # Generates an unique token.
       def reset_token
-        self.token = self.class.generate_token(:token, 32)
+        self.token = self.class.generate_token(:token)
       end
     end
   end

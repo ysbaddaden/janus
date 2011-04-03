@@ -29,6 +29,10 @@ module Janus
       def authenticate!
         raise StandardError.new("You must define the #{self.class.name}#authenticate! method.")
       end
+
+      def auth_method
+        :login
+      end
     end
   end
 end

@@ -22,7 +22,7 @@ class ActionDispatch::IntegrationTest
 
   def sign_in(user, options = {})
     scope = options[:scope] || Janus.scope_for(user)
-    route = "new_#{scope}_session_path"
+    route = "new_#{scope}_session_url"
     
     visit send(route, options[:url])
     fill_in "#{scope}_email",    :with => user.email
@@ -32,8 +32,12 @@ class ActionDispatch::IntegrationTest
 
   def sign_out(user_or_scope)
     scope = Janus.scope_for(user_or_scope)
-    route = "new_#{scope}_session_path"
+    route = "destroy_#{scope}_session_url"
     visit send(route)
   end
-end
 
+  def service_login(scope, options)
+    route = "new_#{scope}_session_url"
+    visit send(route, options)
+  end
+end
