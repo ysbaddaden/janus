@@ -4,7 +4,7 @@ module Janus
       extend ActiveSupport::Concern
 
       included do
-        janus_config :remember_for
+        janus_config :remember_for, :extend_remember_period
       end
 
       # Generates an unique remote_token.

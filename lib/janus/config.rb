@@ -8,10 +8,10 @@ module Janus
     self.stretches = 10
 
     # Rememberable
-    mattr_accessor :remember_for, :remember_across_browsers, :extend_remember_period
+    mattr_accessor :remember_for, :extend_remember_period, :remember_across_browsers
     self.remember_for = 2.weeks
+    self.extend_remember_period = false
 #    self.remember_across_browsers = false
-#    self.extend_remember_period = false
 
     # RemoteAuthenticatable
 #    mattr_accessor :remote_authentication_key

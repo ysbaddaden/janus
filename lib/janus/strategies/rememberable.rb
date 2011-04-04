@@ -15,6 +15,7 @@ module Janus
           pass
         else
           success!(user)
+          extend_remember_period if resource.extend_remember_period
         end
       end
 
@@ -25,6 +26,14 @@ module Janus
       private
         def destroy_remember_cookie
           request.cookies.delete(remember_cookie_name)
+        end
+
+        def extend_remember_period
+          cookies[remember_cookie_name] = {
+            :value => @user.remember_token,
+            :expires => resource.remember_for.from_now
+          }
+          user.update_attribute(:remember_created_at, Time.now)
         end
 
         def remember_cookie_name

@@ -1,12 +1,12 @@
 module Janus
   module Strategies
     # Base class for writing authentication strategies.
-    # 
     class Base
-      attr_reader :request, :scope, :user
+      attr_reader :scope, :manager, :request, :cookies, :user
 
-      def initialize(request, scope) # :nodoc:
-        @request, @scope = request, scope
+      def initialize(scope, manager) # :nodoc:
+        @scope, @manager = scope, manager
+        @request, @cookies = manager.request, manager.cookies
       end
 
       def valid?

@@ -9,7 +9,7 @@ module Janus
 
     # Runs a given strategy and returns true if it succeeded.
     def run_strategy(name, scope)
-      strategy = "Janus::Strategies::#{name.to_s.camelize}".constantize.new(request, scope)
+      strategy = "Janus::Strategies::#{name.to_s.camelize}".constantize.new(scope, self)
       
       if strategy.valid?
         strategy.authenticate!
