@@ -7,6 +7,7 @@ module Janus
 
       included do |klass|
         klass.class_eval { has_many :remote_tokens }
+        janus_config(:remote_authentication_key)
       end
 
       # Generates an unique session token. This token will be used to validate
@@ -39,14 +40,6 @@ module Janus
             remote_token.destroy
             remote_token.user unless remote_token.created_at < 30.seconds.ago
           end
-        end
-
-        def remote_authentication_key
-          @remote_authentication_key || Janus.config.remote_authentication_key
-        end
-
-        def remote_authentication_key=(key)
-          @remote_authentication_key = key
         end
       end
     end

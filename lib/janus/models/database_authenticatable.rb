@@ -13,6 +13,8 @@ module Janus
         
         validates :password, :presence => true, :confirmation => true, :if => :password_required?
         validate :validate_current_password, :on => :update, :if => :current_password
+        
+        janus_config(:authentication_keys, :stretches, :pepper)
       end
 
       def password=(password)
@@ -45,30 +47,6 @@ module Janus
         def find_for_database_authentication(params)
           params = params.reject { |k,v| !authentication_keys.include?(k.to_sym) }
           where(params).first
-        end
-
-        def authentication_keys
-          (@authentication_keys || Janus.config.authentication_keys).dup
-        end
-
-        def authentication_keys=(authentication_keys)
-          @authentication_keys = authentication_keys
-        end
-
-        def stretches
-          @stretches || Janus.config.stretches
-        end
-
-        def stretches=(stretches)
-          @stretches = stretches
-        end
-
-        def pepper
-          @pepper || Janus.config.pepper
-        end
-
-        def pepper=(pepper)
-          @pepper = pepper
         end
       end
     end

@@ -10,6 +10,21 @@ module Janus
             return token unless where(column_name => token).any?
           end
         end
+
+        def janus_config(*keys)
+          keys.each do |key|
+            class_eval <<-EOV
+            def self.#{key}
+              @#{key} || Janus::Config.#{key}
+            end
+            
+            def self.#{key}=(value)
+              @#{key} = value
+            end
+            EOV
+          end
+        end
+        
       end
     end
   end
