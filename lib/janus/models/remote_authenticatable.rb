@@ -7,7 +7,6 @@ module Janus
 
       included do |klass|
         klass.class_eval { has_many :remote_tokens }
-        janus_config(:remote_authentication_key)
       end
 
       # Generates an unique session token. This token will be used to validate

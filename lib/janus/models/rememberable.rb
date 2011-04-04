@@ -3,19 +3,36 @@ module Janus
     module Rememberable
       extend ActiveSupport::Concern
 
+      included do
+        janus_config :remember_for
+      end
+
       # Generates an unique remote_token.
       def remember_me!
-        update_attribute(:remember_token, self.class.generate_token(:remember_token))
+        self.remember_token = self.class.generate_token(:remember_token)
+        self.remember_created_at = Time.now
+        self.save
       end
 
       # Nullifies remote_token.
       def forget_me!
-        update_attribute(:remember_token, nil) unless remember_token.nil?
+        return if remember_token.nil?
+        
+        self.remember_token = nil
+        self.remember_created_at = nil
+        self.save
       end
 
       module ClassMethods
         def find_for_remember_authentication(token)
-          where(:remember_token => token).first
+          user = where(:remember_token => token).first
+          
+          if user && user.remember_created_at < remember_for.ago
+            user.forget_me!
+            user = nil
+          end
+          
+          user
         end
       end
     end
