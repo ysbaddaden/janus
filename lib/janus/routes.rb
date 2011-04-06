@@ -13,6 +13,7 @@ module ActionDispatch # :nodoc:
       # 
       # - +session+      - true to generate session routes
       # - +registration+ - true to generate registration routes
+      # - +password+     - true to generate password reset routes
       # 
       # Generated session routes:
       # 
@@ -28,6 +29,9 @@ module ActionDispatch # :nodoc:
       #                          PUT    /users(.:format)          {:action=>"update",  :controller=>"users/registrations"}
       #                          DELETE /users(.:format)          {:action=>"destroy", :controller=>"users/registrations"}
       # 
+      # Generated password reset routes:
+      # 
+      # 
       def janus(*resources)
         ApplicationController.send(:include, Janus::Helpers) unless ApplicationController.include?(Janus::Helpers)
         options = resources.extract_options!
@@ -36,19 +40,20 @@ module ActionDispatch # :nodoc:
           singular = plural.to_s.singularize
           
           if options[:session]
-            match "/#{plural}/sign_in(.:format)"  => "#{plural}/sessions#new",
-              :via => :get, :as => "new_#{singular}_session"
-            
-            match "/#{plural}/sign_in(.:format)"  => "#{plural}/sessions#create",
-              :via => :post, :as => "#{singular}_session"
-            
-            match "/#{plural}/sign_out(.:format)" => "#{plural}/sessions#destroy",
-              :as => "destroy_#{singular}_session"
+            scope :path => plural, :controller => "#{plural}/sessions" do
+              match "/sign_in(.:format)", :action => "new", :via => :get, :as => "new_#{singular}_session"
+              match "/sign_in(.:format)", :action => "create", :via => :post, :as => "#{singular}_session"
+              match "/sign_out(.:format)", :action => "destroy",  :as => "destroy_#{singular}_session"
+            end
           end
           
           if options[:registration]
             resource plural, :except => [:index, :show], :as => "#{singular}_registration",
               :controller => "#{plural}/registrations", :path_names => { :new => 'sign_up' }
+          end
+          
+          namespace plural, :as => singular do
+            resource :password, :except => [:index, :show] if options[:password]
           end
           
           ApplicationController.janus(singular)

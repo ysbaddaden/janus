@@ -2,4 +2,13 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  flash:
+    janus:
+      passwords:
+        create:
+          email_sent: "Instructions to reset your password were sent to your email account."
+          user_not_found: "Error: no such user."
+        update:
+          password_updated: "Your password was successfully resetted."
+          invalid_token: "Error: invalid token."
+

@@ -1,0 +1,14 @@
+<h1>Forgot your password?</h1>
+
+<%= form_for @user, :url => user_password_path, :html => { :method => :post } do |f| %>
+  <% @user.class.authentication_keys.each do |key| %>
+    <div class="field">
+      <%= f.label key %>
+      <%= f.text_field key %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit 'Send instructions' %>
+  </div>
+<% end %>
