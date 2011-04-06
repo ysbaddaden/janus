@@ -39,13 +39,17 @@ class Users::PasswordsControllerTest < ActionController::TestCase
   end
 
   test "should create" do
-    post :create, :user => { :email => users(:julien).email }
+    assert_email do
+      post :create, :user => { :email => users(:julien).email }
+    end
     assert_redirected_to root_url
     assert flash[:notice]
   end
 
   test "should not create" do
-    post :create, :user => { :email => 'nobody@example.com' }
+    assert_no_email do
+      post :create, :user => { :email => 'nobody@example.com' }
+    end
     assert_redirected_to new_user_password_url
     assert flash[:alert]
   end

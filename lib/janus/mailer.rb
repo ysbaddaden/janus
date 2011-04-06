@@ -1,0 +1,8 @@
+class Janus::Mailer < ActionMailer::Base
+  default_from = Janus::Config.contact_email
+
+  def reset_password_instructions(user)
+    @user = user
+    mail :to => @user.email, :subject => I18n.t('janus.mailer.reset_password_instructions.subject')
+  end
+end

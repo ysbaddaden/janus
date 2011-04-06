@@ -22,6 +22,8 @@ module Janus
 #  autoload :ConfirmationsController,   'janus/controllers/confirmations_controller'
   autoload :PasswordsController,       'janus/controllers/passwords_controller'
 
+  autoload :Mailer, "janus/mailer"
+
   module Models
     autoload :Base,                    'janus/models/base'
     autoload :DatabaseAuthenticatable, 'janus/models/database_authenticatable'

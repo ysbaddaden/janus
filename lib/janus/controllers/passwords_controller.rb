@@ -10,7 +10,7 @@ class Janus::PasswordsController < ApplicationController
     
     if @user
       @user.generate_reset_password!
-#      JanusMailer.reset_password(@user).deliver
+      JanusMailer.reset_password_instructions(@user).deliver
       
       respond_to do |format|
         format.html { redirect_to root_url, :notice => t('flash.janus.passwords.create.email_sent') }

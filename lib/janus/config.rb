@@ -2,6 +2,8 @@ require 'active_support/time'
 
 module Janus
   module Config
+    mattr_accessor :contact_email
+    
     # DatabaseAuthenticatable
     mattr_accessor :authentication_keys, :stretches, :pepper
     self.authentication_keys = [:email]

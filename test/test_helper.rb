@@ -11,6 +11,18 @@ end
 
 class ActionController::TestCase
   include Janus::TestHelper
+
+  def assert_email(count = 1, message = nil)
+    assert_difference('ActionMailer::Base.deliveries.size', count, message) do
+      yield
+    end
+  end
+
+  def assert_no_email(message = nil)
+    assert_no_difference('ActionMailer::Base.deliveries.size', message) do
+      yield
+    end
+  end
 end
 
 class ActionDispatch::IntegrationTest
@@ -80,3 +92,12 @@ class ActionDispatch::IntegrationTest
     assert has_selector?(selector), "Expected selector <#{selector}> but found none."
   end
 end
+
+class JanusMailerTest < ActionMailer::TestCase
+  include Rails.application.routes.url_helpers
+
+  def default_url_options
+    Rails.application.config.action_mailer.default_url_options
+  end
+end
+

@@ -12,3 +12,12 @@ en:
           password_updated: "Your password was successfully resetted."
           invalid_token: "Error: invalid token."
 
+  janus:
+    mailer:
+      hello: "Hello,"
+      reset_password_instructions: 
+        subject: "Instructions to change your password"
+        infos: "Somebody requested to change your password. To do so just click the following link:"
+        change_password_link: "Change my password"
+        please_ignore_your_password_wont_change: "If you didn't make this request, please delete this email immediately. Your password won't change until you click the link and change your password."
+
