@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class JanusMailerTest < ActionMailer::TestCase
+class Janus::MailerTest < ActionMailer::TestCase
   test "reset_password_instructions" do
-    users(:julien).generate_reset_password!
+    users(:julien).generate_reset_password_token!
     
     mail = JanusMailer.reset_password_instructions(users(:julien))
     assert_equal [users(:julien).email], mail.to

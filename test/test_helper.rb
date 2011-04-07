@@ -93,7 +93,7 @@ class ActionDispatch::IntegrationTest
   end
 end
 
-class JanusMailerTest < ActionMailer::TestCase
+class ActionMailer::TestCase
   include Rails.application.routes.url_helpers
 
   def default_url_options
