@@ -9,7 +9,7 @@ class Janus::PasswordsController < ApplicationController
     @user = User.find_for_database_authentication(params[:user])
     
     if @user
-      @user.generate_reset_password!
+      @user.generate_reset_password_token!
       JanusMailer.reset_password_instructions(@user).deliver
       
       respond_to do |format|

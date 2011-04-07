@@ -34,7 +34,7 @@ module Janus
         self.password = self.password_confirmation = nil
       end
 
-      def generate_reset_password!
+      def generate_reset_password_token!
         update_attributes(
           :reset_password_token   => self.class.generate_token(:reset_password_token),
           :reset_password_sent_at => Time.now
@@ -42,8 +42,10 @@ module Janus
       end
 
       def reset_password!(params)
-        self.password = params['password']
-        self.password_confirmation = params['password_confirmation']
+        params.each do |key, value|
+          send("#{key}=", value) if [:password, :password_confirmation].include?(key.to_sym)
+        end
+        
         self.reset_password_sent_at = self.reset_password_token = nil
         save
       end
@@ -66,15 +68,12 @@ module Janus
         def find_for_password_reset(token)
           user = find_by_reset_password_token(token) unless token.blank?
           
-#          if user.reset_password_sent_at < 2.days.ago
-#            user.update_attributes(
-#              :reset_password_token => nil,
-#              :reset_password_sent_at => nil
-#            )
-#            user = nil
-#          end
-#          
-#          user
+          if user && user.reset_password_sent_at < 2.days.ago
+            user.update_attributes(:reset_password_token => nil, :reset_password_sent_at => nil)
+            user = nil
+          end
+          
+          user
         end
       end
     end
