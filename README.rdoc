@@ -16,22 +16,41 @@ the +after_login+ and +after_logout+ hooks.
 == Features
 
 - authentication system with strategies and hooks
-- database authentication with password encryption, validation and remember strategy
+- database authentication with password encryption, validation and remember me strategy
 - remote authentication for cross domain sign in / sign out
 - controllers: registrations, sessions, passwords and their routes
 
 == TODO
 
-- rename RemoteAuthenticatable to something like CrossDomainAuthenticatable.
-- automatically generate routes from the model strategies
-- abstract authentication scope in controllers
 - confirmations controller
 - generators (janus:install, janus)
+- abstract authentication scope in controllers (scope is forced to 'user' for now)
+- rename RemoteAuthenticatable to something like CrossDomainAuthenticatable(?)
 
 == Install
 
 There is no easy way to install and configure Janus yet. Have a look to the
-test app in <tt>test/rails_app</tt> for hints.
+test app in <tt>test/rails_app</tt> for hints:
+
+  app/controllers/application_controller.rb
+  app/controller/users/passwords_controller.rb
+  app/controller/users/registrations_controller.rb
+  app/controller/users/sessions_controller.rb
+  app/mailers/janus_mailer.rb
+  app/models/remote_token.rb
+  app/models/user.rb
+  app/views/janus_mailer/reset_password_instructions.html.erb
+  app/views/janus_mailer/reset_password_instructions.text.erb
+  app/views/users/passwords/new.html.erb
+  app/views/users/passwords/edit.html.erb
+  app/views/users/registrations/new.html.erb
+  app/views/users/registrations/edit.html.erb
+  app/views/users/sessions/new.html.erb
+  config/initializers/janus.rb
+  config/locales/janus.en.yml
+  config/routes.rb
+  db/migrate/*
+ 
 
 == License
 
