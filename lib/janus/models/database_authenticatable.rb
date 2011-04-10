@@ -8,6 +8,7 @@ module Janus
       extend ActiveSupport::Concern
 
       included do
+        attr_protected :encrypted_password, :reset_password_token, :reset_password_sent_at
         attr_reader   :password
         attr_accessor :current_password
         
@@ -35,10 +36,9 @@ module Janus
       end
 
       def generate_reset_password_token!
-        update_attributes(
-          :reset_password_token   => self.class.generate_token(:reset_password_token),
-          :reset_password_sent_at => Time.now
-        )
+        self.reset_password_token = self.class.generate_token(:reset_password_token)
+        self.reset_password_sent_at = Time.now
+        save
       end
 
       def reset_password!(params)
@@ -69,7 +69,8 @@ module Janus
           user = find_by_reset_password_token(token) unless token.blank?
           
           if user && user.reset_password_sent_at < 2.days.ago
-            user.update_attributes(:reset_password_token => nil, :reset_password_sent_at => nil)
+            user.reset_password_token = user.reset_password_sent_at = nil
+            user.save
             user = nil
           end
           

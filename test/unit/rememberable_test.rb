@@ -41,7 +41,7 @@ class RememberableTest < ActiveSupport::TestCase
 
   test "expiration" do
     @user.remember_me!
-    @user.update_attributes(:remember_created_at => 1.year.ago)
+    @user.update_attribute(:remember_created_at, 1.year.ago)
     assert_nil User.find_for_remember_authentication(@user.remember_token)
   end
 end

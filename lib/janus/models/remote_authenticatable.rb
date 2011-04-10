@@ -6,8 +6,8 @@ module Janus
       extend ActiveSupport::Concern
 
       included do |klass|
+        attr_protected :session_token
         klass.class_eval { has_many :remote_tokens }
-        
         janus_config :remote_authentication_key
       end
 

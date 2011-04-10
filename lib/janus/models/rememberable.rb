@@ -4,6 +4,7 @@ module Janus
       extend ActiveSupport::Concern
 
       included do
+        attr_protected :remember_token, :remember_created_at
         janus_config :remember_for, :extend_remember_period
       end
 
@@ -11,16 +12,13 @@ module Janus
       def remember_me!
         self.remember_token = self.class.generate_token(:remember_token)
         self.remember_created_at = Time.now
-        self.save
+        save
       end
 
       # Nullifies remote_token.
       def forget_me!
-        return if remember_token.nil?
-        
-        self.remember_token = nil
-        self.remember_created_at = nil
-        self.save
+        self.remember_token = self.remember_created_at = nil
+        save
       end
 
       module ClassMethods
