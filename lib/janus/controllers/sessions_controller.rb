@@ -1,3 +1,5 @@
+require 'addressable/uri'
+
 class Janus::SessionsController < ApplicationController
   skip_before_filter :authenticate_user!
 
