@@ -16,7 +16,7 @@ module Janus
 #    self.remember_across_browsers = false
 
     # RemoteAuthenticatable
-#    mattr_accessor :remote_authentication_key
-#    self.remote_authentication_key = :auth_token
+    mattr_accessor :remote_authentication_key
+    self.remote_authentication_key = :remote_token
   end
 end

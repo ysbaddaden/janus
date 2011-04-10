@@ -6,7 +6,7 @@ class Users::RemoteTest < ActionDispatch::IntegrationTest
   test "service login" do
     # user visits a remote site
     visit blog_url(:host => 'test.host')
-      assert_not_authenticated
+    assert_not_authenticated
     
     # user clicks the sign in link
     click_link 'sign_in'
@@ -19,7 +19,7 @@ class Users::RemoteTest < ActionDispatch::IntegrationTest
     fill_in 'user_email', :with => users(:julien).email
     fill_in 'user_password', :with => 'secret'
     click_button 'user_submit'
-    assert_match Regexp.new('^' + Regexp.quote(blog_url(:host => 'test.host', :auth_token => '')) + '.+'), current_url
+    assert_match Regexp.new('^' + Regexp.quote(blog_url(:host => 'test.host', :remote_token => '')) + '.+'), current_url
     
     # user should be authenticated on remote site
     assert_authenticated
@@ -35,7 +35,7 @@ class Users::RemoteTest < ActionDispatch::IntegrationTest
     
     # user clicks the sign in link of remote site which should redirect her back
     click_link 'sign_in'
-    assert_match Regexp.new('^' + Regexp.quote(blog_url(:host => 'test.host', :auth_token => '')) + '.+'), current_url
+    assert_match Regexp.new('^' + Regexp.quote(blog_url(:host => 'test.host', :remote_token => '')) + '.+'), current_url
     
     # user should have been transparently logged in
     assert_authenticated

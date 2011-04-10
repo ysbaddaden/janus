@@ -3,11 +3,11 @@ module Janus
   module Strategies
     class RemoteAuthenticatable < Base
       def valid?
-        !auth_token.nil?
+        !remote_token.nil?
       end
 
       def authenticate!
-        user = resource.find_for_remote_authentication(auth_token)
+        user = resource.find_for_remote_authentication(remote_token)
         
         if user
           success!(user)
@@ -16,8 +16,8 @@ module Janus
         end
       end
 
-      def auth_token
-        request.params[:auth_token]
+      def remote_token
+        request.params[resource.remote_authentication_key]
       end
 
       def auth_method
