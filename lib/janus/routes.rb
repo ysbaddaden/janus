@@ -33,7 +33,7 @@ module ActionDispatch # :nodoc:
       # 
       # 
       def janus(*resources)
-        ApplicationController.send(:include, Janus::Helpers) unless ApplicationController.include?(Janus::Helpers)
+        ActionController::Base.send(:include, Janus::Helpers) unless ActionController::Base.include?(Janus::Helpers)
         options = resources.extract_options!
         
         resources.each do |plural|
@@ -56,7 +56,7 @@ module ActionDispatch # :nodoc:
             resource :password, :except => [:index, :show] if options[:password]
           end
           
-          ApplicationController.janus(singular)
+          ActionController::Base.janus(singular)
         end
       end
     end
