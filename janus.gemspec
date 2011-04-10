@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{janus}
-  s.version = "0.3.0"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julien Portalier"]
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "lib/janus/hooks.rb",
     "lib/janus/hooks/rememberable.rb",
     "lib/janus/hooks/remote_authenticatable.rb",
+    "lib/janus/hooks/trackable.rb",
     "lib/janus/mailer.rb",
     "lib/janus/manager.rb",
     "lib/janus/models/base.rb",
@@ -33,6 +34,7 @@ Gem::Specification.new do |s|
     "lib/janus/models/rememberable.rb",
     "lib/janus/models/remote_authenticatable.rb",
     "lib/janus/models/remote_token.rb",
+    "lib/janus/models/trackable.rb",
     "lib/janus/routes.rb",
     "lib/janus/strategies.rb",
     "lib/janus/strategies/base.rb",
@@ -56,6 +58,7 @@ Gem::Specification.new do |s|
     "test/integration/users/rememberable_test.rb",
     "test/integration/users/remote_test.rb",
     "test/integration/users/sessions_test.rb",
+    "test/integration/users/trackable_test.rb",
     "test/rails_app/app/controllers/application_controller.rb",
     "test/rails_app/app/controllers/blogs_controller.rb",
     "test/rails_app/app/controllers/home_controller.rb",
@@ -87,6 +90,7 @@ Gem::Specification.new do |s|
     "test/unit/remote_authenticatable_test.rb",
     "test/unit/remote_token_test.rb",
     "test/unit/reset_password_test.rb",
+    "test/unit/trackable_test.rb",
     "test/unit/user_test.rb"
   ]
 
@@ -94,16 +98,16 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, ["~> 3.0.5"])
+      s.add_runtime_dependency(%q<rails>, ["~> 3.0.6"])
       s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 0"])
       s.add_runtime_dependency(%q<addressable>, [">= 0"])
     else
-      s.add_dependency(%q<rails>, ["~> 3.0.5"])
+      s.add_dependency(%q<rails>, ["~> 3.0.6"])
       s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
       s.add_dependency(%q<addressable>, [">= 0"])
     end
   else
-    s.add_dependency(%q<rails>, ["~> 3.0.5"])
+    s.add_dependency(%q<rails>, ["~> 3.0.6"])
     s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
     s.add_dependency(%q<addressable>, [">= 0"])
   end

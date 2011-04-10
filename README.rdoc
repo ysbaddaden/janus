@@ -19,6 +19,7 @@ the +after_login+ and +after_logout+ hooks.
 - database authentication with password encryption, validation and remember me strategy
 - remote authentication for cross domain sign in / sign out
 - controllers: registrations, sessions, passwords and their routes
+- trackable hook
 
 == TODO
 
@@ -50,7 +51,6 @@ test app in <tt>test/rails_app</tt> for hints:
   config/locales/janus.en.yml
   config/routes.rb
   db/migrate/*
- 
 
 == License
 
