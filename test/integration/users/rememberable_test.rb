@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Users::RemoteTest < ActionDispatch::IntegrationTest
+class Users::RememberableTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   test "should remember user across sessions" do

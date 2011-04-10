@@ -30,6 +30,7 @@ module Janus
     autoload :Rememberable,            'janus/models/rememberable'
     autoload :RemoteAuthenticatable,   'janus/models/remote_authenticatable'
     autoload :RemoteToken,             'janus/models/remote_token'
+    autoload :Trackable,               'janus/models/trackable'
   end
 
   module Strategies

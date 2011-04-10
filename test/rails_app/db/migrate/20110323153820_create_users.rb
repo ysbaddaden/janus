@@ -11,6 +11,12 @@ class CreateUsers < ActiveRecord::Migration
       t.datetime :remember_created_at
       
       t.string   :session_token
+      
+      t.integer :sign_in_count, :default => 0
+      t.string  :last_sign_in_at
+      t.string  :last_sign_in_ip
+      t.string  :current_sign_in_at
+      t.string  :current_sign_in_ip
     end
     
     add_index :users, :email,                :unique => true
