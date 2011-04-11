@@ -1,6 +1,7 @@
 require 'addressable/uri'
 
 class Janus::SessionsController < ApplicationController
+  helper JanusHelper
   skip_before_filter :authenticate_user!
 
   def new
@@ -27,6 +28,8 @@ class Janus::SessionsController < ApplicationController
         format.html do
           @user ||= User.new(params[:user])
           @user.clean_up_passwords
+          @user.errors.add(:base, :not_found)
+          
           render "new", :status => :unauthorized
         end
         format.any { head :unauthorized }

@@ -25,6 +25,7 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
     post :create, :user => { :email => 'toto@example.com', :password => 'my secret', :password_confirmation => '' }
     assert_response :ok
     assert_template 'users/registrations/new'
+    assert_select   '#error_explanation'
   end
 
   test "should get edit" do
@@ -48,6 +49,7 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
     put :update, :user => { :email => 'toto@example.com' }
     assert_response :ok
     assert_template 'users/registrations/edit'
+    assert_select   '#error_explanation'
   end
 
   test "should not update with bad current_password" do
@@ -55,6 +57,7 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
     put :update, :user => { :email => 'toto@example.com', :current_password => 'bad secret' }
     assert_response :ok
     assert_template 'users/registrations/edit'
+    assert_select   '#error_explanation'
   end
 
   test "should destroy" do

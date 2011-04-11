@@ -1,6 +1,8 @@
-<h1>Change your password</h1>
+<h1><%= t 'janus.passwords.edit.change_password' %></h1>
 
 <%= form_for @user, :url => user_password_path, :html => { :method => :put } do |f| %>
+  <%= janus_error_messages %>
+
   <%= f.hidden_field :reset_password_token %>
 
   <div class="field">
@@ -14,6 +16,6 @@
   </div>
 
   <div class="actions">
-    <%= f.submit 'Send' %>
+    <%= f.submit t('janus.passwords.edit.change_password_btn') %>
   </div>
 <% end %>

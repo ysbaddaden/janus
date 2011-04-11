@@ -50,8 +50,9 @@ class Users::PasswordsControllerTest < ActionController::TestCase
     assert_no_email do
       post :create, :user => { :email => 'nobody@example.com' }
     end
-    assert_redirected_to new_user_password_url
-    assert flash[:alert]
+    assert_response :ok
+    assert_template 'new'
+    assert_select '#error_explanation'
   end
 
   test "should update" do
@@ -77,6 +78,7 @@ class Users::PasswordsControllerTest < ActionController::TestCase
     )
     assert_response :ok
     assert_template 'users/passwords/edit'
+    assert_select '#error_explanation'
     
     users(:julien).reload
     

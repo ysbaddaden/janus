@@ -51,6 +51,7 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_template 'users/sessions/new'
     assert_select "#user_email[value='" + users(:julien).email + "']"
     assert_select "#user_password[value='secret']", 0
+    assert_select '#error_explanation'
     assert_not_authenticated(:user)
   end
 
@@ -60,6 +61,7 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_template 'users/sessions/new'
     assert_select "#user_email[value='" + users(:martha).email + "']"
     assert_select "#user_password[value='force me in']", 0
+    assert_select '#error_explanation'
     assert_not_authenticated(:user)
   end
 
@@ -69,6 +71,7 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_template 'users/sessions/new'
     assert_select "#user_email[value='nobody@localhost']"
     assert_select "#user_password[value='secret']", 0
+    assert_select '#error_explanation'
     assert_not_authenticated(:user)
   end
 

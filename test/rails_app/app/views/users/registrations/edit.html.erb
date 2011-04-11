@@ -1,6 +1,8 @@
-<h1>My account</h1>
+<h1><%= t 'janus.registrations.edit.my_account' %></h1>
 
 <%= form_for @user, :url => user_registration_url, :method => :put do |f| %>
+  <%= janus_error_messages %>
+
   <% @user.class.authentication_keys.each do |key| %>
     <div class="field">
       <%= f.label key %>
@@ -24,6 +26,6 @@
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit t('janus.registrations.edit.save_changes_btn') %>
   </div>
 <% end %>

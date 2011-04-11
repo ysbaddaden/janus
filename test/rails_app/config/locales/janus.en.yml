@@ -2,6 +2,17 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+#  activerecord:
+#    attributes:
+#      user:
+#        email: "Email"
+#        password: "Password"
+#        password_confirmation: "Confirm password"
+#        current_password: "Current password"
+#  errors:
+#    messages:
+#      not_found: "not found"
+  
   flash:
     janus:
       passwords:
@@ -11,7 +22,7 @@ en:
         update:
           password_updated: "Your password was successfully resetted."
           invalid_token: "Error: invalid token."
-
+  
   janus:
     mailer:
       hello: "Hello,"

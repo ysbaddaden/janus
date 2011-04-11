@@ -1,5 +1,5 @@
 class Janus::PasswordsController < ApplicationController
-  respond_to :html
+  helper JanusHelper
 
   def new
     @user = User.new
@@ -18,8 +18,12 @@ class Janus::PasswordsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { redirect_to new_user_password_url, :alert => t('flash.janus.passwords.create.user_not_found') }
-        format.any  { head :precondition_failed }
+        format.html do
+          @user = User.new
+          @user.errors.add(:base, :not_found)
+          render "new"
+        end
+        format.any { head :precondition_failed }
       end
     end
   end

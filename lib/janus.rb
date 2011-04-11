@@ -4,6 +4,8 @@ require 'janus/strategies'
 require 'janus/manager'
 require 'janus/routes'
 
+autoload :JanusHelper, 'janus/helper'
+
 module Janus
   class NotAuthenticated < StandardError
     cattr_accessor :scope
@@ -14,19 +16,19 @@ module Janus
     end
   end
 
+  autoload :Mailer,                    'janus/mailer'
   autoload :TestHelper,                'janus/test_helper'
 
   autoload :Helpers,                   'janus/controllers/helpers'
   autoload :SessionsController,        'janus/controllers/sessions_controller'
   autoload :RegistrationsController,   'janus/controllers/registrations_controller'
-#  autoload :ConfirmationsController,   'janus/controllers/confirmations_controller'
+  autoload :ConfirmationsController,   'janus/controllers/confirmations_controller'
   autoload :PasswordsController,       'janus/controllers/passwords_controller'
-
-  autoload :Mailer, "janus/mailer"
 
   module Models
     autoload :Base,                    'janus/models/base'
     autoload :DatabaseAuthenticatable, 'janus/models/database_authenticatable'
+    autoload :Confirmable,             'janus/models/confirmable'
     autoload :Rememberable,            'janus/models/rememberable'
     autoload :RemoteAuthenticatable,   'janus/models/remote_authenticatable'
     autoload :RemoteToken,             'janus/models/remote_token'

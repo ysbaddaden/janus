@@ -14,6 +14,9 @@ class RemoteAuthenticatableTest < ActiveSupport::TestCase
   end
 
   test "find_for_remote_authentication" do
+    assert_nil User.find_for_remote_authentication(nil)
+    assert_nil User.find_for_remote_authentication(" ")
+    
     token1 = token2 = nil
     
     assert_difference('RemoteToken.count', 2) do

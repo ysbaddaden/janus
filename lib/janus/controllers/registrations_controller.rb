@@ -1,4 +1,6 @@
 class Janus::RegistrationsController < ApplicationController
+  helper JanusHelper
+
   before_filter      :authenticate_user!, :except => [:new, :create]
   skip_before_filter :authenticate_user!, :only   => [:new, :create]
 

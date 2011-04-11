@@ -26,6 +26,9 @@ class RememberableTest < ActiveSupport::TestCase
   end
 
   test "find_for_remember_authentication" do
+    assert_nil User.find_for_remember_authentication(nil)
+    assert_nil User.find_for_remember_authentication(" ")
+    
     @user.remember_me!
     token = @user.remember_token
     

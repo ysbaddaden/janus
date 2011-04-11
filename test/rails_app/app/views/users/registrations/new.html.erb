@@ -1,6 +1,8 @@
-<h1>Sign up</h1>
+<h1><%= t 'janus.registrations.new.sign_up' %></h1>
 
 <%= form_for @user, :url => user_registration_url do |f| %>
+  <%= janus_error_messages %>
+
   <% @user.class.authentication_keys.each do |key| %>
     <div class="field">
       <%= f.label key %>
@@ -19,6 +21,6 @@
   </div>
 
   <div class="actions">
-    <%= f.submit 'Sign up' %>
+    <%= f.submit t('janus.registrations.new.sign_up_btn') %>
   </div>
 <% end %>

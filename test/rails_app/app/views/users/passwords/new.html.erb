@@ -1,6 +1,8 @@
-<h1>Forgot your password?</h1>
+<h1><%= t 'janus.passwords.new.forgot_password' %></h1>
 
 <%= form_for @user, :url => user_password_path, :html => { :method => :post } do |f| %>
+  <%= janus_error_messages %>
+
   <% @user.class.authentication_keys.each do |key| %>
     <div class="field">
       <%= f.label key %>
@@ -9,6 +11,6 @@
   <% end %>
 
   <div class="actions">
-    <%= f.submit 'Send instructions' %>
+    <%= f.submit t('janus.passwords.new.send_instructions_btn') %>
   </div>
 <% end %>

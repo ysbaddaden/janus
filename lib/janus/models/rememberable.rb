@@ -23,7 +23,7 @@ module Janus
 
       module ClassMethods
         def find_for_remember_authentication(token)
-          user = where(:remember_token => token).first
+          user = where(:remember_token => token).first unless token.blank?
           
           if user && user.remember_created_at < remember_for.ago
             user.forget_me!
