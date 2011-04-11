@@ -1,0 +1,7 @@
+<%= t('janus.mailer.hello') %>
+
+<%= t('janus.mailer.confirmation_instructions.confirm') %>
+
+<%= link_to t('janus.mailer.confirmation_instructions.confirm_my_account'),
+  user_confirmation_url(@user.class.confirmation_key => @user.confirmation_token) %>
+

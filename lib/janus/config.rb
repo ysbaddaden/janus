@@ -8,13 +8,17 @@ module Janus
     mattr_accessor :authentication_keys, :stretches, :pepper
     self.authentication_keys = [:email]
     self.stretches = 10
-
+    
+    # Confirmable
+    mattr_accessor :confirmation_key
+    self.confirmation_key = :confirm_token
+    
     # Rememberable
     mattr_accessor :remember_for, :extend_remember_period, :remember_across_browsers
     self.remember_for = 2.weeks
     self.extend_remember_period = false
 #    self.remember_across_browsers = false
-
+    
     # RemoteAuthenticatable
     mattr_accessor :remote_authentication_key
     self.remote_authentication_key = :remote_token

@@ -31,4 +31,35 @@ en:
         infos: "Somebody requested to change your password. To do so just click the following link:"
         change_password_link: "Change my password"
         please_ignore_your_password_wont_change: "If you didn't make this request, please delete this email immediately. Your password won't change until you click the link and change your password."
+      
+      confirmation_instructions:
+        subject: "Confirm your account"
+        confirm: "You may confirm your registration by clicking the following link:"
+        confirm_my_account: "Confirm my account"
+    
+    sessions:
+      new:
+        sign_in: "Sign in"
+        sign_in_btn: "Sign in"
+    
+    registrations:
+      new:
+        sign_up: "Sign up"
+        sign_up_btn: "Sign up"
+      edit:
+        my_account: "My account"
+        save_changes_btn: "Save changes"
+    
+    confirmations:
+      new:
+        resend_confirmation_instructions: "Resend confirmation instructions"
+        send_instructions_btn: "Send instructions"
+    
+    passwords:
+      new:
+        forgot_password: "Forgot your password?"
+        send_instructions_btn: "Send instructions"
+      edit:
+        change_password: "Change your password"
+        change_password_btn: "Change my password"
 

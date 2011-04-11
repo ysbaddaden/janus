@@ -27,6 +27,9 @@ ActiveRecord::Schema.define(:version => 20110331153546) do
     t.datetime "reset_password_sent_at"
     t.string   "remember_token"
     t.datetime "remember_created_at"
+    t.string   "confirmation_token"
+    t.datetime "confirmation_sent_at"
+    t.datetime "confirmed_at"
     t.string   "session_token"
     t.integer  "sign_in_count",          :default => 0
     t.string   "last_sign_in_at"
