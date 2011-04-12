@@ -22,10 +22,14 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
   end
 
   test "should not create with bad confirmation" do
-    post :create, :user => { :email => 'toto@example.com', :password => 'my secret', :password_confirmation => '' }
+    post :create, :user => { :email => 'toto@example.com', :password => 'my secret', :password_confirmation => 'blah' }
     assert_response :ok
     assert_template 'users/registrations/new'
     assert_select   '#error_explanation'
+    assert_select   "#user_password", 1
+    assert_select   "#user_password[value]", 0
+    assert_select   "#user_password_confirmation", 1
+    assert_select   "#user_password_confirmation[value]", 0
   end
 
   test "should get edit" do
@@ -54,10 +58,17 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
 
   test "should not update with bad current_password" do
     sign_in users(:julien)
-    put :update, :user => { :email => 'toto@example.com', :current_password => 'bad secret' }
+    put :update, :user => { :email => 'toto@example.com', :current_password => 'bad secret',
+      :password => "azerty", :password_confirmation => "azerty" }
     assert_response :ok
     assert_template 'users/registrations/edit'
     assert_select   '#error_explanation'
+    assert_select   '#user_current_password'
+    assert_select   '#user_current_password[value]', 0
+    assert_select   '#user_password'
+    assert_select   '#user_password[value]', 0
+    assert_select   '#user_password_confirmation'
+    assert_select   '#user_password_confirmation[value]', 0
   end
 
   test "should destroy" do

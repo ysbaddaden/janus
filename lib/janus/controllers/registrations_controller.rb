@@ -16,20 +16,27 @@ class Janus::RegistrationsController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    janus.login(@user, :rememberable => true) if @user.save
+    
+    if @user.save
+      janus.login(@user, :rememberable => true)
+    else
+      @user.clean_up_passwords
+    end
+    
     respond_with(@user, :location => after_sign_up_url(@user))
   end
 
   def update
     @user = current_user
     @user.current_password = ""
-    @user.update_attributes(params[:user])
+    @user.clean_up_passwords unless @user.update_attributes(params[:user])
     respond_with(@user, :location => after_sign_up_url(@user))
   end
 
   def destroy
     @user = current_user
     janus.unset_user(:user) if @user.destroy
+    
     respond_with(@user) do |format|
       format.html { redirect_to root_url }
     end

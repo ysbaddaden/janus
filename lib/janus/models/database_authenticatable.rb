@@ -32,7 +32,7 @@ module Janus
       end
 
       def clean_up_passwords
-        self.password = self.password_confirmation = nil
+        self.current_password = self.password = self.password_confirmation = nil
       end
 
       def generate_reset_password_token!
