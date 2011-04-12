@@ -27,6 +27,10 @@ class Janus::RegistrationsController < ApplicationController
   end
 
   def update
+    params[:user].each do |key, value|
+      params[:user].delete(key) if value.blank? && [:password, :password_confirmation].include?(key.to_sym)
+    end
+    
     @user = current_user
     @user.current_password = ""
     @user.clean_up_passwords unless @user.update_attributes(params[:user])

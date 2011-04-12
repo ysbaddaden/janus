@@ -48,6 +48,14 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
     assert_redirected_to user_url
   end
 
+  test "should update with blank passwords" do
+    sign_in users(:julien)
+    put :update, :user => { :email => 'toto@example.com', :current_password => 'secret',
+      :password => "", :password_confirmation => "" }
+    assert_redirected_to user_url
+    assert users(:julien).valid_password?('secret')
+  end
+
   test "should not update without current_password" do
     sign_in users(:julien)
     put :update, :user => { :email => 'toto@example.com' }
