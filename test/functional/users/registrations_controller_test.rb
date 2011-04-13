@@ -10,21 +10,28 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
   end
 
   test "should create" do
-    post :create, :user => { :email => 'toto@example.com', :password => 'my secret' }
-    assert_redirected_to user_url
-    assert_authenticated(:user)
+    assert_email do
+      post :create, :user => { :email => 'toto@example.com', :password => 'my secret' }
+      assert_redirected_to user_url
+      assert_authenticated(:user)
+    end
   end
 
-  test "should create with confirmation" do
-    post :create, :user => { :email => 'toto@example.com', :password => 'my secret', :password_confirmation => 'my secret' }
-    assert_redirected_to user_url
-    assert_authenticated(:user)
+  test "should create with password confirmation" do
+    assert_email do
+      post :create, :user => { :email => 'toto@example.com', :password => 'my secret', :password_confirmation => 'my secret' }
+      assert_redirected_to user_url
+      assert_authenticated(:user)
+    end
   end
 
   test "should not create with bad confirmation" do
-    post :create, :user => { :email => 'toto@example.com', :password => 'my secret', :password_confirmation => 'blah' }
-    assert_response :ok
-    assert_template 'users/registrations/new'
+    assert_no_email do
+      post :create, :user => { :email => 'toto@example.com', :password => 'my secret', :password_confirmation => 'blah' }
+      assert_response :ok
+      assert_template 'users/registrations/new'
+    end
+    
     assert_select   '#error_explanation'
     assert_select   "#user_password", 1
     assert_select   "#user_password[value]", 0
@@ -44,8 +51,11 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
 
   test "should update" do
     sign_in users(:julien)
-    put :update, :user => { :email => 'toto@example.com', :current_password => 'secret' }
-    assert_redirected_to user_url
+    
+#    assert_email do
+      put :update, :user => { :email => 'toto@example.com', :current_password => 'secret' }
+      assert_redirected_to user_url
+#    end
   end
 
   test "should update with blank passwords" do

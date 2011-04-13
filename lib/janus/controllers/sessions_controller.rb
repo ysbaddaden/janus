@@ -1,34 +1,37 @@
 require 'addressable/uri'
 
 class Janus::SessionsController < ApplicationController
+  include Janus::InternalHelpers
+#  include Janus::UrlHelpers
+
   helper JanusHelper
-  skip_before_filter :authenticate_user!
+#  skip_before_filter :authenticate_user!
 
   def new
-    if user_signed_in?
-      redirect_after_sign_in(current_user)
+    if signed_in?(janus_scope)
+      redirect_after_sign_in(send("current_#{janus_scope}"))
     else
-      @user = User.new
-      respond_with(@user)
+      self.resource = resource_class.new
+      respond_with(resource)
     end
   end
 
   def create
-    @user = User.find_for_database_authentication(params[:user])
+    self.resource = resource_class.find_for_database_authentication(params[resource_name])
     
-    if @user && @user.valid_password?(params[:user][:password])
-      janus.login(@user, :rememberable => params[:remember_me])
+    if resource && resource.valid_password?(params[resource_name][:password])
+      janus.login(resource, :scope => janus_scope, :rememberable => params[:remember_me])
       
       respond_to do |format|
-        format.html { redirect_after_sign_in(@user) }
+        format.html { redirect_after_sign_in(resource) }
         format.any  { head :ok }
       end
     else
       respond_to do |format|
         format.html do
-          @user ||= User.new(params[:user])
-          @user.clean_up_passwords
-          @user.errors.add(:base, :not_found)
+          self.resource ||= resource_class.new(params[resource_name])
+          resource.clean_up_passwords
+          resource.errors.add(:base, :not_found)
           
           render "new", :status => :unauthorized
         end
@@ -38,10 +41,10 @@ class Janus::SessionsController < ApplicationController
   end
 
   def destroy
-    janus.logout(:user)
+    janus.logout(janus_scope)
     
     respond_to do |format|
-      format.html { redirect_to after_sign_out_url(:user) }
+      format.html { redirect_to after_sign_out_url(janus_scope) }
       format.any  { head :ok }
     end
   end

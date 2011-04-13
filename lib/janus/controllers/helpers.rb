@@ -3,6 +3,8 @@ module Janus
     extend ActiveSupport::Concern
 
     included do
+      helper_method :signed_in?
+
       rescue_from Janus::NotAuthenticated do |exception|
         respond_to do |format|
           format.html { redirect_to send("new_#{exception.scope}_session_url") }
@@ -17,6 +19,10 @@ module Janus
 
     def handle_unverified_requests
       janus.logout
+    end
+
+    def signed_in?(scope)
+      janus.authenticate?(scope)
     end
 
     module ClassMethods

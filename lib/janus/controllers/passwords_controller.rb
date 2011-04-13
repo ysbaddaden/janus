@@ -1,16 +1,18 @@
 class Janus::PasswordsController < ApplicationController
+  include Janus::InternalHelpers
+
   helper JanusHelper
 
   def new
-    @user = User.new
+    self.resource = resource_class.new
   end
 
   def create
-    @user = User.find_for_database_authentication(params[:user])
+    self.resource = resource_class.find_for_database_authentication(params[resource_name])
     
-    if @user
-      @user.generate_reset_password_token!
-      JanusMailer.reset_password_instructions(@user).deliver
+    if resource
+      resource.generate_reset_password_token!
+      JanusMailer.reset_password_instructions(resource).deliver
       
       respond_to do |format|
         format.html { redirect_to root_url, :notice => t('flash.janus.passwords.create.email_sent') }
@@ -19,8 +21,8 @@ class Janus::PasswordsController < ApplicationController
     else
       respond_to do |format|
         format.html do
-          @user = User.new
-          @user.errors.add(:base, :not_found)
+          self.resource = resource_class.new
+          resource.errors.add(:base, :not_found)
           render "new"
         end
         format.any { head :precondition_failed }
@@ -29,15 +31,15 @@ class Janus::PasswordsController < ApplicationController
   end
 
   def edit
-    @user = User.find_for_password_reset(params[:token])
-    redirect_to root_url, :alert => t('flash.janus.passwords.edit.alert') unless @user
+    self.resource = resource_class.find_for_password_reset(params[:token])
+    redirect_to root_url, :alert => t('flash.janus.passwords.edit.alert') unless resource
   end
 
   def update
-    @user = User.find_for_password_reset(params[:user][:reset_password_token])
+    self.resource = resource_class.find_for_password_reset(params[resource_name][:reset_password_token])
     
-    if @user
-      if @user.reset_password!(params[:user])
+    if resource
+      if resource.reset_password!(params[resource_name])
         respond_to do |format|
           format.html { redirect_to root_url, :notice => t('flash.janus.passwords.update.password_updated') }
           format.any  { head :ok }

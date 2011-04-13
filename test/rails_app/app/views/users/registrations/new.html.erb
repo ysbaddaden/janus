@@ -1,9 +1,9 @@
 <h1><%= t 'janus.registrations.new.sign_up' %></h1>
 
-<%= form_for @user, :url => user_registration_url do |f| %>
+<%= form_for resource, :url => registration_path(janus_scope) do |f| %>
   <%= janus_error_messages %>
 
-  <% @user.class.authentication_keys.each do |key| %>
+  <% resource_class.authentication_keys.each do |key| %>
     <div class="field">
       <%= f.label key %>
       <%= f.text_field key %>

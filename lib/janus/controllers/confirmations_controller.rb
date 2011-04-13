@@ -1,11 +1,13 @@
 class Janus::ConfirmationsController < ApplicationController
+  include Janus::InternalHelpers
+
   helper JanusHelper
 
   def show
-    @user = User.find_for_confirmation(params[User.confirmation_key])
+    self.resource = resource_class.find_for_confirmation(params[resource_class.confirmation_key])
     
-    if @user
-      @user.confirm!
+    if resource
+      resource.confirm!
       
       respond_to do |format|
         format.html { redirect_to root_url, :notice => t('flash.janus.confirmations.edit.confirmed') }
@@ -14,8 +16,8 @@ class Janus::ConfirmationsController < ApplicationController
     else
       respond_to do |format|
         format.html do
-          @user = User.new
-          @user.errors.add(:base, :invalid_token)
+          self.resource = resource_class.new
+          resource.errors.add(:base, :invalid_token)
           render 'new'
         end
         
@@ -25,15 +27,15 @@ class Janus::ConfirmationsController < ApplicationController
   end
 
   def new
-    @user = User.new
-    respond_with(@user)
+    self.resource = resource_class.new
+    respond_with(resource)
   end
 
   def create
-    @user = User.find_for_database_authentication(params[:user])
+    self.resource = resource_class.find_for_database_authentication(params[resource_name])
     
-    if @user
-      JanusMailer.confirmation_instructions(@user).deliver
+    if resource
+      JanusMailer.confirmation_instructions(resource).deliver
       
       respond_to do |format|
         format.html { redirect_to root_url, :notice => t('flash.janus.confirmations.create.email_sent') }
@@ -42,8 +44,8 @@ class Janus::ConfirmationsController < ApplicationController
     else
       respond_to do |format|
         format.html do
-          @user = User.new
-          @user.errors.add(:base, :not_found)
+          self.resource = resource_class.new
+          resource.errors.add(:base, :not_found)
           render 'new'
         end
         

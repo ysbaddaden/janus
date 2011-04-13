@@ -45,7 +45,8 @@ module ActionDispatch # :nodoc:
       #                      DELETE /users/password(.:format)      {:controller=>"users/passwords", :action=>"destroy"}
       # 
       def janus(*resources)
-        ActionController::Base.send(:include, Janus::Helpers) unless ActionController::Base.include?(Janus::Helpers)
+        ActionController::Base.send(:include, Janus::Helpers)    unless ActionController::Base.include?(Janus::Helpers)
+        ActionController::Base.send(:include, Janus::UrlHelpers) unless ActionController::Base.include?(Janus::UrlHelpers)
         options = resources.extract_options!
         
         resources.each do |plural|
