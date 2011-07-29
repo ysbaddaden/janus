@@ -2,6 +2,57 @@ require 'janus/hooks/remote_authenticatable'
 
 module Janus
   module Models
+    # = RemoteAuthenticatable
+    # 
+    # Keeping a user connected on subdomains is an easy task, all you need to do
+    # is define the session cookie to <tt>.example.com</tt> for instance. But
+    # keeping a user connected on multiple top level domains is a harder task.
+    # 
+    # Hopefully RemoteAuthenticatable takes care of all the hassle.
+    # 
+    # == Single Sign In
+    # 
+    # The authentication must happen on a single domain, for instance
+    # <tt>login.example.com</tt>, then other domains must redirect to that
+    # domain's new session url. For instance:
+    # 
+    #   redirect_to new_user_session_url(:host => "login.example.com") unless user_signed_in?
+    # 
+    # And that's it! The user shall be redirected with an unique +remote_token+,
+    # which shall log her in. Actually the user won't be logged in through
+    # Janus::Manager#login but through Janus::Manager#set_user which won't
+    # run the login hooks. This is useful for not tracking the user everytime
+    # it gets authenticated on each remote site.
+    # 
+    # == Single Sign Out
+    # 
+    # Session state is maintained across domains through the session_token
+    # column of your User model. If a session token is invalid the session
+    # is simply resetted, thus logging out the user on remote domains. Actually
+    # the user is logged out using Janus::Manager#unset_user before
+    # resetting the session.
+    # 
+    # == Required columns and models:
+    # 
+    # A +session_token+ column (string) is required, as well as a RemoteToken
+    # model like so:
+    # 
+    #   class RemoteToken < ActiveRecord::Base
+    #     include Janus::Models::RemoteToken
+    #   
+    #     belongs_to :user
+    #     validates_presence_of :user
+    #   end
+    # 
+    # With the associated table:
+    # 
+    #   create_table :remote_tokens do |t|
+    #     t.references :user
+    #     t.string     :token
+    #     t.datetime   :created_at
+    #   end
+    #   
+    #   add_index :remote_tokens, :token, :unique => true
     module RemoteAuthenticatable
       extend ActiveSupport::Concern
 

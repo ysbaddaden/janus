@@ -2,8 +2,23 @@ require 'bcrypt'
 
 module Janus
   module Models
-    # The password encryption logic comes from Plataformatec's Devise:
-    # http://github.com/plataformatec/devise
+    # = DatabaseAuthenticatable
+    # 
+    # This is the initial part and is required for email + password registration
+    # and logins. Passwords are automatically encrypted following Devise's
+    # default encryption logic, which relies on bcrypt.
+    # 
+    # == Required columns:
+    # 
+    # - email
+    # - encrypted_password
+    # 
+    # == Configuration
+    # 
+    # - +stretches+
+    # - +pepper+
+    # - +authentication_keys+ - required keys for authenticating a user, defaults to <tt>[:email]</tt>
+    # 
     module DatabaseAuthenticatable
       extend ActiveSupport::Concern
 
@@ -23,6 +38,7 @@ module Janus
         self.encrypted_password = digest_password(@password) unless @password.blank?
       end
 
+      # Checks if a given password matches this user password.
       def valid_password?(password)
         ::BCrypt::Password.new(encrypted_password) == "#{password}#{self.class.pepper}"
       end

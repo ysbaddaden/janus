@@ -15,6 +15,14 @@ the +after_login+ and +after_logout+ hooks.
 
 == Features
 
+- DatabaseAuthenticatable
+- RemoteAuthenticatable
+- Confirmable
+- Rememberable
+- Trackable
+
+Note: login through Janus::Manager#set_user won't track the user.
+
 - authentication system with strategies and hooks
 - scoped authentications with parallel authentication
 - database authentication with password encryption, validation and remember me strategy
@@ -30,18 +38,88 @@ the +after_login+ and +after_logout+ hooks.
 
 == Install
 
-There is no easy way to install and configure Janus yet. Have a look to the
-test app in <tt>test/rails_app</tt> for hints:
+There is no automated way to install Janus yet, since generators are missing.
+Please remember that Janus is only compatible with Rails 3.
+
+First add the gem to your Gemfile:
+
+  $ gem 'janus', :git => git://github.com/ysbaddaden/janus.git
+
+Configure your user models by including all or a selection of the Janus::Models
+modules:
+
+  class User < ActiveRecord::Base
+    include Janus::Models::Base
+    include Janus::Models::DatabaseAuthenticatable
+    include Janus::Models::RemoteAuthenticatable
+    include Janus::Models::Confirmable
+    include Janus::Models::Rememberable
+    include Janus::Models::Trackable
+  end
+
+  class Admin < ActiveRecord::Base
+    include Janus::Models::Base
+    include Janus::Models::DatabaseAuthenticatable
+    include Janus::Models::RemoteAuthenticatable
+  end
+
+Configure your routes:
+
+  Name::Application.routes.map do
+    janus :users,  :session => true, :registration => true, :password => true, :confirmation => true
+    janus :admins, :session => true
+    
+    root :to => "home#index"
+  end
+
+Create the required controllers:
+
+  class Users::SessionsController < Janus::SessionsController
+    respond_to :html
+  end
+
+  class Users::RegistrationsController < Janus::RegistrationsController
+    respond_to :html
+  end
+
+  class Users::PasswordsController < Janus::PasswordsController
+    respond_to :html
+  end
+
+  class Users::ConfirmationssController < Janus::ConfirmationssController
+    respond_to :html
+  end
+
+  class Admins::SessionsController < Janus::SessionsController
+    respond_to :html
+  end
+
+Copy the views from test/rails_app to your application:
+
+  mkdir name/app/views/users/
+  cp -r janus/test/rails_app/app/views/users/sessions name/app/views/users/
+  cp -r janus/test/rails_app/app/views/users/registrations name/app/views/users/
+  cp -r janus/test/rails_app/app/views/users/confirmations name/app/views/users/
+  cp -r janus/test/rails_app/app/views/users/registrations name/app/views/users/
+  
+  mkdir name/app/views/admins/
+  cp -r janus/test/rails_app/app/views/users/sessions name/app/views/users/
+
+Have a look to the test app in <tt>test/rails_app</tt> for additional help:
 
   app/controllers/application_controller.rb
+  app/controller/users/confirmations_controller.rb
   app/controller/users/passwords_controller.rb
   app/controller/users/registrations_controller.rb
   app/controller/users/sessions_controller.rb
   app/mailers/janus_mailer.rb
   app/models/remote_token.rb
   app/models/user.rb
+  app/views/janus_mailer/confirmation_instructions.html.erb
+  app/views/janus_mailer/confirmation_instructions.text.erb
   app/views/janus_mailer/reset_password_instructions.html.erb
   app/views/janus_mailer/reset_password_instructions.text.erb
+  app/views/users/confirmations/new.html.erb
   app/views/users/passwords/new.html.erb
   app/views/users/passwords/edit.html.erb
   app/views/users/registrations/new.html.erb
@@ -50,7 +128,7 @@ test app in <tt>test/rails_app</tt> for hints:
   config/initializers/janus.rb
   config/locales/janus.en.yml
   config/routes.rb
-  db/migrate/*
+  db/migrate/*.rb
 
 == License
 

@@ -3,7 +3,7 @@ module Janus
   module Strategies
     class RemoteAuthenticatable < Base
       def valid?
-        !remote_token.nil?
+        resource.include?(Janus::Models::RemoteAuthenticatable) && !remote_token.nil?
       end
 
       def authenticate!

@@ -1,5 +1,11 @@
 module Janus
   module Models
+    # = Confirmable
+    # 
+    # Confirms an account's email by sending an email with an unique token.
+    # This is necessary to be sure the user can be contacted on that email.
+    # 
+    # IMPROVE: reconfirm whenever email changes.
     module Confirmable
       extend ActiveSupport::Concern
 
@@ -24,6 +30,7 @@ module Janus
         save
       end
 
+      # Checks wether the email of this user if confirmed, or not.
       def confirmed?
         confirmed_at?
       end

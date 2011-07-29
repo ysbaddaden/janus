@@ -1,5 +1,21 @@
 module Janus
   module Models
+    # = Rememberable
+    # 
+    # Allows a user to check a remember me check box when she logs in through
+    # DatabaseAuthenticatable. It will set a cookie with a configurable
+    # expiration date.
+    # 
+    # == Required columns
+    # 
+    # - remember_token
+    # - remember_created_at
+    # 
+    # == Configuration
+    # 
+    # - remember_for - how long to remember the user, for instance <tt>1.week</tt>.
+    # - :extend_remember_period - set to true to extend the remember cookie every time the user logs in.
+    # 
     module Rememberable
       extend ActiveSupport::Concern
 
