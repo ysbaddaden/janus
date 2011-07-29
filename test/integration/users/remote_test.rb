@@ -18,7 +18,7 @@ class Users::RemoteTest < ActionDispatch::IntegrationTest
     # user signs in and should be redirected to remote site
     fill_in 'user_email', :with => users(:julien).email
     fill_in 'user_password', :with => 'secret'
-    click_button 'user_submit'
+    find('input[name=commit]').click
     assert_match Regexp.new('^' + Regexp.quote(blog_url(:host => 'test.host', :remote_token => '')) + '.+'), current_url
     
     # user should be authenticated on remote site

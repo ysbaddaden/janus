@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julien Portalier"]
-  s.date = %q{2011-04-10}
+  s.date = %q{2011-07-30}
   s.description = %q{Authentication engine for Ruby on Rails.}
   s.email = %q{ysbaddaden@gmail.com}
   s.extra_rdoc_files = [
@@ -19,10 +19,14 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "lib/janus.rb",
     "lib/janus/config.rb",
+    "lib/janus/controllers/confirmations_controller.rb",
     "lib/janus/controllers/helpers.rb",
+    "lib/janus/controllers/internal_helpers.rb",
     "lib/janus/controllers/passwords_controller.rb",
     "lib/janus/controllers/registrations_controller.rb",
     "lib/janus/controllers/sessions_controller.rb",
+    "lib/janus/controllers/url_helpers.rb",
+    "lib/janus/helper.rb",
     "lib/janus/hooks.rb",
     "lib/janus/hooks/rememberable.rb",
     "lib/janus/hooks/remote_authenticatable.rb",
@@ -30,6 +34,7 @@ Gem::Specification.new do |s|
     "lib/janus/mailer.rb",
     "lib/janus/manager.rb",
     "lib/janus/models/base.rb",
+    "lib/janus/models/confirmable.rb",
     "lib/janus/models/database_authenticatable.rb",
     "lib/janus/models/rememberable.rb",
     "lib/janus/models/remote_authenticatable.rb",
@@ -51,6 +56,7 @@ Gem::Specification.new do |s|
     "test/functional/home_controller_test.rb",
     "test/functional/janus/mailer_test.rb",
     "test/functional/janus/manager_test.rb",
+    "test/functional/users/confirmations_controller_test.rb",
     "test/functional/users/passwords_controller_test.rb",
     "test/functional/users/registrations_controller_test.rb",
     "test/functional/users/sessions_controller_test.rb",
@@ -62,6 +68,7 @@ Gem::Specification.new do |s|
     "test/rails_app/app/controllers/application_controller.rb",
     "test/rails_app/app/controllers/blogs_controller.rb",
     "test/rails_app/app/controllers/home_controller.rb",
+    "test/rails_app/app/controllers/users/confirmations_controller.rb",
     "test/rails_app/app/controllers/users/passwords_controller.rb",
     "test/rails_app/app/controllers/users/registrations_controller.rb",
     "test/rails_app/app/controllers/users/sessions_controller.rb",
@@ -85,6 +92,7 @@ Gem::Specification.new do |s|
     "test/rails_app/db/schema.rb",
     "test/rails_app/db/seeds.rb",
     "test/test_helper.rb",
+    "test/unit/confirmable_test.rb",
     "test/unit/janus_test.rb",
     "test/unit/rememberable_test.rb",
     "test/unit/remote_authenticatable_test.rb",
@@ -98,16 +106,16 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, ["~> 3.0.6"])
+      s.add_runtime_dependency(%q<rails>, ["~> 3.0"])
       s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 0"])
       s.add_runtime_dependency(%q<addressable>, [">= 0"])
     else
-      s.add_dependency(%q<rails>, ["~> 3.0.6"])
+      s.add_dependency(%q<rails>, ["~> 3.0"])
       s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
       s.add_dependency(%q<addressable>, [">= 0"])
     end
   else
-    s.add_dependency(%q<rails>, ["~> 3.0.6"])
+    s.add_dependency(%q<rails>, ["~> 3.0"])
     s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
     s.add_dependency(%q<addressable>, [">= 0"])
   end

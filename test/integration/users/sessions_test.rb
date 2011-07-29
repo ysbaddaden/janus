@@ -7,7 +7,7 @@ class Users::SessionsTest < ActionDispatch::IntegrationTest
     visit new_user_session_path
     fill_in 'user_email', :with => users(:julien).email
     fill_in 'user_password', :with => 'secret'
-    click_button 'user_submit'
+    find('input[name=commit]').click
     
     assert_equal user_path, page.current_path
     find('h1').has_content?('Welcome ' + users(:julien).email)

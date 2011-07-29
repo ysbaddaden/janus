@@ -6,7 +6,7 @@ module Janus
       module ClassMethods
         def generate_token(column_name, size = 32)
           loop do
-            token = ActiveSupport::SecureRandom.hex(size)
+            token = SecureRandom.hex(size)
             return token unless where(column_name => token).any?
           end
         end

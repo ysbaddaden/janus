@@ -28,7 +28,7 @@ end
 class ActionDispatch::IntegrationTest
   self.fixture_path = File.expand_path('../fixtures', __FILE__)
 
-  include Capybara
+  include Capybara::DSL
 
   teardown { page.reset! }
 
@@ -40,7 +40,7 @@ class ActionDispatch::IntegrationTest
     fill_in "#{scope}_email", :with => user[:email]
     fill_in "#{scope}_password", :with => user[:password]
     fill_in "#{scope}_password_confirmation", :with => user[:password]
-    click_button "#{scope}_submit"
+    find('input[name=commit]').click
   end
 
   def sign_in(user, options = {})
@@ -51,7 +51,7 @@ class ActionDispatch::IntegrationTest
     fill_in "#{scope}_email",    :with => user.email
     fill_in "#{scope}_password", :with => 'secret'
     check "remember_me" if options[:remember_me]
-    click_button "#{scope}_submit"
+    find('input[name=commit]').click
   end
 
   def sign_out(user_or_scope)
@@ -69,10 +69,10 @@ class ActionDispatch::IntegrationTest
     driver = Capybara.current_session.driver
 #    case driver
 #    when Capybara::Driver::Selenium
-#      browser = Capybara.current_session.driver.browser
+#      browser = driver.browser
 #      browser.manage.delete_cookie(cookie_name)
 #    when Capybara::Driver::RackTest
-      cookie_jar = driver.current_session.instance_variable_get(:@rack_mock_session).cookie_jar
+      cookie_jar = driver.browser.current_session.instance_variable_get(:@rack_mock_session).cookie_jar
       cookie_jar.instance_variable_get(:@cookies).reject! do |cookie|
         expires = cookie.instance_variable_get(:@options)["expires"]
         expires.nil? || Time.parse(expires) < Time.now
