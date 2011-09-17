@@ -13,6 +13,15 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_select 'input[name=return_to]', 0
   end
 
+  test "new should define return_to to referer by default" do
+    request.env['HTTP_REFERER'] = "/some/path"
+    get :new
+    assert_response :ok
+    assert_select '#user_email', 1
+    assert_select '#user_password', 1
+    assert_select 'input[name=return_to][value=/some/path]', 1
+  end
+
   test "new should pass return_to" do
     get :new, :return_to => root_path
     assert_response :ok

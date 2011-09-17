@@ -8,6 +8,8 @@ class Janus::SessionsController < ApplicationController
 #  skip_before_filter :authenticate_user!
 
   def new
+    params[:return_to] ||= request.env["HTTP_REFERER"]
+    
     if signed_in?(janus_scope)
       redirect_after_sign_in(send("current_#{janus_scope}"))
     else
@@ -64,29 +66,29 @@ class Janus::SessionsController < ApplicationController
     true
   end
 
-  private
-    # Either redirects the user to after_sign_in_url or to
-    # <tt>params[:return_to]</tt>. If params[:return_to] is an URL --and not
-    # just a path-- valid_remote_host? will be invoked to check if we should
-    # redirect to this URL or not.
-    def redirect_after_sign_in(user)
-      unless params[:return_to].blank?
-        return_to = Addressable::URI.parse(params[:return_to])
-        
-        if return_to.host.nil? || return_to.host == request.host
-          redirect_to params[:return_to]
-          return
-        elsif valid_remote_host?(return_to.host)
-          if user.class.include?(Janus::Models::RemoteAuthenticatable)
-            query = return_to.query_values || {}
-            return_to.query_values = query.merge(user.class.remote_authentication_key => user.generate_remote_token!)
-          end
-          
-          redirect_to return_to.to_s
-          return
-        end
-      end
+  # Either redirects the user to after_sign_in_url or to
+  # <tt>params[:return_to]</tt>. If return_to is an absolute URL, and not just
+  # a path, valid_remote_host? will be invoked to check if we should redirect
+  # to this URL or not --which is moslty of use for RemoteAuthenticatable to
+  # securize auth tokens from unknown domains.
+  def redirect_after_sign_in(user)
+    unless params[:return_to].blank?
+      return_to = Addressable::URI.parse(params[:return_to])
       
-      redirect_to after_sign_in_url(user)
+      if return_to.host.nil? || return_to.host == request.host
+        redirect_to params[:return_to]
+        return
+      elsif valid_remote_host?(return_to.host)
+        if user.class.include?(Janus::Models::RemoteAuthenticatable)
+          query = return_to.query_values || {}
+          return_to.query_values = query.merge(user.class.remote_authentication_key => user.generate_remote_token!)
+        end
+        
+        redirect_to return_to.to_s
+        return
+      end
     end
+    
+    redirect_to after_sign_in_url(user)
+  end
 end
