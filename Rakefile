@@ -43,7 +43,7 @@ begin
   Jeweler::Tasks.new do |gem|
     root_files = FileList["README.rdoc"]
     gem.name = "janus"
-    gem.version = "0.4.0"
+    gem.version = "0.5.0"
     gem.summary = "Authentication engine for Ruby on Rails."
     gem.email = "ysbaddaden@gmail.com"
     gem.homepage = "http://github.com/ysbaddaden/janus"
