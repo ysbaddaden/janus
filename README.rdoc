@@ -33,8 +33,11 @@ Note: login through Janus::Manager#set_user won't track the user.
 
 == TODO
 
-- generators (janus:install, janus)
 - rename RemoteAuthenticatable to something like CrossDomainAuthenticatable(?)
+- remember me on remote authenticated domains.
+- confirmable resources
+- differenciate mailers per resource (automatically looking for a Users::Mailer < Janus::Mailer class?)
+- generators (janus:install, janus <resource>)
 
 == Install
 
@@ -43,7 +46,7 @@ Please remember that Janus is only compatible with Rails 3.
 
 First add the gem to your Gemfile:
 
-  $ gem 'janus', :git => git://github.com/ysbaddaden/janus.git
+  $ gem 'janus'
 
 Configure your user models by including all or a selection of the Janus::Models
 modules:
@@ -86,7 +89,7 @@ Create the required controllers:
     respond_to :html
   end
 
-  class Users::ConfirmationssController < Janus::ConfirmationssController
+  class Users::ConfirmationsController < Janus::ConfirmationsController
     respond_to :html
   end
 
