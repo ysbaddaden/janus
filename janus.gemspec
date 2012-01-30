@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{janus}
+  s.name = "janus"
   s.version = "0.5.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julien Portalier"]
-  s.date = %q{2011-09-17}
-  s.description = %q{Authentication engine for Ruby on Rails.}
-  s.email = %q{ysbaddaden@gmail.com}
+  s.date = "2012-01-30"
+  s.description = "Authentication engine for Ruby on Rails."
+  s.email = "ysbaddaden@gmail.com"
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
@@ -40,7 +40,9 @@ Gem::Specification.new do |s|
     "lib/janus/models/remote_authenticatable.rb",
     "lib/janus/models/remote_token.rb",
     "lib/janus/models/trackable.rb",
+    "lib/janus/rails.rb",
     "lib/janus/routes.rb",
+    "lib/janus/sinatra.rb",
     "lib/janus/strategies.rb",
     "lib/janus/strategies/base.rb",
     "lib/janus/strategies/database_authenticatable.rb",
@@ -48,74 +50,22 @@ Gem::Specification.new do |s|
     "lib/janus/strategies/remote_authenticatable.rb",
     "lib/janus/test_helper.rb"
   ]
-  s.homepage = %q{http://github.com/ysbaddaden/janus}
+  s.homepage = "http://github.com/ysbaddaden/janus"
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.2}
-  s.summary = %q{Authentication engine for Ruby on Rails.}
-  s.test_files = [
-    "test/functional/home_controller_test.rb",
-    "test/functional/janus/mailer_test.rb",
-    "test/functional/janus/manager_test.rb",
-    "test/functional/users/confirmations_controller_test.rb",
-    "test/functional/users/passwords_controller_test.rb",
-    "test/functional/users/registrations_controller_test.rb",
-    "test/functional/users/sessions_controller_test.rb",
-    "test/functional/users_controller_test.rb",
-    "test/integration/users/rememberable_test.rb",
-    "test/integration/users/remote_test.rb",
-    "test/integration/users/sessions_test.rb",
-    "test/integration/users/trackable_test.rb",
-    "test/rails_app/app/controllers/application_controller.rb",
-    "test/rails_app/app/controllers/blogs_controller.rb",
-    "test/rails_app/app/controllers/home_controller.rb",
-    "test/rails_app/app/controllers/users/confirmations_controller.rb",
-    "test/rails_app/app/controllers/users/passwords_controller.rb",
-    "test/rails_app/app/controllers/users/registrations_controller.rb",
-    "test/rails_app/app/controllers/users/sessions_controller.rb",
-    "test/rails_app/app/controllers/users_controller.rb",
-    "test/rails_app/app/helpers/application_helper.rb",
-    "test/rails_app/app/mailers/janus_mailer.rb",
-    "test/rails_app/app/models/remote_token.rb",
-    "test/rails_app/app/models/user.rb",
-    "test/rails_app/config/application.rb",
-    "test/rails_app/config/boot.rb",
-    "test/rails_app/config/environment.rb",
-    "test/rails_app/config/environments/development.rb",
-    "test/rails_app/config/environments/production.rb",
-    "test/rails_app/config/environments/test.rb",
-    "test/rails_app/config/initializers/janus.rb",
-    "test/rails_app/config/initializers/secret_token.rb",
-    "test/rails_app/config/initializers/session_store.rb",
-    "test/rails_app/config/routes.rb",
-    "test/rails_app/db/migrate/20110323153820_create_users.rb",
-    "test/rails_app/db/migrate/20110331153546_create_remote_tokens.rb",
-    "test/rails_app/db/schema.rb",
-    "test/rails_app/db/seeds.rb",
-    "test/test_helper.rb",
-    "test/unit/confirmable_test.rb",
-    "test/unit/janus_test.rb",
-    "test/unit/rememberable_test.rb",
-    "test/unit/remote_authenticatable_test.rb",
-    "test/unit/remote_token_test.rb",
-    "test/unit/reset_password_test.rb",
-    "test/unit/trackable_test.rb",
-    "test/unit/user_test.rb"
-  ]
+  s.rubygems_version = "1.8.15"
+  s.summary = "Authentication engine for Ruby on Rails."
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, ["~> 3.0"])
       s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 0"])
       s.add_runtime_dependency(%q<addressable>, [">= 0"])
     else
-      s.add_dependency(%q<rails>, ["~> 3.0"])
       s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
       s.add_dependency(%q<addressable>, [">= 0"])
     end
   else
-    s.add_dependency(%q<rails>, ["~> 3.0"])
     s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
     s.add_dependency(%q<addressable>, [">= 0"])
   end
