@@ -42,7 +42,6 @@ module ActionDispatch # :nodoc:
       #    new_user_password GET    /users/password/new(.:format)  {:controller=>"users/passwords", :action=>"new"}
       #   edit_user_password GET    /users/password/edit(.:format) {:controller=>"users/passwords", :action=>"edit"}
       #                      PUT    /users/password(.:format)      {:controller=>"users/passwords", :action=>"update"}
-      #                      DELETE /users/password(.:format)      {:controller=>"users/passwords", :action=>"destroy"}
       # 
       def janus(*resources)
         ActionController::Base.send(:include, Janus::Helpers)    unless ActionController::Base.include?(Janus::Helpers)
@@ -67,7 +66,7 @@ module ActionDispatch # :nodoc:
             end
             
             resource :confirmation, :only => [:show, :new, :create] if options[:confirmation]
-            resource :password, :except => [:index, :show] if options[:password]
+            resource :password, :except => [:index, :show, :destroy] if options[:password]
           end
           
           ActionController::Base.janus(singular)
