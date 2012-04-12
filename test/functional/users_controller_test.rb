@@ -10,6 +10,13 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
+  test "should sign_out a destroyed user" do
+    sign_in users(:julien)
+    users(:julien).destroy
+    get :show
+    assert_redirected_to new_user_session_url
+  end
+
   test "should not get show" do
     get :show
     assert_redirected_to new_user_session_url
