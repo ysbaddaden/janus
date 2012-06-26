@@ -1,3 +1,6 @@
+# This controller is responsible for resetting a lost password. It sends an
+# email with an unique token, on demand by the user. Then allows the user to
+# change its password (as long as the token is valid).
 class Janus::PasswordsController < ApplicationController
   include Janus::InternalHelpers
 

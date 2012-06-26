@@ -2,47 +2,82 @@
 
 Janus is an authentication engine for Ruby on Rails 3 and is an alternative
 to the Warden + Devise combo, without the Rack middleware. The whole project
-is inspired by the Warden and Devise API but shall eventually be quite
-different since everything happens within ActionDispatch and not at the Rack
-level.
+is inspired by the Warden and Devise API (in order to somehow compatible)
+but is quite different since everything happens within ActionDispatch and not
+at the Rack level.
 
-The main difference for now is the cross domain authentication --which allows
-a user to single sign in and out across top level domains-- which required
-a finer grained control over setting and unsetting a user than Warden provides.
-Janus uses +login+ and +logout+ to actually sign the user in and out, while
-+set_user+ and +unset_user+ will manually set the session, without dispatching
-the +after_login+ and +after_logout+ hooks.
+This Rails instead of Rack difference, allows to actually have the main logic
+within plain Rails controllers. For instance the database authentication is
+called from SessionsController, and it's not just another strategy operating
+at the Rack level within Warden (which requires to check that it's being
+called from the correct URL). There ain't no factory to add strategy modules
+to your models too. You must manually include the necessary ones.
+
+Another difference is that you must actually create the necessary controllers,
+models, mailers and views within your project (extending the default ones).
+You will eventually need to have those controllers anyway, and having those
+from the beginning allows to skip some configuration. The burdensome of
+manually creating all those classes should eventually be leveraged by using
+some rails generators.
+
+Janus also provides a finer control over setting and unsetting a user than
+Warden provides. Janus uses +login+ and +logout+ to actually sign the user
+in and out, just like Warden, but actually uses +set_user+ and +unset_user+
+to manually set the session, without dispatching the +after_login+ and
++after_logout+ hooks, of course.
+
+Emails are also sent from the controllers, not from the models, because I
+believe this is actually the job of controllers, not models.
 
 == Features
+
+The main feature is of course having a framework for authenticating users
+painleslly. Yet a very usefull feature is the cross domain authentication
+--which allows a user to single sign in and out across top level domains.
+
+How is the cross domain authentication strategy usefull? Let's imagine you
+host of blogging website where users may host their blogs on other domains.
+Since you don't rely on subdomains, it will be a pain to keep the user
+authentified, because you can't rely on '.' domain cookie trick.
+
+This is where RemoteAuthentication comes in, and allows you to painlessly
+keep your users connected across the main website and their blogs. This
+without actually tracking connections since this strategy takes advantage
+of the +set_user+ and +unset_user+ methods, because they're not really
+signing in, they just stay authentified across domains.
+
+So, Janus provides the following API:
+
+- full authentication system with strategies and hooks
+- scoped authentications with parallel authentication (like `users`, `admin_users`, etc.)
+- database authentication with password encryption (bcrypt) and validation
+- remote authentication for cross domain single sign in / sign out
+- abstract controllers for session management, registration, email confirmation and password reset
+- route generation for the above controllers
+
+And for the strategies and hooks:
 
 - DatabaseAuthenticatable
 - RemoteAuthenticatable
 - Confirmable
 - Rememberable
-- Trackable
-
-Note: login through Janus::Manager#set_user won't track the user.
-
-- authentication system with strategies and hooks
-- scoped authentications with parallel authentication
-- database authentication with password encryption, validation and remember me strategy
-- remote authentication for cross domain sign in / sign out
-- controllers: sessions, registrations, confirmations, passwords and their routes
-- route generation for above controllers
-- trackable hook
+- Trackable (note that login through Janus::Manager#set_user won't track the user).
 
 == TODO
 
-- rename RemoteAuthenticatable to something like CrossDomainAuthenticatable(?)
-- remember me on remote authenticated domains.
-- confirmable resources
-- differenciate mailers per resource (automatically looking for a Users::Mailer < Janus::Mailer class?)
-- generators (janus:install, janus <resource>)
+- Simple configuration to use scrypt instead of bcrypt for password encryption.
+- Reconfirmable when email changes.
+- TokenAuthenticatable.
+- Remember me on remote authenticated domains.
+- Differenciate mailers per resource, by looking for Users::Mailer class.
+- Generators: `janus:install` and `janus <scope>`.
+- Integrate OmniAuth, or shall we let the user do it himself?
+- Providing an OAuth 2.0 server whould be cool.
 
 == Install
 
-There is no automated way to install Janus yet, since generators are missing.
-Please remember that Janus is only compatible with Rails 3.
+There is no automated way to install Janus yet, because generators are missing.
+Also remember that Janus is only compatible with Rails 3+.
 
 First add the gem to your Gemfile:
 
@@ -63,7 +98,6 @@ modules:
   class Admin < ActiveRecord::Base
     include Janus::Models::Base
     include Janus::Models::DatabaseAuthenticatable
-    include Janus::Models::RemoteAuthenticatable
   end
 
 Configure your routes:
@@ -71,7 +105,6 @@ Configure your routes:
   Name::Application.routes.map do
     janus :users,  :session => true, :registration => true, :password => true, :confirmation => true
     janus :admins, :session => true
-    
     root :to => "home#index"
   end
 

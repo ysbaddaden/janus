@@ -1,3 +1,5 @@
+# This controller is responsible for confirming any user email. It's also
+# responsible for resending the confirmation email on demand by the user.
 class Janus::ConfirmationsController < ApplicationController
   include Janus::InternalHelpers
 
