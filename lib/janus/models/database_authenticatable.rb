@@ -1,4 +1,5 @@
 require 'bcrypt'
+require 'scrypt'
 
 module Janus
   module Models
@@ -24,13 +25,13 @@ module Janus
 
       included do
         attr_protected :encrypted_password, :reset_password_token, :reset_password_sent_at
-        attr_reader   :password
-        attr_accessor :current_password
+        attr_reader    :password
+        attr_accessor  :current_password
         
         validates :password, :presence => true, :confirmation => true, :if => :password_required?
         validate :validate_current_password, :on => :update, :if => :current_password
         
-        janus_config(:authentication_keys, :stretches, :pepper)
+        janus_config(:authentication_keys, :encryptor, :stretches, :pepper, :scrypt_options)
       end
 
       def password=(password)
@@ -38,13 +39,28 @@ module Janus
         self.encrypted_password = digest_password(@password) unless @password.blank?
       end
 
-      # Checks if a given password matches this user password.
+      # Checks if a given password matches this user's password.
       def valid_password?(password)
-        ::BCrypt::Password.new(encrypted_password) == "#{password}#{self.class.pepper}"
+        case self.class.encryptor
+        when :bcrypt
+          ::BCrypt::Password.new(encrypted_password) == salted_password(password)
+        when :scrypt
+          ::SCrypt::Password.new(encrypted_password) == salted_password(password)
+        end
       end
 
+      # Digests a password using either bcrypt or scrypt (as configured by `config.encryptor`).
       def digest_password(password)
-        ::BCrypt::Password.create("#{password}#{self.class.pepper}", :cost => self.class.stretches).to_s
+        case self.class.encryptor
+        when :bcrypt
+          ::BCrypt::Password.create(salted_password(password), :cost => self.class.stretches).to_s
+        when :scrypt
+          ::SCrypt::Password.create(salted_password(password), self.class.scrypt_options).to_s
+        end
+      end
+
+      def salted_password(password)
+        "#{password}#{self.class.pepper}"
       end
 
       def clean_up_passwords

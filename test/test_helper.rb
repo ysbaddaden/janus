@@ -7,6 +7,18 @@ require 'capybara/rails'
 class ActiveSupport::TestCase
   self.fixture_path = File.expand_path('../fixtures', __FILE__)
   fixtures :all
+
+  # Executes the given block having first modified Janus' encryptor.
+  # Resets the encryptor to its previous state after the block execution.
+  def with_encryptor(encryptor)
+    default_encryptor = Janus::Config.encryptor
+    begin
+      Janus::Config.encryptor = encryptor
+      yield
+    ensure
+      Janus::Config.encryptor = default_encryptor
+    end
+  end
 end
 
 class ActionController::TestCase

@@ -43,7 +43,7 @@ begin
   Jeweler::Tasks.new do |gem|
     root_files = FileList["README.rdoc"]
     gem.name = "janus"
-    gem.version = "0.5.0"
+    gem.version = "0.6.0"
     gem.summary = "Authentication engine for Ruby on Rails."
     gem.email = "ysbaddaden@gmail.com"
     gem.homepage = "http://github.com/ysbaddaden/janus"
@@ -53,6 +53,7 @@ begin
     gem.extra_rdoc_files = root_files
 #    gem.add_dependency 'rails', '~> 3.0'
     gem.add_dependency 'bcrypt-ruby'
+    gem.add_dependency 'scrypt'
     gem.add_dependency 'addressable'
   end
 

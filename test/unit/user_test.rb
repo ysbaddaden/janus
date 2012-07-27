@@ -7,11 +7,19 @@ class UserTest < ActiveSupport::TestCase
 
   test "valid_password?" do
     user = User.new(:password => "azerty")
-    assert  user.valid_password?("azerty")
-    assert !user.valid_password?("secret")
+    assert user.valid_password?("azerty")
+    refute user.valid_password?("secret")
     
     assert @user.valid_password?('secret')
     assert users(:martha).valid_password?('vacances')
+  end
+
+  test "valid_password? with scrypt" do
+    with_encryptor :scrypt do
+      user = User.new(:password => "a good secret")
+      assert user.valid_password?("a good secret")
+      refute user.valid_password?("some lame guessing")
+    end
   end
 
   test "should validate current_password on update" do
