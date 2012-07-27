@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julien Portalier"]
-  s.date = "2012-06-26"
+  s.date = "2012-07-27"
   s.description = "Authentication engine for Ruby on Rails."
   s.email = "ysbaddaden@gmail.com"
   s.extra_rdoc_files = [
