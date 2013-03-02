@@ -18,11 +18,8 @@ class RememberableTest < ActiveSupport::TestCase
   test "should not remember across browsers" do
     @user.remember_me!
     token = @user.remember_token
-    created_at = @user.remember_created_at
-
     @user.remember_me!
     assert_not_equal token, @user.remember_token
-    assert_not_equal created_at, @user.remember_created_at
   end
 
   test "find_for_remember_authentication" do

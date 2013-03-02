@@ -39,7 +39,7 @@ class Janus::SessionsController < ApplicationController
     else
       respond_to do |format|
         format.html do
-          self.resource ||= resource_class.new(params[resource_name])
+          self.resource ||= resource_class.new(resource_params)
           resource.clean_up_passwords
           resource.errors.add(:base, :not_found)
           render "new", :status => :unauthorized
@@ -127,5 +127,13 @@ class Janus::SessionsController < ApplicationController
     end
 
     redirect_to after_sign_in_url(user)
+  end
+
+  def resource_params
+    if params.respond_to?(:permit)
+      params.require(janus_scope).permit(*resource_class.authentication_keys)
+    else
+      params[janus_scope].slice(*resource_class.authentication_keys)
+    end
   end
 end

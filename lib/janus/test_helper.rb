@@ -10,8 +10,12 @@ module Janus
       @janus.login(user, options)
     end
 
-    def sign_out(user_or_scope)
-      @janus.logout(Janus.scope_for(user_or_scope))
+    def sign_out(user_or_scope = nil)
+      if user_or_scope
+        @janus.logout(Janus.scope_for(user_or_scope))
+      else
+        @janus.logout
+      end
     end
 
     def assert_authenticated(scope)

@@ -17,7 +17,7 @@ class Janus::RegistrationsController < ApplicationController
   end
 
   def create
-    self.resource = resource_class.new(params[resource_name])
+    self.resource = resource_class.new(send("#{janus_scope}_params"))
 
     if resource.save
       janus.login(resource, :scope => janus_scope, :rememberable => true)
@@ -30,13 +30,9 @@ class Janus::RegistrationsController < ApplicationController
   end
 
   def update
-    params[resource_name].each do |key, value|
-      params[resource_name].delete(key) if value.blank? && [:password, :password_confirmation].include?(key.to_sym)
-    end
-
     self.resource = send("current_#{janus_scope}")
     resource.current_password = ""
-    resource.clean_up_passwords unless resource.update_attributes(params[resource_name])
+    resource.clean_up_passwords unless resource.update_attributes(resource_params)
     respond_with(resource, :location => after_sign_up_url(resource))
   end
 
@@ -51,5 +47,12 @@ class Janus::RegistrationsController < ApplicationController
 
   def after_sign_up_url(user)
     user
+  end
+
+  def resource_params
+    keys = %w{current_password password password_confirmation}
+    send("#{janus_scope}_params").reject do |key, value|
+      value.blank? and keys.include?(key)
+    end
   end
 end

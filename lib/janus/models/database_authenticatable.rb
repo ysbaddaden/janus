@@ -24,7 +24,10 @@ module Janus
       extend ActiveSupport::Concern
 
       included do
-        attr_protected :encrypted_password, :reset_password_token, :reset_password_sent_at
+        begin
+          attr_protected :encrypted_password, :reset_password_token, :reset_password_sent_at
+        rescue
+        end
         attr_reader    :password
         attr_accessor  :current_password
 
@@ -74,8 +77,8 @@ module Janus
       end
 
       def reset_password!(params)
-        params.each do |key, value|
-          send("#{key}=", value) if [:password, :password_confirmation].include?(key.to_sym)
+        %w{password password_confirmation}.each do |attr|
+          send("#{attr}=", params[attr]) if params.has_key?(attr)
         end
 
         self.reset_password_sent_at = self.reset_password_token = nil

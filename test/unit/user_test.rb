@@ -41,7 +41,7 @@ class UserTest < ActiveSupport::TestCase
     assert user.errors[:password].empty?, user.errors.to_xml
 
     user = User.create(:password => "my pwd", :password_confirmation => "my PWD")
-    assert user.errors[:password].any?, user.errors.to_xml
+    assert user.errors[:password].any? || user.errors[:password_confirmation].any?, user.errors.to_xml
   end
 
   test "clean_up_passwords" do

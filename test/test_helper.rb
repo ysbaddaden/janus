@@ -24,6 +24,8 @@ end
 class ActionController::TestCase
   include Janus::TestHelper
 
+  teardown { sign_out }
+
   def assert_email(count = 1, message = nil)
     assert_difference('ActionMailer::Base.deliveries.size', count, message) do
       yield
@@ -69,7 +71,7 @@ class ActionDispatch::IntegrationTest
   def sign_out(user_or_scope)
     scope = Janus.scope_for(user_or_scope)
     route = "destroy_#{scope}_session_url"
-    visit send(route)
+    page.driver.submit :delete, send(route), {}
   end
 
   def service_login(scope, options)

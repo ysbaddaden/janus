@@ -20,7 +20,10 @@ module Janus
       extend ActiveSupport::Concern
 
       included do
-        attr_protected :remember_token, :remember_created_at
+        begin
+          attr_protected :remember_token, :remember_created_at
+        rescue
+        end
         janus_config :remember_for, :extend_remember_period
       end
 

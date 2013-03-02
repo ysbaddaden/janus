@@ -20,7 +20,7 @@ module ActionDispatch # :nodoc:
       #
       #       new_user_session GET    /users/sign_in(.:format)  {:controller=>"users/sessions", :action=>"new"}
       #           user_session POST   /users/sign_in(.:format)  {:controller=>"users/sessions", :action=>"create"}
-      #   destroy_user_session        /users/sign_out(.:format) {:controller=>"users/sessions", :action=>"destroy"}
+      #   destroy_user_session DELETE /users/sign_out(.:format) {:controller=>"users/sessions", :action=>"destroy"}
       #
       # Generated registration routes:
       #
@@ -53,9 +53,9 @@ module ActionDispatch # :nodoc:
 
           if options[:session]
             scope :path => plural, :controller => "#{plural}/sessions" do
-              match "/sign_in(.:format)", :action => "new", :via => :get, :as => "new_#{singular}_session"
-              match "/sign_in(.:format)", :action => "create", :via => :post, :as => "#{singular}_session"
-              match "/sign_out(.:format)", :action => "destroy",  :as => "destroy_#{singular}_session"
+              get    "/sign_in(.:format)",  :action => "new",     :as => "new_#{singular}_session"
+              post   "/sign_in(.:format)",  :action => "create",  :as => "#{singular}_session"
+              delete "/sign_out(.:format)", :action => "destroy", :as => "destroy_#{singular}_session"
             end
           end
 

@@ -10,7 +10,10 @@ module Janus
       extend ActiveSupport::Concern
 
       included do
-        attr_protected :confirmation_token, :confirmation_sent_at, :confirmed_at
+        begin
+          attr_protected :confirmation_token, :confirmation_sent_at, :confirmed_at
+        rescue
+        end
         janus_config(:confirmation_key)
 
         before_create :generate_confirmation_token

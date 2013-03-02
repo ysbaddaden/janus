@@ -37,6 +37,6 @@ module RailsApp
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
+    config.filter_parameters += [:current_password, :password, :password_confirmation]
   end
 end

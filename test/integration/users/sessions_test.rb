@@ -12,7 +12,7 @@ class Users::SessionsTest < ActionDispatch::IntegrationTest
     assert_equal user_path, page.current_path
     find('h1').has_content?('Welcome ' + users(:julien).email)
 
-    visit destroy_user_session_path
+    page.driver.submit :delete, destroy_user_session_path, {}
     assert_equal root_path, page.current_path
   end
 end

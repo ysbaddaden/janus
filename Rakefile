@@ -5,11 +5,7 @@ require 'rdoc/task'
 task :default => :test
 
 desc 'Test the Janus rack middleware.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = true
-end
+task :test => [ :'test:units', :'test:functionals', :'test:integration' ]
 
 Rake::TestTask.new(:"test:units") do |t|
   t.libs << 'test'
@@ -43,7 +39,7 @@ begin
   Jeweler::Tasks.new do |gem|
     root_files = FileList["README.rdoc"]
     gem.name = "janus"
-    gem.version = "0.6.0"
+    gem.version = "0.7.0"
     gem.summary = "Authentication engine for Ruby on Rails."
     gem.email = "ysbaddaden@gmail.com"
     gem.homepage = "http://github.com/ysbaddaden/janus"
