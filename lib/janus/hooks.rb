@@ -5,19 +5,19 @@ module Janus
     # Hooks allow you the react at the different steps of a user session.
     # All callbacks will receive the same arguments: +user+, +manager+ and
     # +options+.
-    # 
+    #
     # Example:
-    # 
+    #
     #   Janus::Manager.after_login do |user, manager, options|
     #     session = manager.session(options[:scope])
-    #     
+    #
     #     # write some great code here
     #   end
-    # 
+    #
     # Options:
-    # 
+    #
     # - +:scope+
-    # 
+    #
     module ClassMethods
       # Executed after a strategy succeeds to authenticate a user.
       def after_authenticate(&block)

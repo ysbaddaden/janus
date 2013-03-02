@@ -33,7 +33,7 @@ module Janus
     end
 
     # Logs a user in.
-    # 
+    #
     # FIXME: what should happen when a user signs in but a user is already signed in for the same scope?!
     def login(user, options = {})
       options[:scope] ||= Janus.scope_for(user)
@@ -46,13 +46,13 @@ module Janus
     # whole session will be resetted.
     def logout(*scopes)
       scopes = janus_sessions.keys if scopes.empty?
-      
+
       scopes.each do |scope|
         _user = user(scope)
         unset_user(scope)
         Janus::Manager.run_callbacks(:logout, _user, self, :scope => scope)
       end
-      
+
       request.reset_session if janus_sessions.empty?
     end
 
@@ -73,7 +73,7 @@ module Janus
     def user(scope)
       scope = scope.to_sym
       @users ||= {}
-      
+
       if authenticated?(scope)
         if @users[scope].nil?
           begin
@@ -84,7 +84,7 @@ module Janus
             Janus::Manager.run_callbacks(:fetch, @users[scope], self, :scope => scope)
           end
         end
-        
+
         @users[scope]
       end
     end

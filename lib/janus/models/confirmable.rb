@@ -1,10 +1,10 @@
 module Janus
   module Models
     # = Confirmable
-    # 
+    #
     # Confirms an account's email by sending an email with an unique token.
     # This is necessary to be sure the user can be contacted on that email.
-    # 
+    #
     # IMPROVE: reconfirm whenever email changes.
     module Confirmable
       extend ActiveSupport::Concern
@@ -12,7 +12,7 @@ module Janus
       included do
         attr_protected :confirmation_token, :confirmation_sent_at, :confirmed_at
         janus_config(:confirmation_key)
-        
+
         before_create :generate_confirmation_token
 #        before_update :generate_confirmation_token, :if => :email_changed?
       end

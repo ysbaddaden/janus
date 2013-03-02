@@ -9,7 +9,7 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(:password => "azerty")
     assert user.valid_password?("azerty")
     refute user.valid_password?("secret")
-    
+
     assert @user.valid_password?('secret')
     assert users(:martha).valid_password?('vacances')
   end
@@ -25,7 +25,7 @@ class UserTest < ActiveSupport::TestCase
   test "should validate current_password on update" do
     @user.update_attributes(:email => 'julien@example.fr', :current_password => 'secret')
     assert @user.persisted?, @user.errors.to_xml
-    
+
     @user.update_attributes(:email => 'julien@example.fr', :current_password => 'bad secret')
     assert @user.errors[:current_password].any?, @user.errors.to_xml
   end
@@ -39,7 +39,7 @@ class UserTest < ActiveSupport::TestCase
   test "should confirm password" do
     user = User.create(:password => "my pwd", :password_confirmation => "my pwd")
     assert user.errors[:password].empty?, user.errors.to_xml
-    
+
     user = User.create(:password => "my pwd", :password_confirmation => "my PWD")
     assert user.errors[:password].any?, user.errors.to_xml
   end
@@ -49,7 +49,7 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil user.email
     assert_not_nil user.password
     assert_not_nil user.password_confirmation
-    
+
     user.clean_up_passwords
     assert_not_nil user.email
     assert_nil user.password

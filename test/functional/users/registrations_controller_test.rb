@@ -31,7 +31,7 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
       assert_response :ok
       assert_template 'users/registrations/new'
     end
-    
+
     assert_select   '#error_explanation'
     assert_select   "#user_password", 1
     assert_select   "#user_password[value]", 0
@@ -51,7 +51,7 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
 
   test "should update" do
     sign_in users(:julien)
-    
+
 #    assert_email do
       put :update, :user => { :email => 'toto@example.com', :current_password => 'secret' }
       assert_redirected_to user_url

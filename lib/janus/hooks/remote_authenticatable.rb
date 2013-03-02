@@ -1,7 +1,7 @@
 Janus::Manager.after_login do |user, manager, options|
   if user.respond_to?(:generate_session_token!)
     user.generate_session_token! if user.session_token.nil?
-    
+
     session = manager.session(options[:scope])
     session[:session_token] = user.session_token
   end

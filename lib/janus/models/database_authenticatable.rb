@@ -4,22 +4,22 @@ require 'scrypt'
 module Janus
   module Models
     # = DatabaseAuthenticatable
-    # 
+    #
     # This is the initial part and is required for email + password registration
     # and logins. Passwords are automatically encrypted following Devise's
     # default encryption logic, which relies on bcrypt.
-    # 
+    #
     # == Required columns:
-    # 
+    #
     # - email
     # - encrypted_password
-    # 
+    #
     # == Configuration
-    # 
+    #
     # - +stretches+
     # - +pepper+
     # - +authentication_keys+ - required keys for authenticating a user, defaults to <tt>[:email]</tt>
-    # 
+    #
     module DatabaseAuthenticatable
       extend ActiveSupport::Concern
 
@@ -27,10 +27,10 @@ module Janus
         attr_protected :encrypted_password, :reset_password_token, :reset_password_sent_at
         attr_reader    :password
         attr_accessor  :current_password
-        
+
         validates :password, :presence => true, :confirmation => true, :if => :password_required?
         validate :validate_current_password, :on => :update, :if => :current_password
-        
+
         janus_config(:authentication_keys, :encryptor, :stretches, :pepper, :scrypt_options)
       end
 
@@ -77,7 +77,7 @@ module Janus
         params.each do |key, value|
           send("#{key}=", value) if [:password, :password_confirmation].include?(key.to_sym)
         end
-        
+
         self.reset_password_sent_at = self.reset_password_token = nil
         save
       end
@@ -99,13 +99,13 @@ module Janus
 
         def find_for_password_reset(token)
           user = find_by_reset_password_token(token) unless token.blank?
-          
+
           if user && user.reset_password_sent_at < 2.days.ago
             user.reset_password_token = user.reset_password_sent_at = nil
             user.save
             user = nil
           end
-          
+
           user
         end
       end

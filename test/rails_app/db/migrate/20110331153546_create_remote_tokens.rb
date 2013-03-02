@@ -5,7 +5,7 @@ class CreateRemoteTokens < ActiveRecord::Migration
       t.string     :token
       t.datetime   :created_at
     end
-    
+
     add_index :remote_tokens, :token, :unique => true
   end
 

@@ -9,7 +9,7 @@ module Janus
 
       def authenticate!
         user = resource.find_for_remember_authentication(remember_cookie)
-        
+
         if user.nil?
           destroy_remember_cookie
           pass

@@ -12,11 +12,11 @@ class Janus::PasswordsController < ApplicationController
 
   def create
     self.resource = resource_class.find_for_database_authentication(params[resource_name])
-    
+
     if resource
       resource.generate_reset_password_token!
       JanusMailer.reset_password_instructions(resource).deliver
-      
+
       respond_to do |format|
         format.html { redirect_to root_url, :notice => t('flash.janus.passwords.create.email_sent') }
         format.any  { head :ok }
@@ -40,7 +40,7 @@ class Janus::PasswordsController < ApplicationController
 
   def update
     self.resource = resource_class.find_for_password_reset(params[resource_name][:reset_password_token])
-    
+
     if resource
       if resource.reset_password!(params[resource_name])
         respond_to do |format|

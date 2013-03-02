@@ -2,7 +2,7 @@
 #  module Strategies
 #    class DatabaseAuthenticatable < Base
 #      def valid?
-#        if params[scope].blank? || 
+#        if params[scope].blank? ||
 #          false
 #        else
 #          keys = resource.authentication_keys

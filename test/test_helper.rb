@@ -47,7 +47,7 @@ class ActionDispatch::IntegrationTest
   def sign_up(user, options = {})
     scope = options[:scope]
     route = "new_#{scope}_registration_url"
-    
+
     visit send(route, options[:url])
     fill_in "#{scope}_email", :with => user[:email]
     fill_in "#{scope}_password", :with => user[:password]
@@ -58,7 +58,7 @@ class ActionDispatch::IntegrationTest
   def sign_in(user, options = {})
     scope = options[:scope] || Janus.scope_for(user)
     route = "new_#{scope}_session_url"
-    
+
     visit send(route, options[:url])
     fill_in "#{scope}_email",    :with => user.email
     fill_in "#{scope}_password", :with => 'secret'

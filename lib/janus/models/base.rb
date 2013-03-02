@@ -17,14 +17,14 @@ module Janus
             def self.#{key}
               @#{key} || Janus::Config.#{key}
             end
-            
+
             def self.#{key}=(value)
               @#{key} = value
             end
             EOV
           end
         end
-        
+
       end
     end
   end

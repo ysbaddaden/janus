@@ -4,7 +4,7 @@ class Users::ConfirmationsControllerTest < ActionController::TestCase
   test "should get show with token" do
     users(:julien).generate_confirmation_token
     users(:julien).save!
-    
+
     assert_difference('User.count(:confirmed_at)') do
       get :show, :confirm_token => users(:julien).confirmation_token
       assert_redirected_to root_url
@@ -23,7 +23,7 @@ class Users::ConfirmationsControllerTest < ActionController::TestCase
 
   test "should not get show with bad token" do
     users(:julien).generate_reset_password_token!
-    
+
     assert_no_difference('User.count(:confirmed_at)') do
       get :show, :token => "aiorujfqptezjsmdguspfofkn"
       assert_response :ok
@@ -42,7 +42,7 @@ class Users::ConfirmationsControllerTest < ActionController::TestCase
     assert_email do
       post :create, :user => { :email => users(:julien).email }
     end
-    
+
     assert_redirected_to root_url
     assert flash[:notice]
   end
@@ -51,7 +51,7 @@ class Users::ConfirmationsControllerTest < ActionController::TestCase
     assert_no_email do
       post :create, :user => { :email => 'nobody@example.com' }
     end
-    
+
     assert_response :ok
     assert_template 'new'
     assert_select '#error_explanation'

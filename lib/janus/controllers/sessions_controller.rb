@@ -17,7 +17,7 @@ class Janus::SessionsController < ApplicationController
 
   def new
     params[:return_to] ||= request.env["HTTP_REFERER"]
-    
+
     if signed_in?(janus_scope)
       redirect_after_sign_in(send("current_#{janus_scope}"))
     else
@@ -28,10 +28,10 @@ class Janus::SessionsController < ApplicationController
 
   def create
     self.resource = resource_class.find_for_database_authentication(params[resource_name])
-    
+
     if resource && resource.valid_password?(params[resource_name][:password])
       janus.login(resource, :scope => janus_scope, :rememberable => params[:remember_me])
-      
+
       respond_to do |format|
         format.html { redirect_after_sign_in(resource) }
         format.any  { head :ok }
@@ -51,7 +51,7 @@ class Janus::SessionsController < ApplicationController
 
   def destroy
     janus.logout(janus_scope)
-    
+
     respond_to do |format|
       format.html { redirect_to after_sign_out_url(janus_scope) }
       format.any  { head :ok }
@@ -119,13 +119,13 @@ class Janus::SessionsController < ApplicationController
             query = return_to.query_values || {}
             return_to.query_values = query.merge(user.class.remote_authentication_key => user.generate_remote_token!)
           end
-          
+
           redirect_to return_to.to_s
           return
         end
       end
     end
-    
+
     redirect_to after_sign_in_url(user)
   end
 end

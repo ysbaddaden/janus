@@ -9,7 +9,7 @@ class RememberableTest < ActiveSupport::TestCase
     @user.remember_me!
     assert_not_nil @user.remember_token
     assert_not_nil @user.remember_created_at
-    
+
     @user.forget_me!
     assert_nil @user.remember_token
     assert_nil @user.remember_created_at
@@ -19,7 +19,7 @@ class RememberableTest < ActiveSupport::TestCase
     @user.remember_me!
     token = @user.remember_token
     created_at = @user.remember_created_at
-    
+
     @user.remember_me!
     assert_not_equal token, @user.remember_token
     assert_not_equal created_at, @user.remember_created_at
@@ -28,16 +28,16 @@ class RememberableTest < ActiveSupport::TestCase
   test "find_for_remember_authentication" do
     assert_nil User.find_for_remember_authentication(nil)
     assert_nil User.find_for_remember_authentication(" ")
-    
+
     @user.remember_me!
     token = @user.remember_token
-    
+
     assert_equal @user, User.find_for_remember_authentication(token)
     assert_equal @user, User.find_for_remember_authentication(token)
-    
+
     @user.remember_me!
     assert_nil User.find_for_remember_authentication(token), "token should no longer be valid"
-    
+
     @user.forget_me!
     assert_nil User.find_for_remember_authentication(token), "token should have been erased"
   end

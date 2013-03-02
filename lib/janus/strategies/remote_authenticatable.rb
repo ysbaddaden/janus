@@ -8,7 +8,7 @@ module Janus
 
       def authenticate!
         user = resource.find_for_remote_authentication(remote_token)
-        
+
         if user
           success!(user)
         else

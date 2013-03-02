@@ -17,7 +17,7 @@ class Users::PasswordsControllerTest < ActionController::TestCase
 
   test "should get edit with token" do
     users(:julien).generate_reset_password_token!
-    
+
     get :edit, :token => users(:julien).reset_password_token
     assert_response :ok
     assert_select '#user_reset_password_token', 1
@@ -33,7 +33,7 @@ class Users::PasswordsControllerTest < ActionController::TestCase
 
   test "should not get edit with bad token" do
     users(:julien).generate_reset_password_token!
-    
+
     get :edit, :token => "aiorujfqptezjsmdguspfofkn"
     assert_redirected_to root_url
     assert flash[:alert]
@@ -58,13 +58,13 @@ class Users::PasswordsControllerTest < ActionController::TestCase
 
   test "should update" do
     users(:julien).generate_reset_password_token!
-    
+
     put :update, :user => @attributes.merge(:reset_password_token => users(:julien).reset_password_token)
     assert_redirected_to root_url
     assert flash[:notice]
-    
+
     users(:julien).reload
-    
+
     assert_nil users(:julien).reset_password_token
     assert_nil users(:julien).reset_password_sent_at
     assert users(:julien).valid_password?(@attributes[:password])
@@ -72,7 +72,7 @@ class Users::PasswordsControllerTest < ActionController::TestCase
 
   test "should not update" do
     users(:julien).generate_reset_password_token!
-    
+
     put :update, :user => @attributes.merge(
       :reset_password_token => users(:julien).reset_password_token,
       :password_confirmation => "qwerty"
@@ -80,9 +80,9 @@ class Users::PasswordsControllerTest < ActionController::TestCase
     assert_response :ok
     assert_template 'users/passwords/edit'
     assert_select '#error_explanation'
-    
+
     users(:julien).reload
-    
+
     assert_not_nil users(:julien).reset_password_token
     assert_not_nil users(:julien).reset_password_sent_at
     assert !users(:julien).valid_password?(@attributes[:password])

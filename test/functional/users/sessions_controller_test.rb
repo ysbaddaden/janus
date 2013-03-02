@@ -86,7 +86,7 @@ class Users::SessionsControllerTest < ActionController::TestCase
 
   test "should destroy" do
     sign_in users(:julien)
-    
+
     get :destroy
     assert_redirected_to root_url
     assert_not_authenticated(:user)

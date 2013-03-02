@@ -6,12 +6,12 @@ class Users::RememberableTest < ActionDispatch::IntegrationTest
   test "should remember user across sessions" do
     sign_in users(:julien), :remember_me => true
     assert_authenticated
-    
+
     close_user_session
-    
+
     visit root_url
     assert_authenticated
-    
+
     sign_out :user
     visit root_url
     assert_not_authenticated
@@ -21,10 +21,10 @@ class Users::RememberableTest < ActionDispatch::IntegrationTest
     sign_up({ :email => 'toto@example.com', :password => 'my password' }, :scope => :user)
     assert_authenticated
     close_user_session
-    
+
     visit root_url
     assert_authenticated
-    
+
     sign_out :user
     visit root_url
     assert_not_authenticated
