@@ -1,6 +1,6 @@
 <h1><%= t 'janus.sessions.new.sign_in' %></h1>
 
-<%= form_for resource, :as => resource_name, :url => session_path(janus_scope) do |f| %>
+<%= form_for resource, :as => resource_name, :url => session_path(janus_scope), :method => :post do |f| %>
   <%= hidden_field_tag :return_to, params[:return_to] if params[:return_to] %>
 
   <%= janus_error_messages %>

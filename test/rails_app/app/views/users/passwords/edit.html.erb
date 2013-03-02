@@ -1,6 +1,6 @@
 <h1><%= t 'janus.passwords.edit.change_password' %></h1>
 
-<%= form_for resource, :url => password_path(janus_scope), :html => { :method => :put } do |f| %>
+<%= form_for resource, :url => password_path(janus_scope), :method => :put do |f| %>
   <%= janus_error_messages %>
 
   <%= f.hidden_field :reset_password_token %>

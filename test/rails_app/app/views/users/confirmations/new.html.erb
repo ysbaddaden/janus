@@ -1,6 +1,6 @@
 <h1><%= t 'janus.confirmations.new.resend_confirmation_instructions' %></h1>
 
-<%= form_for resource, :url => confirmation_path(janus_scope), :html => { :method => :post } do |f| %>
+<%= form_for resource, :url => confirmation_path(janus_scope), :method => :post do |f| %>
   <%= janus_error_messages %>
 
   <% resource.class.authentication_keys.each do |key| %>

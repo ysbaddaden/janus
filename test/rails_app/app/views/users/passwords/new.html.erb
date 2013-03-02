@@ -1,6 +1,6 @@
 <h1><%= t 'janus.passwords.new.forgot_password' %></h1>
 
-<%= form_for resource, :url => password_path(janus_scope), :html => { :method => :post } do |f| %>
+<%= form_for resource, :url => password_path(janus_scope), :method => :post do |f| %>
   <%= janus_error_messages %>
 
   <% resource_class.authentication_keys.each do |key| %>
