@@ -1,0 +1,31 @@
+<h1><%%= t 'janus.registrations.edit.my_account' %></h1>
+
+<%%= form_for @<%= singular_name %>, :url => <%= singular_name %>_registration_path, :method => :put do |f| %>
+  <%%= janus_error_messages %>
+
+  <%% <%= class_name %>.authentication_keys.each do |key| %>
+    <div class="field">
+      <%%= f.label key %>
+      <%%= f.text_field key %>
+    </div>
+  <%% end %>
+
+  <div class="field">
+    <%%= f.label :current_password %>
+    <%%= f.password_field :current_password %>
+  </div>
+
+  <div class="field">
+    <%%= f.label :password %>
+    <%%= f.password_field :password %>
+  </div>
+
+  <div class="field">
+    <%%= f.label :password_confirmation %>
+    <%%= f.password_field :password_confirmation %>
+  </div>
+
+  <div class="actions">
+    <%%= f.submit t('janus.registrations.edit.save_changes_btn') %>
+  </div>
+<%% end %>

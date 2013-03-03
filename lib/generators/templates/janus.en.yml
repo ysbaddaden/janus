@@ -1,0 +1,62 @@
+en:
+#  activerecord:
+#    attributes:
+#      user:
+#        email: "Email"
+#        password: "Password"
+#        password_confirmation: "Confirm password"
+#        current_password: "Current password"
+#  errors:
+#    messages:
+#      not_found: "not found"
+
+  flash:
+    janus:
+      passwords:
+        create:
+          email_sent: "Instructions to reset your password were sent to your email account."
+          user_not_found: "Error: no such user."
+        update:
+          password_updated: "Your password was successfully resetted."
+          invalid_token: "Error: invalid token."
+
+  janus:
+    mailer:
+      hello: "Hello,"
+      reset_password_instructions:
+        subject: "Instructions to change your password"
+        infos: "Somebody requested to change your password. To do so just click the following link:"
+        change_password_link: "Change my password"
+        please_ignore_your_password_wont_change: "If you didn't make this request, please delete this email immediately. Your password won't change until you click the link and change your password."
+
+      confirmation_instructions:
+        subject: "Confirm your account"
+        confirm: "You may confirm your registration by clicking the following link:"
+        confirm_my_account: "Confirm my account"
+
+    sessions:
+      new:
+        sign_in: "Sign in"
+        sign_in_btn: "Sign in"
+
+    registrations:
+      new:
+        sign_up: "Sign up"
+        sign_up_btn: "Sign up"
+      edit:
+        my_account: "My account"
+        save_changes_btn: "Save changes"
+
+    confirmations:
+      new:
+        resend_confirmation_instructions: "Resend confirmation instructions"
+        send_instructions_btn: "Send instructions"
+
+    passwords:
+      new:
+        forgot_password: "Forgot your password?"
+        send_instructions_btn: "Send instructions"
+      edit:
+        change_password: "Change your password"
+        change_password_btn: "Change my password"
+

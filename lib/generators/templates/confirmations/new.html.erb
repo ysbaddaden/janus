@@ -1,0 +1,16 @@
+<h1><%%= t 'janus.confirmations.new.resend_confirmation_instructions' %></h1>
+
+<%%= form_for @<%= singular_name %>, :url => <%= singular_name %>_confirmation_path, :method => :post do |f| %>
+  <%%= janus_error_messages %>
+
+  <%% <%= class_name %>.authentication_keys.each do |key| %>
+    <div class="field">
+      <%%= f.label key %>
+      <%%= f.text_field key %>
+    </div>
+  <%% end %>
+
+  <div class="actions">
+    <%%= f.submit t('janus.confirmations.new.send_instructions_btn') %>
+  </div>
+<%% end %>

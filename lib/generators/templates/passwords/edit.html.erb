@@ -1,0 +1,21 @@
+<h1><%%= t 'janus.passwords.edit.change_password' %></h1>
+
+<%%= form_for @<%= singular_name %>, :url => <%= singular_name %>_password_path, :method => :put do |f| %>
+  <%%= janus_error_messages %>
+
+  <%%= f.hidden_field :reset_password_token %>
+
+  <div class="field">
+    <%%= f.label :password %>
+    <%%= f.password_field :password %>
+  </div>
+
+  <div class="field">
+    <%%= f.label :password_confirmation %>
+    <%%= f.password_field :password_confirmation %>
+  </div>
+
+  <div class="actions">
+    <%%= f.submit t('janus.passwords.edit.change_password_btn') %>
+  </div>
+<%% end %>
