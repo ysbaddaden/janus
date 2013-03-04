@@ -3,6 +3,7 @@ require 'janus/config'
 require 'janus/hooks'
 require 'janus/strategies'
 require 'janus/manager'
+require 'janus/rails' if defined?(Rails)
 
 autoload :JanusHelper, 'janus/helper'
 

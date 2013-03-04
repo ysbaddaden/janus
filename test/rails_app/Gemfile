@@ -2,13 +2,12 @@ source 'http://rubygems.org'
 
 gem 'rails', '4.0.0.beta1'
 #gem 'rails', '~> 3.0'
-
 gem 'sqlite3'
-gem 'capybara'
 gem 'addressable'
-gem 'janus', :path => '../..', :require => 'janus/rails'
+gem 'janus', :path => '../..'
 
 group :test do
+  gem 'capybara'
   gem 'turn'
 end
 

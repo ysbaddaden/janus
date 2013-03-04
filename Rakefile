@@ -5,7 +5,7 @@ require 'rdoc/task'
 task :default => :test
 
 desc 'Test the Janus rack middleware.'
-task :test => [ :'test:units', :'test:functionals', :'test:integration' ]
+task :test => [ :'test:units', :'test:functionals', :'test:integration', :'test:generators' ]
 
 Rake::TestTask.new(:"test:units") do |t|
   t.libs << 'test'
@@ -22,6 +22,12 @@ end
 Rake::TestTask.new(:"test:integration") do |t|
   t.libs << 'test'
   t.pattern = 'test/integration/**/*_test.rb'
+  t.verbose = true
+end
+
+Rake::TestTask.new(:"test:generators") do |t|
+  t.libs << 'test'
+  t.pattern = 'test/generators/**/*_test.rb'
   t.verbose = true
 end
 
