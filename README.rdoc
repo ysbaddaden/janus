@@ -1,179 +1,97 @@
 = Janus
 
-Janus is an authentication engine for Ruby on Rails 3+ and is an alternative
-to the Warden + Devise combo, where most of the authentication logic happens
-within ActionDispatch as pain Rails controllers, and not in a Rack middleware.
+Janus is an authentication engine for Ruby on Rails 3+ to painlessly handle
+users in your apps. It comes with everything needed, from the migrations to the
+controllers, plus some different strategies to keep user signed in.
+
+Janus also tries to be somewhat compatible with Devise's API and conventions,
+because there was no reason to change it completely. Thought there are some
+differences, like controllers and views being required in your apps, and emails
+being sent from the controllers and never from the models.
 
 == Features
 
-The main feature is of course having a framework for authenticating users
-painlessly. Yet a very usefull feature is the cross domain authentication
-—which allows a user to single sign in and out across top level domains.
-
-How is the cross domain authentication strategy usefull? Let's imagine you
-host of blogging website where users may host their blogs on other domains.
-Since you don't rely on subdomains, it will be a pain to keep the user
-authentified, because you can't rely on the `.domain` cookie trick.
-
-This is where RemoteAuthentication comes in, which allows you to painlessly
-keep your users connected across the main website and their blogs. This
-without actually tracking connections since this strategy takes advantage
-of the +set_user+ and +unset_user+ methods, because they're not really
-signing in, they just stay authentified across domains.
-
-Janus provides the following API:
-
-- full authentication system with strategies and hooks;
-- scoped authentication for parallel authentications (like `users`,
-  `admin_users`, etc.);
-- database authentication with password encryption (bcrypt) and validation;
-- remote authentication for cross domain single sign in / sign out;
-- abstract controllers for session management, registration, email confirmation
-  and password reset;
-- route generation for the above controllers.
+- full auth system with strategies and hooks;
+- scoped auth for parallel authentications (like +users+, +admin_users+, etc.);
+- abstract controllers ready to use;
+- generators to have everything generated automatically;
+- use only what you need at anytime.
 
 As for the strategies and hooks:
 
-- DatabaseAuthenticatable
-- RemoteAuthenticatable
-- Confirmable
-- Rememberable
-- Trackable (note that login through Janus::Manager#set_user won't track the user).
+- {DatabaseAuthenticatable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/DatabaseAuthenticatable]
+  to auth users with passwords (plus registration and password reset);
+- {RemoteAuthenticatable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/RemoteAuthenticatable]
+  to keep users signed in across top level domains;
+- {Confirmable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/RemoteAuthenticatable]
+  to have users confirm their emails upon registration;
+- {Rememberable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/Rememberable]
+  to keep users authentified;
+- {Trackable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/Trackable]
 
-== Differences with Devise + Warden
+== Getting Started
 
-A key difference is that you must actually create the necessary controllers,
-models, mailers and views within your project (extending the default ones).
-You will eventually need to have those controllers anyway, and having those
-from the beginning allows to skip useless configuration.
+First add the janus gem to your Gemfile, and run bundle to install it:
 
-Janus provides a fine control over setting and unsetting a user. Janus uses
-+login+ and +logout+ to actually sign the user in and out (just like Warden),
-but actually uses +set_user+ and +unset_user+ to set the session, without
-dispatching the +after_login+ and +after_logout+ hooks. This allows for a finer
-control of hooks in strategies. Keeping a user signed in on different top
-level domains, won't trigger the sign in tracking strategy for instance.
+  gem 'janus'
 
-Also, emails are sent from the controllers and not from the models, because
-sending emails is about the logic of the application and has nothing to do with
-data.
+Run the <tt>janus:install</tt> generator to setup janus in your app:
 
-== Install
+  $ rails generate janus:install
 
-There is no automated way to install Janus yet, because generators are missing.
-Also remember that Janus is only compatible with Rails 3+.
+Then create your first authenticatable resource, let's say +User+:
 
-First add the gem to your Gemfile:
+  $ rails generate janus:resource user
 
-  $ gem 'janus', :require => 'janus/rails'
+You may notice that Janus also generates all the controllers and views. This is
+because you will eventually need those to customize some behavior and having
+them around from the beginning is great.
 
-Configure your user models by including all or a selection of the Janus::Models
-modules:
+You may run the routes rake task, to see what routes were added by Janus.
 
-  class User < ActiveRecord::Base
-    include Janus::Models::Base
-    include Janus::Models::DatabaseAuthenticatable
-    include Janus::Models::RemoteAuthenticatable
-    include Janus::Models::Confirmable
-    include Janus::Models::Rememberable
-    include Janus::Models::Trackable
-  end
+=== Helpers & Filters
 
-  class Admin < ActiveRecord::Base
-    include Janus::Models::Base
-    include Janus::Models::DatabaseAuthenticatable
-  end
+  - authenticate_user!
+  - user_signed_in?
+  - current_user
 
-Configure your routes:
+=== Strategies
 
-  Name::Application.routes.map do
-    janus :users,  :session => true, :registration => true, :password => true, :confirmation => true
-    janus :admins, :session => true
-    root :to => "home#index"
-  end
+You may customize the strategies for the <tt>janus:resource</tt> generator, like an
+AdminUser that may only be created and managed from the console:
 
-Create the required controllers:
+  $ rails generate janus:resource AdminUser session password remember
 
-  class Users::SessionsController < Janus::SessionsController
-    respond_to :html
-  end
+Here is the list of all the current strategies:
 
-  class Users::RegistrationsController < Janus::RegistrationsController
-    respond_to :html
+- +session+      — get users signed in and out (email/password combinaison)
+- +remember+     — keep users signed in across sessions
+- +registration+ — get users registered
+- +confirmation+ — emails may be confirmed after registration
+- +password+     — reset password (using an email exchanged token)
+- +track+        — track current and previous user's sign in date and IP
+- +remote+       — keeps users signed in different top level domains
 
-    def user_params
-      params[:user].slice(:email, :password, :password_confirmation, :current_password)
-    end
-  end
-
-  class Users::PasswordsController < Janus::PasswordsController
-    respond_to :html
-  end
-
-  class Users::ConfirmationsController < Janus::ConfirmationsController
-    respond_to :html
-  end
-
-  class Admins::SessionsController < Janus::SessionsController
-    respond_to :html
-  end
-
-Copy the views from test/rails_app to your application:
-
-  mkdir name/app/views/users/
-  cp -r janus/test/rails_app/app/views/users/sessions name/app/views/users/
-  cp -r janus/test/rails_app/app/views/users/registrations name/app/views/users/
-  cp -r janus/test/rails_app/app/views/users/confirmations name/app/views/users/
-  cp -r janus/test/rails_app/app/views/users/registrations name/app/views/users/
-
-  mkdir name/app/views/admins/
-  cp -r janus/test/rails_app/app/views/users/sessions name/app/views/users/
-
-Have a look to the test app in <tt>test/rails_app</tt> for additional help:
-
-  app/controllers/application_controller.rb
-  app/controller/users/confirmations_controller.rb
-  app/controller/users/passwords_controller.rb
-  app/controller/users/registrations_controller.rb
-  app/controller/users/sessions_controller.rb
-  app/mailers/janus_mailer.rb
-  app/models/remote_token.rb
-  app/models/user.rb
-  app/views/janus_mailer/confirmation_instructions.html.erb
-  app/views/janus_mailer/confirmation_instructions.text.erb
-  app/views/janus_mailer/reset_password_instructions.html.erb
-  app/views/janus_mailer/reset_password_instructions.text.erb
-  app/views/users/confirmations/new.html.erb
-  app/views/users/passwords/new.html.erb
-  app/views/users/passwords/edit.html.erb
-  app/views/users/registrations/new.html.erb
-  app/views/users/registrations/edit.html.erb
-  app/views/users/sessions/new.html.erb
-  config/initializers/janus.rb
-  config/locales/janus.en.yml
-  config/routes.rb
-  db/migrate/*.rb
 
 == TODO
 
-- Generators: `janus:install` and `janus <scope>`.
-- Differenciate mailers per resource, by looking for Users::Mailer class.
+- Differenciate mailers per resource, by looking for User::Mailer or AdminUser::Mailer classes.
 - Reconfirmable when email changes.
 - Simple configuration to use scrypt instead of bcrypt for password encryption.
-- TokenAuthenticatable.
-- Remember me on remote authenticated domains.
-- Integrate OmniAuth, or shall we let the user do it himself?
-- Providing an OAuth 2.0 server whould be cool.
+- TokenAuthenticatable strategy.
+- Rememberable across top level domains.
+- Omniauthable (or shall we let the user do it himself?)
+- Providing an OAuth 1.0 service whould be cool.
 
 == License
 
 Janus is distributed under the MIT-License.
 
-== Authors
+== Credits
 
 Most of the API and some code like password encryption is copied from
 Devise: http://github.com/plataformatec/devise.git and Warden:
 http://github.com/hassox/warden
 
-- Julien Portalier <ysbaddaden@gmail.com>
+- Julien Portalier <julien@portalier.com>
 
