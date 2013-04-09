@@ -17,6 +17,9 @@ module Janus
     self.confirmation_key = :confirm_token
 #    self.reconfirmable = true
 
+    # EmailAuthenticatable
+    mattr_accessor :email_authentication_key
+
     # Rememberable
     mattr_accessor :remember_for, :extend_remember_period #, :remember_across_browsers
     self.remember_for = 1.year

@@ -19,8 +19,9 @@ module Janus
 
   module Models
     autoload :Base,                    'janus/models/base'
-    autoload :DatabaseAuthenticatable, 'janus/models/database_authenticatable'
     autoload :Confirmable,             'janus/models/confirmable'
+    autoload :DatabaseAuthenticatable, 'janus/models/database_authenticatable'
+    autoload :EmailAuthenticatable,    'janus/models/email_authenticatable'
     autoload :Rememberable,            'janus/models/rememberable'
     autoload :RemoteAuthenticatable,   'janus/models/remote_authenticatable'
     autoload :RemoteToken,             'janus/models/remote_token'
@@ -46,4 +47,3 @@ module Janus
     Janus::Config
   end
 end
-
