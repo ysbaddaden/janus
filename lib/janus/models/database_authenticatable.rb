@@ -1,5 +1,12 @@
-require 'bcrypt'
-require 'scrypt'
+begin
+  require 'bcrypt'
+rescue
+end
+
+begin
+  require 'scrypt'
+rescue
+end
 
 module Janus
   module Models

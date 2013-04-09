@@ -31,9 +31,15 @@ As for the strategies and hooks:
 
 == Getting Started
 
-First add the janus gem to your Gemfile, and run bundle to install it:
+First add the janus gem to your Gemfile, then run `bundle` to install it:
 
   gem 'janus'
+  gem 'bcrypt-ruby'
+  # gem 'scrypt'
+
+You'll also need either the `bcrypt-ruby` or scrypt` gems, depending on which
+library you want to use to encrypt the passwords. Janus uses bcrypt by default,
+to be compatible with Devise, but you may prefer scrypt, which is stronger.
 
 Run the <tt>janus:install</tt> generator to setup janus in your app:
 

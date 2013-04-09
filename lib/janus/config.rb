@@ -7,9 +7,15 @@ module Janus
     # DatabaseAuthenticatable
     mattr_accessor :authentication_keys, :encryptor, :stretches, :pepper, :scrypt_options
     self.authentication_keys = [ :email ]
+
     self.encryptor = :bcrypt
+#    self.encryptor = :scrypt
+
+    # bcrypt config
     self.stretches = 10
     self.pepper = nil
+
+    # scrypt config
     self.scrypt_options = { :max_time => 0.25 }
 
     # Confirmable
