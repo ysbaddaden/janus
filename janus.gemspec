@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ["Julien Portalier"]
   s.date = "2013-04-09"
   s.description = "Janus is an authentication engine for Ruby on Rails."
-  s.email = "ysbaddaden@gmail.com"
+  s.email = "julien@portalier.com"
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
