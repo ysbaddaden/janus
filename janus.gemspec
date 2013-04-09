@@ -5,18 +5,33 @@
 
 Gem::Specification.new do |s|
   s.name = "janus"
-  s.version = "0.6.0"
+  s.version = "0.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julien Portalier"]
-  s.date = "2012-07-27"
-  s.description = "Authentication engine for Ruby on Rails."
+  s.date = "2013-04-09"
+  s.description = "Janus is an authentication engine for Ruby on Rails."
   s.email = "ysbaddaden@gmail.com"
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
   s.files = [
     "README.rdoc",
+    "lib/generators/janus/install_generator.rb",
+    "lib/generators/janus/resource_generator.rb",
+    "lib/generators/templates/confirmations/new.html.erb",
+    "lib/generators/templates/confirmations_controller.erb",
+    "lib/generators/templates/janus.en.yml",
+    "lib/generators/templates/janus.rb",
+    "lib/generators/templates/model.erb",
+    "lib/generators/templates/passwords/edit.html.erb",
+    "lib/generators/templates/passwords/new.html.erb",
+    "lib/generators/templates/passwords_controller.erb",
+    "lib/generators/templates/registrations/edit.html.erb",
+    "lib/generators/templates/registrations/new.html.erb",
+    "lib/generators/templates/registrations_controller.erb",
+    "lib/generators/templates/sessions/new.html.erb",
+    "lib/generators/templates/sessions_controller.erb",
     "lib/janus.rb",
     "lib/janus/config.rb",
     "lib/janus/controllers/confirmations_controller.rb",
@@ -52,24 +67,18 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://github.com/ysbaddaden/janus"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.23"
+  s.rubygems_version = "2.0.0"
   s.summary = "Authentication engine for Ruby on Rails."
 
   if s.respond_to? :specification_version then
-    s.specification_version = 3
+    s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<bcrypt-ruby>, [">= 0"])
-      s.add_runtime_dependency(%q<scrypt>, [">= 0"])
       s.add_runtime_dependency(%q<addressable>, [">= 0"])
     else
-      s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
-      s.add_dependency(%q<scrypt>, [">= 0"])
       s.add_dependency(%q<addressable>, [">= 0"])
     end
   else
-    s.add_dependency(%q<bcrypt-ruby>, [">= 0"])
-    s.add_dependency(%q<scrypt>, [">= 0"])
     s.add_dependency(%q<addressable>, [">= 0"])
   end
 end
