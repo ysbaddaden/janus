@@ -1,11 +1,11 @@
 begin
   require 'bcrypt'
-rescue
+rescue LoadError
 end
 
 begin
   require 'scrypt'
-rescue
+rescue LoadError
 end
 
 module Janus
