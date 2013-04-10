@@ -13,7 +13,7 @@ being sent from the controllers and never from the models.
 
 - full auth system with strategies and hooks;
 - scoped auth for parallel authentications (like +users+, +admin_users+, etc.);
-- abstract controllers ready to use;
+- abstract controllers and mailer ready to use;
 - generators to have everything generated automatically;
 - use only what you need at anytime.
 
@@ -81,9 +81,7 @@ Here is the list of all the current strategies:
 
 == TODO
 
-- Differenciate mailers per resource, by looking for User::Mailer or AdminUser::Mailer classes.
 - Reconfirmable when email changes.
-- Simple configuration to use scrypt instead of bcrypt for password encryption.
 - TokenAuthenticatable strategy.
 - Rememberable across top level domains.
 - Omniauthable (or shall we let the user do it himself?)
