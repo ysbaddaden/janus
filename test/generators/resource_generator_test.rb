@@ -36,6 +36,12 @@ class Janus::Generators::ResourceGeneratorTest < Rails::Generators::TestCase
     assert_file 'app/controllers/users/passwords_controller.rb',     /class Users::PasswordsController < Janus::PasswordsController/
     assert_file 'app/views/users/passwords/new.html.erb'
     assert_file 'app/views/users/passwords/edit.html.erb'
+
+    assert_file 'app/mailers/user_mailer.rb', /class UserMailer < Janus::Mailer/
+    assert_file 'app/views/user_mailer/confirmation_instructions.html.erb'
+    assert_file 'app/views/user_mailer/confirmation_instructions.text.erb'
+    assert_file 'app/views/user_mailer/reset_password_instructions.html.erb'
+    assert_file 'app/views/user_mailer/reset_password_instructions.text.erb'
   end
 
   test "custom create" do
@@ -62,6 +68,12 @@ class Janus::Generators::ResourceGeneratorTest < Rails::Generators::TestCase
     assert_no_file 'app/controllers/admin_users/passwords_controller.rb'
     assert_no_file 'app/views/admin_users/passwords/new.html.erb'
     assert_no_file 'app/views/admin_users/passwords/edit.html.erb'
+
+    assert_no_file 'app/mailers/user_mailer.rb'
+    assert_no_file 'app/views/user_mailer/confirmation_instructions.html.erb'
+    assert_no_file 'app/views/user_mailer/confirmation_instructions.text.erb'
+    assert_no_file 'app/views/user_mailer/reset_password_instructions.html.erb'
+    assert_no_file 'app/views/user_mailer/reset_password_instructions.text.erb'
   end
 
   def sh(cmd)

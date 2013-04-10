@@ -37,7 +37,7 @@ class Janus::ConfirmationsController < ApplicationController
     self.resource = resource_class.find_for_database_authentication(params[resource_name])
 
     if resource
-      JanusMailer.confirmation_instructions(resource).deliver
+      mailer_class.confirmation_instructions(resource).deliver
 
       respond_to do |format|
         format.html { redirect_to root_url, :notice => t('flash.janus.confirmations.create.email_sent') }

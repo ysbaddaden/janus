@@ -15,7 +15,7 @@ class Janus::PasswordsController < ApplicationController
 
     if resource
       resource.generate_reset_password_token!
-      JanusMailer.reset_password_instructions(resource).deliver
+      mailer_class.reset_password_instructions(resource).deliver
 
       respond_to do |format|
         format.html { redirect_to root_url, :notice => t('flash.janus.passwords.create.email_sent') }

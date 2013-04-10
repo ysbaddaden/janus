@@ -32,7 +32,8 @@ module Janus
       instance_variable_set(:"@#{janus_scope}", value)
     end
 
-    # Returns the `User` class (or `Admin` or whatever) as detected by janus_scope.
+    # Returns the `User` class (or `Admin` or whatever) as detected by
+    # janus_scope.
     def resource_class
       @resource_class ||= janus_scope.camelize.constantize
     end
@@ -40,6 +41,12 @@ module Janus
     # Alias for janus_scope.
     def resource_name
       janus_scope
+    end
+
+    # Returns the `UserMailer` class (or `AdminMailer` or whatever) as detected
+    # by janus_scope.
+    def mailer_class
+      @mailer_class ||= (janus_scope.camelize + 'Mailer').constantize
     end
   end
 end

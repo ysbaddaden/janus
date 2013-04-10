@@ -21,7 +21,7 @@ class Janus::RegistrationsController < ApplicationController
 
     if resource.save
       janus.login(resource, :scope => janus_scope, :rememberable => true)
-      JanusMailer.confirmation_instructions(resource).deliver if resource.respond_to?(:confirm!)
+      mailer_class.confirmation_instructions(resource).deliver if resource.respond_to?(:confirm!)
     else
       resource.clean_up_passwords
     end

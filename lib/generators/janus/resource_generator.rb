@@ -51,6 +51,21 @@ module Janus
         end
       end
 
+      def create_mailer
+        return unless strategies.include?('registration') or strategies.include?('confirmation') or strategies.include?('password')
+        template 'mailer.rb', "app/mailers/#{singular_name}_mailer.rb"
+
+        if strategies.include?('confirmation')
+          template 'mailer/confirmation_instructions.html.erb', "app/views/#{singular_name}_mailer/confirmation_instructions.html.erb"
+          template 'mailer/confirmation_instructions.text.erb', "app/views/#{singular_name}_mailer/confirmation_instructions.text.erb"
+        end
+
+        if strategies.include?('password')
+          template 'mailer/reset_password_instructions.html.erb', "app/views/#{singular_name}_mailer/reset_password_instructions.html.erb"
+          template 'mailer/reset_password_instructions.text.erb', "app/views/#{singular_name}_mailer/reset_password_instructions.text.erb"
+        end
+      end
+
       def add_janus_route
         route "janus :#{plural_name}, " + controllers.map { |ctrl| ":#{ctrl} => true" }.join(', ')
       end
