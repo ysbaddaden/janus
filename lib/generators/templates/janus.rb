@@ -4,12 +4,12 @@ Janus.config do |config|
   # DatabaseAuthenticatable
   config.authentication_keys = [ :email ]
 
-  # you may use bcrypt:
+  # bcrypt:
   config.encryptor = :bcrypt
-  config.stretches = 10
+  config.stretches = Rail.env.test? ? 1 : 10
   config.pepper = <%= SecureRandom.hex(64).inspect %>
 
-  # or you prefer scrypt:
+  # scrypt:
   # config.encryptor = :scrypt
   # config.scrypt_options = { :max_time => 0.25 }
 
