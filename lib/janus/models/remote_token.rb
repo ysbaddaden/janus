@@ -1,11 +1,12 @@
 module Janus
   module Models
     module RemoteToken
-      def self.included(klass)
-        klass.class_eval do
-          include Janus::Models::Base
-          before_save :reset_token
-        end
+      extend ActiveSupport::Concern
+
+      included do
+        include Janus::Models::Base
+
+        before_save :reset_token
       end
 
       # Generates an unique token.

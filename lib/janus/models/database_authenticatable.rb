@@ -31,6 +31,8 @@ module Janus
       extend ActiveSupport::Concern
 
       included do
+        include Janus::Models::Base unless include?(Janus::Models::Base)
+
         begin
           attr_protected :encrypted_password, :reset_password_token, :reset_password_sent_at
         rescue

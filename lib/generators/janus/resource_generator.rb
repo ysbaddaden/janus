@@ -20,7 +20,6 @@ module Janus
         generate('model', attributes.join(' '))
 
         modules = [
-          "  include Janus::Models::Base",
           "  include Janus::Models::DatabaseAuthenticatable",
         ]
         modules << "  include Janus::Models::Rememberable" if strategies.include?('remember')

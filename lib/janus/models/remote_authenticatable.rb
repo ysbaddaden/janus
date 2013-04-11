@@ -57,6 +57,8 @@ module Janus
       extend ActiveSupport::Concern
 
       included do |klass|
+        include Janus::Models::Base unless include?(Janus::Models::Base)
+
         begin
           attr_protected :session_token
         rescue

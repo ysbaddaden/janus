@@ -17,7 +17,6 @@ class Janus::Generators::ResourceGeneratorTest < Rails::Generators::TestCase
     assert_file 'config/routes.rb', /janus :users, :session => true, :registration => true, :confirmation => true/
 
     assert_file 'app/models/user.rb', /class User < ActiveRecord::Base/
-    assert_file 'app/models/user.rb', /include Janus::Models::Base/
     assert_file 'app/models/user.rb', /include Janus::Models::DatabaseAuthenticatable/
     assert_file 'app/models/user.rb', /include Janus::Models::Rememberable/
     assert_file 'app/models/user.rb', /include Janus::Models::Confirmable/
@@ -49,7 +48,6 @@ class Janus::Generators::ResourceGeneratorTest < Rails::Generators::TestCase
     assert_file 'config/routes.rb', /janus :admin_users, :session => true/
 
     assert_file 'app/models/admin_user.rb', /class AdminUser < ActiveRecord::Base/
-    assert_file 'app/models/admin_user.rb', /include Janus::Models::Base/
     assert_file 'app/models/admin_user.rb', /include Janus::Models::DatabaseAuthenticatable/
     assert_file 'app/models/admin_user.rb', /(?!include Janus::Models::Rememberable)/
     assert_file 'app/models/admin_user.rb', /(?!include Janus::Models::Confirmable)/

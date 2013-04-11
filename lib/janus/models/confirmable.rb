@@ -10,6 +10,8 @@ module Janus
       extend ActiveSupport::Concern
 
       included do
+        include Janus::Models::Base unless include?(Janus::Models::Base)
+
         begin
           attr_protected :confirmation_token, :confirmation_sent_at, :confirmed_at
         rescue
