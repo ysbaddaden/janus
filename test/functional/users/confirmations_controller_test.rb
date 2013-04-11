@@ -21,6 +21,15 @@ class Users::ConfirmationsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should not get show with blank token" do
+    assert_no_difference('User.count(:confirmed_at)') do
+      get :show, :token => ""
+      assert_response :ok
+      assert_template 'new'
+      assert_select '#error_explanation'
+    end
+  end
+
   test "should not get show with bad token" do
     users(:julien).generate_reset_password_token!
 
