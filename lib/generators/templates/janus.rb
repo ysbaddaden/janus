@@ -6,7 +6,7 @@ Janus.config do |config|
 
   # bcrypt:
   config.encryptor = :bcrypt
-  config.stretches = Rail.env.test? ? 1 : 10
+  config.stretches = Rails.env.test? ? 1 : 10
   config.pepper = <%= SecureRandom.hex(64).inspect %>
 
   # scrypt:
