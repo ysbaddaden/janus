@@ -1,4 +1,5 @@
 RailsApp::Application.routes.draw do
+  janus :admins, :session => true
   janus :users,
     :session      => true,
     :registration => true,

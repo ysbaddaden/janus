@@ -1,0 +1,30 @@
+<h1><%= t 'janus.sessions.new.sign_in' %></h1>
+
+<%= form_for @admin, :url => admin_session_path, :method => :post do |f| %>
+  <%= hidden_field_tag :return_to, params[:return_to] if params[:return_to] %>
+
+  <%= janus_error_messages %>
+
+  <% Admin.authentication_keys.each do |key| %>
+    <div class="field">
+      <%= f.label key %>
+      <%= f.text_field key %>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </div>
+
+  <% if @admin.respond_to?(:remember_me!) %>
+    <div class="field">
+      <%= check_box_tag :remember_me, '1' %>
+      <%= label_tag :remember_me, Admin.human_attribute_name(:remember_me) %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit t('janus.sessions.new.sign_in_btn') %>
+  </div>
+<% end %>

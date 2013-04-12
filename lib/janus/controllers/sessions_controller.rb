@@ -93,11 +93,12 @@ class Janus::SessionsController < ApplicationController
   #
   def never_return_to(scope)
     scope = Janus.scope_for(scope)
-    [
-      new_session_path(scope),
-      new_password_path(scope),
-      edit_password_path(scope)
-    ]
+    list = [new_session_path(scope)]
+    begin
+      list + [ new_password_path(scope), edit_password_path(scope) ]
+    rescue NoMethodError
+      list
+    end
   end
 
   # Either redirects the user to after_sign_in_url or to <tt>params[:return_to]</tt>.
