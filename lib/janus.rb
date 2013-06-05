@@ -25,12 +25,14 @@ module Janus
     autoload :RemoteAuthenticatable,   'janus/models/remote_authenticatable'
     autoload :RemoteToken,             'janus/models/remote_token'
     autoload :Trackable,               'janus/models/trackable'
+    autoload :TokenAuthenticatable,    'janus/models/token_authenticatable'
   end
 
   module Strategies
     autoload :Base,                    'janus/strategies/base'
     autoload :Rememberable,            'janus/strategies/rememberable'
     autoload :RemoteAuthenticatable,   'janus/strategies/remote_authenticatable'
+    autoload :TokenAuthenticatable,    'janus/strategies/token_authenticatable'
   end
 
   def self.scope_for(user_or_scope)

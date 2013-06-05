@@ -32,5 +32,9 @@ module Janus
     # RemoteAuthenticatable
     mattr_accessor :remote_authentication_key
     self.remote_authentication_key = :remote_token
+
+    # TokenAuthenticatable
+    mattr_accessor :token_authentication_key
+    self.token_authentication_key = :auth_token
   end
 end

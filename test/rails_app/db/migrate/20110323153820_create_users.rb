@@ -16,17 +16,21 @@ class CreateUsers < ActiveRecord::Migration
 
       t.string   :session_token
 
-      t.integer :sign_in_count, :default => 0
-      t.string  :last_sign_in_at
-      t.string  :last_sign_in_ip
-      t.string  :current_sign_in_at
-      t.string  :current_sign_in_ip
+      t.string   :authentication_token
+
+      t.integer  :sign_in_count, :default => 0
+      t.string   :last_sign_in_at
+      t.string   :last_sign_in_ip
+      t.string   :current_sign_in_at
+      t.string   :current_sign_in_ip
     end
 
     add_index :users, :email,                :unique => true
     add_index :users, :remember_token,       :unique => true
     add_index :users, :confirmation_token,   :unique => true
     add_index :users, :reset_password_token, :unique => true
+    add_index :users, :session_token,        :unique => true
+    add_index :users, :authentication_token, :unique => true
   end
 
   def self.down

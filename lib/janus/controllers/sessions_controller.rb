@@ -95,7 +95,7 @@ class Janus::SessionsController < ApplicationController
     scope = Janus.scope_for(scope)
     list = [new_session_path(scope)]
     begin
-      list + [ new_password_path(scope), edit_password_path(scope) ]
+      list + [ destroy_session_path(scope), new_password_path(scope), edit_password_path(scope) ]
     rescue NoMethodError
       list
     end

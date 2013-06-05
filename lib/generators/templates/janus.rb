@@ -21,5 +21,8 @@ Janus.config do |config|
   # config.extend_remember_period = false
 
   # RemoteAuthenticatable
-  # config.remote_authentication_key = :auth_token
+  # config.remote_authentication_key = :remote_token
+
+  # TokenAuthenticatable
+  # config.token_authentication_key = :auth_token
 end
