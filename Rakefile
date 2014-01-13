@@ -5,29 +5,10 @@ require 'rdoc/task'
 task :default => :test
 
 desc 'Test the Janus rack middleware.'
-task :test => [ :'test:units', :'test:functionals', :'test:integration', :'test:generators' ]
-
-Rake::TestTask.new(:"test:units") do |t|
+Rake::TestTask.new(:test) do |t|
   t.libs << 'test'
-  t.pattern = 'test/unit/**/*_test.rb'
-  t.verbose = true
-end
-
-Rake::TestTask.new(:"test:functionals") do |t|
-  t.libs << 'test'
-  t.pattern = 'test/functional/**/*_test.rb'
-  t.verbose = true
-end
-
-Rake::TestTask.new(:"test:integration") do |t|
-  t.libs << 'test'
-  t.pattern = 'test/integration/**/*_test.rb'
-  t.verbose = true
-end
-
-Rake::TestTask.new(:"test:generators") do |t|
-  t.libs << 'test'
-  t.pattern = 'test/generators/**/*_test.rb'
+  #t.pattern = 'test/{unit,functional,integration,generators}/**/*_test.rb'
+  t.pattern = 'test/**/*_test.rb'
   t.verbose = true
 end
 
@@ -61,6 +42,6 @@ begin
 
   Jeweler::GemcutterTasks.new
 rescue LoadError
-  puts "Jeweler, or one of its dependencies, is not available. Install it with: gem install jeweler"
+  #puts "Jeweler, or one of its dependencies, is not available. Install it with: gem install jeweler"
 end
 
