@@ -8,7 +8,7 @@ gem 'bcrypt-ruby'
 gem 'scrypt'
 
 group :test do
-  gem 'minitest', :require => 'minitest/autorun'
+  gem 'minitest', '~> 4.7', :require => 'minitest/autorun'
   gem 'capybara'
 end
 
