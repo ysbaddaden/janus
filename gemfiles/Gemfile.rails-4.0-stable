@@ -1,0 +1,14 @@
+source 'http://rubygems.org'
+
+gem 'rails', :github => 'rails/rails', :branch => '4.0-stable'
+gem 'sqlite3'
+gem 'addressable'
+gem 'janus', :path => '..'
+gem 'bcrypt-ruby'
+gem 'scrypt'
+
+group :test do
+  gem 'minitest', :require => 'minitest/autorun'
+  gem 'capybara'
+end
+
