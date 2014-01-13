@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', :github => 'rails/rails', :branch => '3.2-stable'
+gem 'rails', :github => 'rails/rails', :branch => '3-2-stable'
 gem 'sqlite3'
 gem 'addressable'
 gem 'janus', :path => '..'
