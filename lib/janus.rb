@@ -1,4 +1,5 @@
 require 'active_support/core_ext/class'
+require 'janus/version'
 require 'janus/config'
 require 'janus/hooks'
 require 'janus/strategies'

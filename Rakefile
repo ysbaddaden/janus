@@ -26,7 +26,6 @@ begin
   Jeweler::Tasks.new do |gem|
     root_files = FileList["README.rdoc"]
     gem.name = "janus"
-    gem.version = "0.7.1"
     gem.summary = "Authentication engine for Ruby on Rails."
     gem.email = "julien@portalier.com"
     gem.homepage = "http://github.com/ysbaddaden/janus"
@@ -40,8 +39,7 @@ begin
     gem.add_dependency 'addressable'
   end
 
-  Jeweler::GemcutterTasks.new
+  Jeweler::RubygemsDotOrgTasks.new
 rescue LoadError
-  #puts "Jeweler, or one of its dependencies, is not available. Install it with: gem install jeweler"
 end
 
