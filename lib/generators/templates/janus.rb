@@ -2,7 +2,7 @@ Janus.config do |config|
   config.contact_email = "contact@some-example-domain.com"
 
   # DatabaseAuthenticatable
-  config.authentication_keys = [ :email ]
+  config.authentication_keys = [:email]
 
   # bcrypt:
   config.encryptor = :bcrypt
@@ -25,4 +25,5 @@ Janus.config do |config|
 
   # TokenAuthenticatable
   # config.token_authentication_key = :auth_token
+  # self.reusable_authentication_token = true
 end

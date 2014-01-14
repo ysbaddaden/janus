@@ -9,7 +9,7 @@ module Janus
     self.authentication_keys = [ :email ]
 
     self.encryptor = :bcrypt
-#    self.encryptor = :scrypt
+    #self.encryptor = :scrypt
 
     # bcrypt config
     self.stretches = 10
@@ -21,20 +21,22 @@ module Janus
     # Confirmable
     mattr_accessor :confirmation_key #,reconfirmable
     self.confirmation_key = :confirm_token
-#    self.reconfirmable = true
+    #self.reconfirmable = true
 
     # Rememberable
     mattr_accessor :remember_for, :extend_remember_period #, :remember_across_browsers
     self.remember_for = 1.year
     self.extend_remember_period = false
-#    self.remember_across_browsers = false
+    #self.remember_across_browsers = false
 
     # RemoteAuthenticatable
     mattr_accessor :remote_authentication_key
     self.remote_authentication_key = :remote_token
 
     # TokenAuthenticatable
-    mattr_accessor :token_authentication_key
+    mattr_accessor :token_authentication_key, :token_authentication_valid_for, :reusable_authentication_token
     self.token_authentication_key = :auth_token
+    self.token_authentication_valid_for = nil
+    self.reusable_authentication_token = true
   end
 end

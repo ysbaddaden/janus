@@ -15,7 +15,16 @@ module Janus
     #
     # or whenever its password is changed:
     #
-    #   before_save :reset_authentication_token :if => :encrypted_password_changed?
+    #   before_save :reset_authentication_token, :if => :encrypted_password_changed?
+    #
+    # The strategy to invalidate the authentication token is also up to you. You
+    # may use a callback or one of the configuration options:
+    #
+    # - +token_authentication_valid_for+ - number of seconds a token will be
+    #   valid once created (defaults to nil);
+    # - +reusable_authentication_token+  - false to destroy the token once it's
+    #   consumed (defaults to true).
+    #
     module TokenAuthenticatable
       extend ActiveSupport::Concern
 
@@ -23,11 +32,11 @@ module Janus
         include Janus::Models::Base unless include?(Janus::Models::Base)
 
         begin
-          attr_protected :authentication_token
+          attr_protected :authentication_token, :token_authentication_valid_for, :reusable_authentication_token
         rescue
         end
 
-        janus_config :token_authentication_key
+        janus_config :token_authentication_key, :token_authentication_valid_for, :reusable_authentication_token
       end
 
       # Generates an unique authentication token and saves the model.
@@ -40,6 +49,7 @@ module Janus
       # Generates an unique authentification token.
       def reset_authentication_token
         self.authentication_token = self.class.generate_token(:authentication_token)
+        self.authentication_token_created_at = Time.now
       end
 
       # Destroys the auth token.
@@ -49,7 +59,19 @@ module Janus
 
       module ClassMethods
         def find_for_token_authentication(token)
-          where(:authentication_token => token).first
+          if record = where(:authentication_token => token).first
+            if expired_authentication_token?(record)
+              record.destroy_authentication_token!
+              return
+            end
+            record.destroy_authentication_token! unless reusable_authentication_token
+            record
+          end
+        end
+
+        def expired_authentication_token?(record)
+          token_authentication_valid_for && record.authentication_token_created_at &&
+            record.authentication_token_created_at < Time.now - token_authentication_valid_for
         end
       end
     end
