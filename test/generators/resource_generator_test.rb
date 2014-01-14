@@ -13,7 +13,7 @@ class Janus::Generators::ResourceGeneratorTest < Rails::Generators::TestCase
   end
 
   test "standard create" do
-    sh "bin/rails g janus:resource user"
+    sh "bundle exec rails g janus:resource user"
     assert_file 'config/routes.rb', /janus :users, :session => true, :registration => true, :confirmation => true/
 
     assert_file 'app/models/user.rb', /class User < ActiveRecord::Base/
@@ -44,7 +44,7 @@ class Janus::Generators::ResourceGeneratorTest < Rails::Generators::TestCase
   end
 
   test "custom create" do
-    sh "bin/rails g janus:resource admin_user session"
+    sh "bundle exec rails g janus:resource admin_user session"
     assert_file 'config/routes.rb', /janus :admin_users, :session => true/
 
     assert_file 'app/models/admin_user.rb', /class AdminUser < ActiveRecord::Base/

@@ -39,7 +39,7 @@ class Users::PasswordsControllerTest < ActionController::TestCase
 
   test "should not get edit with expired token" do
     users(:julien).generate_reset_password_token!
-    users(:julien).update_attributes(:reset_password_sent_at => 1.month.ago)
+    users(:julien).update_attribute(:reset_password_sent_at, 1.month.ago)
     get :edit, :token => "aiorujfqptezjsmdguspfofkn"
     assert_redirected_to root_url
     assert flash[:alert]
@@ -122,7 +122,8 @@ class Users::PasswordsControllerTest < ActionController::TestCase
 
   test "should not update with expired token" do
     users(:julien).generate_reset_password_token!
-    users(:julien).update_attributes(:reset_password_sent_at => 1.month.ago)
+    users(:julien).update_attribute(:reset_password_sent_at, 1.month.ago)
+
     put :update, :user => @attributes.merge(:reset_password_token => users(:julien).reset_password_token)
     assert_redirected_to root_url
     assert flash[:alert]
