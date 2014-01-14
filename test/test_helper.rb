@@ -3,6 +3,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../rails_app/config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
+require 'minitest/mock'
 
 ActiveRecord::Migration.verbose = false
 ActiveRecord::Migrator.migrate(Rails.root.join('db', 'migrate').to_s)

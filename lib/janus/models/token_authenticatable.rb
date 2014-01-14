@@ -23,11 +23,11 @@ module Janus
         include Janus::Models::Base unless include?(Janus::Models::Base)
 
         begin
-          attr_protected :authentication_token
+          attr_protected :authentication_token, :reusable_authentication_token
         rescue
         end
 
-        janus_config :token_authentication_key
+        janus_config :token_authentication_key, :reusable_authentication_token
       end
 
       # Generates an unique authentication token and saves the model.
@@ -49,7 +49,9 @@ module Janus
 
       module ClassMethods
         def find_for_token_authentication(token)
-          where(:authentication_token => token).first
+          where(:authentication_token => token).first.tap do |record|
+            record.destroy_authentication_token! if record && !reusable_authentication_token
+          end
         end
       end
     end

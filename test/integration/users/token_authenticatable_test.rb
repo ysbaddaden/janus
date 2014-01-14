@@ -13,8 +13,30 @@ class Users::TokenAuthenticatableTest < ActionDispatch::IntegrationTest
     assert_authenticated
   end
 
-  test "should not sign user with invalid auth token" do
+  test "should not sign user with invalid token" do
     visit root_url(:auth_token => 'unknown token')
     assert_not_authenticated
+  end
+
+  test "should reuse token" do
+    Janus::Config.stub(:reusable_authentication_token, true) do
+      token = @user.authentication_token
+      visit root_url(:auth_token => token)
+      sign_out :user
+
+      visit root_url(:auth_token => token)
+      assert_authenticated
+    end
+  end
+
+  test "shouldn't reuse token" do
+    Janus::Config.stub(:reusable_authentication_token, false) do
+      token = @user.authentication_token
+      visit root_url(:auth_token => token)
+      sign_out :user
+
+      visit root_url(:auth_token => token)
+      assert_not_authenticated
+    end
   end
 end
