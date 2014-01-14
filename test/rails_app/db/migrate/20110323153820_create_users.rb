@@ -17,6 +17,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string   :session_token
 
       t.string   :authentication_token
+      t.datetime :authentication_token_created_at
 
       t.integer  :sign_in_count, :default => 0
       t.string   :last_sign_in_at

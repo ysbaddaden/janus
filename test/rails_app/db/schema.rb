@@ -40,7 +40,8 @@ ActiveRecord::Schema.define(version: 20130412104138) do
     t.datetime "reset_password_sent_at"
     t.string   "session_token"
     t.string   "authentication_token"
-    t.integer  "sign_in_count",          default: 0
+    t.datetime "authentication_token_created_at"
+    t.integer  "sign_in_count",                   default: 0
     t.string   "last_sign_in_at"
     t.string   "last_sign_in_ip"
     t.string   "current_sign_in_at"

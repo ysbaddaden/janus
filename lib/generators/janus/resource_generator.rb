@@ -17,7 +17,7 @@ module Janus
         attributes += %w{reset_password_token:string:uniq reset_password_sent_at:datetime} if strategies.include?('password')
         attributes += %w{session_token:string:uniq} if strategies.include?('remote')
         attributes += %w{sign_in_count:integer last_sign_in_at:datetime last_sign_in_ip:string current_sign_in_at:datetime current_sign_in_ip:string} if strategies.include?('track')
-        attributes += %w{authentication_token:string:uniq} if strategies.include?('token')
+        attributes += %w{authentication_token:string:uniq authentication_token_created_at:datetime} if strategies.include?('token')
         generate('model', attributes.join(' '))
 
         modules = [

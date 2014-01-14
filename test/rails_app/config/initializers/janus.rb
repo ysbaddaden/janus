@@ -21,4 +21,5 @@ Janus.config do |config|
   # TokenAuthenticatable
   # config.token_authentication_key = :auth_token
   # config.reusable_authentication_token = true
+  config.token_authentication_valid_for = 1.hour
 end

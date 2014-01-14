@@ -34,8 +34,9 @@ module Janus
     self.remote_authentication_key = :remote_token
 
     # TokenAuthenticatable
-    mattr_accessor :token_authentication_key, :reusable_authentication_token
+    mattr_accessor :token_authentication_key, :token_authentication_valid_for, :reusable_authentication_token
     self.token_authentication_key = :auth_token
+    self.token_authentication_valid_for = nil
     self.reusable_authentication_token = true
   end
 end
