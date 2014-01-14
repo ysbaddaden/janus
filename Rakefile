@@ -20,26 +20,3 @@ Rake::RDocTask.new do |rdoc|
   rdoc.options << "--charset=utf-8"
 end
 
-begin
-  require 'jeweler'
-
-  Jeweler::Tasks.new do |gem|
-    root_files = FileList["README.rdoc"]
-    gem.name = "janus"
-    gem.summary = "Authentication engine for Ruby on Rails."
-    gem.email = "julien@portalier.com"
-    gem.homepage = "http://github.com/ysbaddaden/janus"
-    gem.description = "Janus is an authentication engine for Ruby on Rails."
-    gem.authors = ['Julien Portalier']
-    gem.files = root_files + FileList["{lib}/*"] + FileList["{lib}/**/*"]
-    gem.extra_rdoc_files = root_files
-    #gem.add_dependency 'rails', '>= 3.0'
-    #gem.add_dependency 'bcrypt-ruby'
-    #gem.add_dependency 'scrypt'
-    gem.add_dependency 'addressable'
-  end
-
-  Jeweler::RubygemsDotOrgTasks.new
-rescue LoadError
-end
-
