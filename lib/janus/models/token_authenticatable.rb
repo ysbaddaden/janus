@@ -16,6 +16,15 @@ module Janus
     # or whenever its password is changed:
     #
     #   before_save :reset_authentication_token, :if => :encrypted_password_changed?
+    #
+    # The strategy to invalidate the authentication token is also up to you. You
+    # may use a callback or one of the configuration options:
+    #
+    # - +token_authentication_valid_for+ - number of seconds a token will be
+    #   valid once created (defaults to nil);
+    # - +reusable_authentication_token+  - false to destroy the token once it's
+    #   consumed (defaults to true).
+    #
     module TokenAuthenticatable
       extend ActiveSupport::Concern
 

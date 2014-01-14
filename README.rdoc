@@ -23,6 +23,8 @@ As for the strategies and hooks:
   to auth users with passwords (plus registration and password reset);
 - {RemoteAuthenticatable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/RemoteAuthenticatable]
   to keep users signed in across top level domains;
+- {TokenAuthenticatable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/TokenAuthenticatable]
+  to auth users with unique tokens;
 - {Confirmable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/RemoteAuthenticatable]
   to have users confirm their emails upon registration;
 - {Rememberable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/Rememberable]
@@ -77,12 +79,11 @@ Here is the list of all the current strategies:
 - +password+     — reset password (using an email exchanged token)
 - +track+        — track current and previous user's sign in date and IP
 - +remote+       — keeps users signed in different top level domains
-
+- +token+        — get users signed in (with an unique token)
 
 == TODO
 
 - Reconfirmable when email changes.
-- TokenAuthenticatable strategy.
 - Rememberable across top level domains.
 - Omniauthable (or shall we let the user do it himself?)
 - Providing an OAuth 1.0 service whould be cool.
