@@ -73,7 +73,9 @@ class Users::PasswordsControllerTest < ActionController::TestCase
   test "should update" do
     users(:julien).generate_reset_password_token!
 
-    put :update, :user => @attributes.merge(:reset_password_token => users(:julien).reset_password_token)
+    put :update, :user => @attributes.merge(
+      :reset_password_token => users(:julien).reset_password_token
+    )
     assert_redirected_to root_url
     assert flash[:notice]
 
@@ -127,5 +129,13 @@ class Users::PasswordsControllerTest < ActionController::TestCase
     put :update, :user => @attributes.merge(:reset_password_token => users(:julien).reset_password_token)
     assert_redirected_to root_url
     assert flash[:alert]
+  end
+
+  test "should redirect to specified URL" do
+    users(:julien).generate_reset_password_token!
+    user_params = @attributes.merge(:reset_password_token => users(:julien).reset_password_token)
+
+    put :update, :user => user_params, :return_to => 'http://example.com/some/path.html'
+    assert_redirected_to 'http://example.com/some/path.html'
   end
 end

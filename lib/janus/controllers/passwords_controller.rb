@@ -44,7 +44,7 @@ class Janus::PasswordsController < ApplicationController
     if resource
       if resource.reset_password!(params[resource_name])
         respond_to do |format|
-          format.html { redirect_to root_url, :notice => t('flash.janus.passwords.update.password_updated') }
+          format.html { redirect_after_password_change(self.resource, :notice => t('flash.janus.passwords.update.password_updated')) }
           format.any  { head :ok }
         end
       else
@@ -59,5 +59,19 @@ class Janus::PasswordsController < ApplicationController
         format.any  { head :precondition_failed }
       end
     end
+  end
+
+  # Either redirects the user to after_password_change_url or to
+  # <tt>params[:return_to]</tt> if present.
+  def redirect_after_password_change(user, options = {})
+    if params[:return_to].present?
+      redirect_to params[:return_to], options
+    else
+      redirect_to after_password_change_url(user), options
+    end
+  end
+
+  def after_password_change_url(user)
+    root_url
   end
 end
