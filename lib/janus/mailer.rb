@@ -1,5 +1,5 @@
 class Janus::Mailer < ActionMailer::Base
-  default_from = Janus::Config.contact_email
+  default from: Janus::Config.contact_email
 
   def reset_password_instructions(user)
     @user = user

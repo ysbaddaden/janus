@@ -15,7 +15,7 @@ class Janus::PasswordsController < ApplicationController
 
     if resource
       resource.generate_reset_password_token!
-      mailer_class.reset_password_instructions(resource).deliver
+      deliver_reset_password_instructions
 
       respond_to do |format|
         format.html { redirect_to root_url, :notice => t('flash.janus.passwords.create.email_sent') }
@@ -59,6 +59,12 @@ class Janus::PasswordsController < ApplicationController
         format.any  { head :precondition_failed }
       end
     end
+  end
+
+  # Simple wrapper for Mailer#reset_password_instructions.deliver to
+  # allow customization of the email (eg: to pass additional data).
+  def deliver_reset_password_instructions
+    mailer_class.reset_password_instructions(resource).deliver
   end
 
   # Either redirects the user to after_password_change_url or to
