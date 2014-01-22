@@ -4,6 +4,7 @@
   <%%= janus_error_messages %>
 
   <%%= f.hidden_field :reset_password_token %>
+  <%%= hidden_field_tag :return_to, params[:return_to] if params[:return_to] %>
 
   <div class="field">
     <%%= f.label :password %>
