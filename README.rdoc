@@ -25,7 +25,7 @@ As for the strategies and hooks:
   to keep users signed in across top level domains;
 - {TokenAuthenticatable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/TokenAuthenticatable]
   to auth users with unique tokens;
-- {Confirmable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/RemoteAuthenticatable]
+- {Confirmable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/Confirmable]
   to have users confirm their emails upon registration;
 - {Rememberable}[http://rdoc.info/github/ysbaddaden/janus/Janus/Models/Rememberable]
   to keep users authentified;
