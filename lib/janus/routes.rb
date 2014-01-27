@@ -67,6 +67,7 @@ module ActionDispatch # :nodoc:
 
             resource :confirmation, :only => [:show, :new, :create] if options[:confirmation]
             resource :password, :except => [:index, :show, :destroy] if options[:password]
+            yield if block_given?
           end
 
           ActionController::Base.janus(singular)
