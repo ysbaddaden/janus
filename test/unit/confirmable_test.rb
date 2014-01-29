@@ -8,7 +8,7 @@ class ConfirmableTest < ActiveSupport::TestCase
   test "generate_confirmation_token" do
     @user.generate_confirmation_token
     assert_not_nil @user.confirmation_token
-    assert_not_nil @user.confirmation_sent_at
+    assert_nil @user.confirmation_sent_at
     assert_nil @user.confirmed_at
 
     @user.reload

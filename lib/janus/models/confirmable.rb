@@ -25,7 +25,6 @@ module Janus
       # Generates the confirmation token, but won't save the record.
       def generate_confirmation_token
         self.confirmation_token = self.class.generate_token(:confirmation_token)
-        self.confirmation_sent_at = Time.now
       end
 
       # Confirms the record.
