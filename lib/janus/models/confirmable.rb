@@ -17,9 +17,6 @@ module Janus
         rescue
         end
         janus_config(:confirmation_key)
-
-        before_create :generate_confirmation_token
-#        before_update :generate_confirmation_token, :if => :email_changed?
       end
 
       # Generates the confirmation token, but won't save the record.
