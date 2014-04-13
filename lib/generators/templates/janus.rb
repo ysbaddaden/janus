@@ -7,7 +7,11 @@ Janus.config do |config|
   # bcrypt:
   config.encryptor = :bcrypt
   config.stretches = Rails.env.test? ? 1 : 10
-  config.pepper = <%= SecureRandom.hex(64).inspect %>
+  config.pepper = <%= if Rails.application.respond_to?(:secrets)
+                        "Rails.application.secrets[:secret_pepper]"
+                      else
+                        SecureRandom.hex(64).inspect
+                      end %>
 
   # scrypt:
   # config.encryptor = :scrypt

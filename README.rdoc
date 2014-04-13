@@ -47,6 +47,24 @@ Run the <tt>janus:install</tt> generator to setup janus in your app:
 
   $ rails generate janus:install
 
+If you are running Rails 4.1+ you must add a `secret_pepper` to your
+`config/secrets.yml` file after generating a secure token with `rake secret`:
+
+  # config/secrets.yml
+  development:
+    secret_key_base: "..."
+    secret_pepper: "..."
+  test:
+    secret_key_base: "..."
+    secret_pepper: "..."
+  production:
+    secret_key_base: ENV["SECRET_KEY_BASE"]
+    secret_pepper: ENV["SECRET_PEPPER"]
+
+If you are running a previous version of Rails, then you should edit
+`config/initializers/janus.rb` to use an environment variable instead of the
+generated token.
+
 Then create your first authenticatable resource, let's say +User+:
 
   $ rails generate janus:resource user
