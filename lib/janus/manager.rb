@@ -60,12 +60,12 @@ module Janus
     # authenticate process.
     def set_user(user, options = {})
       scope = options[:scope] || Janus.scope_for(user)
-      janus_sessions[scope.to_sym] = { :user_class => user.class, :user_id => user.id }
+      janus_sessions[scope.to_s] = { 'user_class' => user.class.name, 'user_id' => user.id }
     end
 
     # Manually removes the user without going throught the whole logout process.
     def unset_user(scope)
-      janus_sessions.delete(scope.to_sym)
+      janus_sessions.delete(scope.to_s)
       @users.delete(scope.to_sym) unless @users.nil?
     end
 
@@ -77,7 +77,7 @@ module Janus
       if authenticated?(scope)
         if @users[scope].nil?
           begin
-          @users[scope] = session(scope)[:user_class].find(session(scope)[:user_id])
+          @users[scope] = user_class(scope).find(session(scope)['user_id'])
           rescue ActiveRecord::RecordNotFound
             unset_user(scope)
           else
@@ -91,12 +91,16 @@ module Janus
 
     # Returns the current session for user.
     def session(scope)
-      janus_sessions[scope.to_sym]
+      janus_sessions[scope.to_s]
     end
 
     private
       def janus_sessions
         request.session['janus'] ||= {}
+      end
+
+      def user_class(scope)
+        session(scope)['user_class'].constantize
       end
   end
 end
