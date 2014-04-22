@@ -1,8 +1,16 @@
 class <%= class_name.pluralize %>::RegistrationsController < Janus::RegistrationsController
   respond_to :html
 
+  # def deliver_confirmation_instructions(<%= singular_name %>)
+  #   <%= class_name %>Mailer.confirmation_instructions(<%= singular_name %>).deliver
+  # end
+
   # def after_sign_up_url(<%= singular_name %>)
   #   profile_url(<%= singular_name %>)
+  # end
+
+  # def after_destroy_url(<%= singular_name %>)
+  #   root_url
   # end
 
   def <%= singular_name %>_params
