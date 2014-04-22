@@ -15,7 +15,7 @@ class Janus::PasswordsController < ApplicationController
 
     if resource
       resource.generate_reset_password_token!
-      deliver_reset_password_instructions
+      deliver_reset_password_instructions(resource)
 
       respond_to do |format|
         format.html do
@@ -66,7 +66,7 @@ class Janus::PasswordsController < ApplicationController
 
   # Simple wrapper for Mailer#reset_password_instructions.deliver to
   # allow customization of the email (eg: to pass additional data).
-  def deliver_reset_password_instructions
+  def deliver_reset_password_instructions(resource)
     mailer_class.reset_password_instructions(resource).deliver
   end
 

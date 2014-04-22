@@ -21,7 +21,7 @@ class Janus::RegistrationsController < ApplicationController
 
     if resource.save
       janus.login(resource, :scope => janus_scope, :rememberable => true)
-      mailer_class.confirmation_instructions(resource).deliver if resource.respond_to?(:confirm!)
+      deliver_confirmation_instructions(resource) if resource.respond_to?(:confirm!)
     else
       resource.clean_up_passwords
     end
@@ -43,6 +43,12 @@ class Janus::RegistrationsController < ApplicationController
     respond_with(resource) do |format|
       format.html { redirect_to after_destroy_url(resource) }
     end
+  end
+
+  # Simple wrapper for Mailer#confirmation_instructions.deliver to
+  # allow customization of the email (eg: to pass additional data).
+  def deliver_confirmation_instructions(resource)
+    mailer_class.confirmation_instructions(resource).deliver
   end
 
   # Where to redirect after user has registered.

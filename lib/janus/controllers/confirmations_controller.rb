@@ -41,7 +41,7 @@ class Janus::ConfirmationsController < ApplicationController
     self.resource = resource_class.find_for_database_authentication(params[resource_name])
 
     if resource
-      deliver_confirmation_instructions
+      deliver_confirmation_instructions(resource)
 
       respond_to do |format|
         format.html do
@@ -66,7 +66,7 @@ class Janus::ConfirmationsController < ApplicationController
 
   # Simple wrapper for Mailer#confirmation_instructions.deliver to
   # allow customization of the email (eg: to pass additional data).
-  def deliver_confirmation_instructions
+  def deliver_confirmation_instructions(resource)
     mailer_class.confirmation_instructions(resource).deliver
   end
 
