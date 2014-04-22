@@ -41,12 +41,18 @@ class Janus::RegistrationsController < ApplicationController
     janus.unset_user(janus_scope) if resource.destroy
 
     respond_with(resource) do |format|
-      format.html { redirect_to root_url }
+      format.html { redirect_to after_destroy_url(resource) }
     end
   end
 
+  # Where to redirect after user has registered.
   def after_sign_up_url(user)
     user
+  end
+
+  # Where to redirect after user has unregistered.
+  def after_destroy_url(resource)
+    root_url
   end
 
   def resource_params

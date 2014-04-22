@@ -18,7 +18,10 @@ class Janus::PasswordsController < ApplicationController
       deliver_reset_password_instructions
 
       respond_to do |format|
-        format.html { redirect_to root_url, :notice => t('flash.janus.passwords.create.email_sent') }
+        format.html do
+          redirect_to after_sending_reset_password_instructions_url(resource),
+            :notice => t('flash.janus.passwords.create.email_sent')
+        end
         format.any  { head :ok }
       end
     else
@@ -69,15 +72,21 @@ class Janus::PasswordsController < ApplicationController
 
   # Either redirects the user to after_password_change_url or to
   # <tt>params[:return_to]</tt> if present.
-  def redirect_after_password_change(user, options = {})
+  def redirect_after_password_change(resource, options = {})
     if params[:return_to].present?
       redirect_to params[:return_to], options
     else
-      redirect_to after_password_change_url(user), options
+      redirect_to after_password_change_url(resource), options
     end
   end
 
-  def after_password_change_url(user)
+  # Where to redirect when the password has been changed.
+  def after_password_change_url(resource)
+    root_url
+  end
+
+  # Where to redirect when the instructions have been sent.
+  def after_sending_reset_password_instructions_url(resource)
     root_url
   end
 end

@@ -12,8 +12,12 @@ class Janus::ConfirmationsController < ApplicationController
       resource.confirm!
 
       respond_to do |format|
-        format.html { redirect_to root_url, :notice => t('flash.janus.confirmations.edit.confirmed') }
-        format.any  { head :ok }
+        format.html do
+          redirect_to after_confirmation_url(resource),
+            :notice => t('flash.janus.confirmations.edit.confirmed')
+        end
+
+        format.any { head :ok }
       end
     else
       respond_to do |format|
@@ -40,7 +44,11 @@ class Janus::ConfirmationsController < ApplicationController
       deliver_confirmation_instructions
 
       respond_to do |format|
-        format.html { redirect_to root_url, :notice => t('flash.janus.confirmations.create.email_sent') }
+        format.html do
+          redirect_to after_resending_confirmation_instructions_url(resource),
+            :notice => t('flash.janus.confirmations.create.email_sent')
+        end
+
         format.any  { head :ok }
       end
     else
@@ -60,5 +68,15 @@ class Janus::ConfirmationsController < ApplicationController
   # allow customization of the email (eg: to pass additional data).
   def deliver_confirmation_instructions
     mailer_class.confirmation_instructions(resource).deliver
+  end
+
+  # Where to redirect after the instructions have been sent.
+  def after_resending_confirmation_instructions_url(resource)
+    root_url
+  end
+
+  # Where to redirect when the user has confirmed her account.
+  def after_confirmation_url(resource)
+    root_url
   end
 end
