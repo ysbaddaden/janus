@@ -38,7 +38,7 @@ class Janus::ConfirmationsController < ApplicationController
   end
 
   def create
-    self.resource = resource_class.find_for_database_authentication(params[resource_name])
+    self.resource = resource_class.find_for_database_authentication(resource_authentication_params)
 
     if resource
       deliver_confirmation_instructions(resource)
