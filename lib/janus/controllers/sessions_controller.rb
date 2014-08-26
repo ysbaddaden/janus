@@ -112,7 +112,7 @@ class Janus::SessionsController < ApplicationController
       return_to = Addressable::URI.parse(params[:return_to])
 
       unless never_return_to(user).include?(return_to.path)
-        if return_to.host.nil? || return_to.host == request.host
+        if return_to.host.nil? || (return_to.host == request.host && valid_remote_host?(return_to.host))
           redirect_to params[:return_to]
           return
         elsif valid_remote_host?(return_to.host)

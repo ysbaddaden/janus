@@ -54,6 +54,13 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_authenticated(:user)
   end
 
+  test "create should not redirect to an unknown subdomain" do
+    request.host = 'subdomain.test.host'
+    post :create, :user => @valid, :return_to => root_url(:host => 'subdomain.test.host')
+    assert_redirected_to user_url
+    assert_authenticated(:user)
+  end
+
   test "should fail to create without password" do
     post :create, :user => { :email => users(:julien).email, :password => '' }
     assert_response :unauthorized
