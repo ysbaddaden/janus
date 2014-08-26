@@ -67,7 +67,8 @@ class Janus::PasswordsController < ApplicationController
   # Simple wrapper for Mailer#reset_password_instructions.deliver to
   # allow customization of the email (eg: to pass additional data).
   def deliver_reset_password_instructions(resource)
-    mailer_class.reset_password_instructions(resource).deliver
+    mail = mailer_class.reset_password_instructions(resource)
+    mail.respond_to?(:deliver_later) ? mail.deliver_later : mail.deliver
   end
 
   # Either redirects the user to after_password_change_url or to

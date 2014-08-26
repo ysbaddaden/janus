@@ -71,6 +71,10 @@ module Janus
         route "janus :#{plural_name}, " + controllers.map { |ctrl| ":#{ctrl} => true" }.join(', ')
       end
 
+      def delivery_method
+        Rails.version >= "4.2.0" ? "deliver_later" : "deliver"
+      end
+
       private
         def controllers
           strategies & %w{session registration confirmation password}

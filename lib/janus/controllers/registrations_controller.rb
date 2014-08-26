@@ -48,7 +48,8 @@ class Janus::RegistrationsController < ApplicationController
   # Simple wrapper for Mailer#confirmation_instructions.deliver to
   # allow customization of the email (eg: to pass additional data).
   def deliver_confirmation_instructions(resource)
-    mailer_class.confirmation_instructions(resource).deliver
+    mail = mailer_class.confirmation_instructions(resource)
+    mail.respond_to?(:deliver_later) ? mail.deliver_later : mail.deliver
   end
 
   # Where to redirect after user has registered.

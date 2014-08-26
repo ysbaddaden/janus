@@ -1,11 +1,10 @@
 source 'http://rubygems.org'
 
-gem 'rails', github: 'rails/rails'
-gem 'responders', '>= 2.0'
+gem 'rails', :github => 'rails/rails', :branch => '4-1-stable'
 gem 'sqlite3'
 gem 'addressable'
 gem 'janus', :path => '..'
-gem 'bcrypt'
+gem 'bcrypt-ruby'
 gem 'scrypt'
 
 group :test do

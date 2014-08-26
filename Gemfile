@@ -3,7 +3,8 @@ source 'http://rubygems.org'
 gem 'addressable'
 
 group :test do
-  gem 'rails', '4.1.7'
+  gem 'rails', '4.2.0.beta1'
+  gem 'responders', '~> 2.0'
   gem 'sqlite3'
   gem 'bcrypt'
   gem 'scrypt'
