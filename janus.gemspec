@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'rails', '>= 3.0.0'
   gem.add_development_dependency 'sqlite3'
-  gem.add_development_dependency 'bcrypt-ruby'
+  gem.add_development_dependency 'bcrypt'
   gem.add_development_dependency 'scrypt'
   gem.add_development_dependency 'minitest'
   gem.add_development_dependency 'capybara'
