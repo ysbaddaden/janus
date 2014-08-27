@@ -5,6 +5,10 @@ class Users::SessionsController < Janus::SessionsController
     user_url
   end
 
+  def valid_host?(host)
+    super && host != "invalid.test.host"
+  end
+
   def valid_remote_host?(host)
     ['www.example.com', 'test.host'].include?(host)
   end

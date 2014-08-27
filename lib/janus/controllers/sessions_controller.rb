@@ -71,7 +71,16 @@ class Janus::SessionsController < ApplicationController
     root_url
   end
 
-  # Returns true if host is known and that we allow to redirect the user
+  # Returns true if host is request.host. You may want to overwrite this method
+  # to check if a user can access the current host and return false otherwise.
+  #
+  # For instance when a user signed in from a subdomain she can't access, and
+  # you want to redirect her to another subdomain.
+  def valid_host?(host)
+    host == request.host
+  end
+
+  # Must return true if host is known and we allow to redirect the user
   # with an auth_token.
   #
   # Warning: must be overwritten by child classes because it always
@@ -108,17 +117,23 @@ class Janus::SessionsController < ApplicationController
   # to this URL or not, in order to secure auth tokens for
   # RemoteAuthenticatable to leak into the wild.
   def redirect_after_sign_in(user)
-    unless params[:return_to].blank?
+    if params[:return_to].present?
       return_to = Addressable::URI.parse(params[:return_to])
 
       unless never_return_to(user).include?(return_to.path)
-        if return_to.host.nil? || return_to.host == request.host
+        # path or same host redirection
+        if valid_host?(return_to.host || request.host)
           redirect_to params[:return_to]
           return
-        elsif valid_remote_host?(return_to.host)
+        end
+
+        # external host redirection
+        if valid_remote_host?(return_to.host)
           if user.class.include?(Janus::Models::RemoteAuthenticatable)
             query = return_to.query_values || {}
-            return_to.query_values = query.merge(user.class.remote_authentication_key => user.generate_remote_token!)
+            return_to.query_values = query.merge(
+              user.class.remote_authentication_key => user.generate_remote_token!
+            )
           end
 
           redirect_to return_to.to_s

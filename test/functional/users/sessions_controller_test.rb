@@ -48,6 +48,13 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_authenticated(:user)
   end
 
+  test "create should skip redirect on invalid host" do
+    request.host = "invalid.test.host"
+    post :create, :user => @valid, :return_to => root_path
+    assert_redirected_to user_url
+    assert_authenticated(:user)
+  end
+
   test "create should not redirect to unknown host" do
     post :create, :user => @valid, :return_to => root_url(:host => 'www.bad-host.com')
     assert_redirected_to user_url
