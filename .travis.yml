@@ -3,8 +3,7 @@ script: bundle exec rake test
 
 rvm:
   - 1.9.3
-  - 2.0.0
-  - 2.1.0
+  - 2.1.2
 
 gemfile:
   - Gemfile
@@ -13,6 +12,12 @@ gemfile:
   - gemfiles/Gemfile.rails-head
 
 matrix:
+  exclude:
+    - rvm: 1.9.3
+    - gemfile: gemfiles/Gemfile.rails-head
   allow_failures:
     - gemfile: gemfiles/Gemfile.rails-head
 
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=1
