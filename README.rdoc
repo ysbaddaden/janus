@@ -33,22 +33,23 @@ As for the strategies and hooks:
 
 == Getting Started
 
-First add the janus gem to your Gemfile, then run `bundle` to install it:
+First add the janus gem to your Gemfile, then run +bundle+ to install it:
 
   gem 'janus'
-  gem 'bcrypt-ruby'
+  gem 'bcrypt'
   # gem 'scrypt'
 
-You'll also need either the `bcrypt-ruby` or scrypt` gems, depending on which
-library you want to use to encrypt the passwords. Janus uses bcrypt by default,
+You also need either the bcrypt or scrypt gems, depending on which library
+you want to use to encrypt the passwords. Janus uses bcrypt by default,
 to be compatible with Devise, but you may prefer scrypt, which is stronger.
 
 Run the <tt>janus:install</tt> generator to setup janus in your app:
 
   $ rails generate janus:install
 
-If you are running Rails 4.1+ you must add a `secret_pepper` to your
-`config/secrets.yml` file after generating a secure token with `rake secret`:
+If you are running Rails 4.1+ you must add a <tt>secret_pepper</tt> to your
+<tt>config/secrets.yml</tt> file after generating a secure token with
+<tt>rake secret</tt>:
 
   # config/secrets.yml
   development:
@@ -62,8 +63,8 @@ If you are running Rails 4.1+ you must add a `secret_pepper` to your
     secret_pepper: ENV["SECRET_PEPPER"]
 
 If you are running a previous version of Rails, then you should edit
-`config/initializers/janus.rb` to use an environment variable instead of the
-generated token.
+<tt>config/initializers/janus.rb</tt> to use an environment variable instead of
+the generated token.
 
 Then create your first authenticatable resource, let's say +User+:
 
