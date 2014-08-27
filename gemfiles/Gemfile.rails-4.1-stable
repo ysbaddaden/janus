@@ -4,7 +4,7 @@ gem 'rails', :github => 'rails/rails', :branch => '4-1-stable'
 gem 'sqlite3'
 gem 'addressable'
 gem 'janus', :path => '..'
-gem 'bcrypt-ruby'
+gem 'bcrypt'
 gem 'scrypt'
 
 group :test do
