@@ -1,4 +1,5 @@
-doc/
-pkg/
+/doc/
+/pkg/
 *.swp
-gemfiles/*.lock
+/gemfiles/*.lock
+/test/rails_app/db/test.sqlite3-journal
