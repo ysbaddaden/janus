@@ -86,6 +86,21 @@ class Users::PasswordsControllerTest < ActionController::TestCase
     assert users(:julien).valid_password?(@attributes[:password])
   end
 
+  test "should logout when updating" do
+    puts 'starting test'
+
+    sign_in users(:martha)
+    users(:julien).generate_reset_password_token!
+
+    put :update, :user => @attributes.merge(
+      :reset_password_token => users(:julien).reset_password_token
+    )
+
+    puts 'end of test'
+
+    refute_equal users(:martha).id, (session['janus']['user']['user_id'] rescue nil)
+  end
+
   test "should not update" do
     users(:julien).generate_reset_password_token!
 
