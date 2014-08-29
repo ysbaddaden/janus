@@ -8,8 +8,8 @@ class ResetPasswordTest < ActiveSupport::TestCase
   test "generate reset password token" do
     assert @user.generate_reset_password_token!
     assert @user.persisted?
-    assert_not_nil @user.reset_password_token
-    assert_not_nil @user.reset_password_sent_at
+    refute_nil @user.reset_password_token
+    refute_nil @user.reset_password_sent_at
   end
 
   test "reset password" do
@@ -25,8 +25,8 @@ class ResetPasswordTest < ActiveSupport::TestCase
     @user.generate_reset_password_token!
     user = User.find_for_password_reset(@user.reset_password_token)
     assert_equal @user, user
-    assert_not_nil user.reset_password_token
-    assert_not_nil user.reset_password_sent_at
+    refute_nil user.reset_password_token
+    refute_nil user.reset_password_sent_at
   end
 
   test "should not find user with bad tokens" do

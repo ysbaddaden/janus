@@ -6,7 +6,7 @@ class Users::RemoteTest < ActionDispatch::IntegrationTest
   test "service login" do
     # user visits a remote site
     visit blog_url(:host => 'test.host')
-    assert_not_authenticated
+    refute_authenticated
 
     # user clicks the sign in link
     click_link 'sign_in'
@@ -31,7 +31,7 @@ class Users::RemoteTest < ActionDispatch::IntegrationTest
 
     # user visits a remote site
     visit blog_url(:host => 'test.host')
-    assert_not_authenticated
+    refute_authenticated
 
     # user clicks the sign in link of remote site which should redirect her back
     click_link 'sign_in'
@@ -53,7 +53,7 @@ class Users::RemoteTest < ActionDispatch::IntegrationTest
     visit root_url(:host => 'test.host')
 
     # session should have been invalidated
-    assert_not_authenticated
+    refute_authenticated
   end
 
   test "session invalidation should not reset the user session_token" do
@@ -64,7 +64,7 @@ class Users::RemoteTest < ActionDispatch::IntegrationTest
     sign_in users(:julien)
 
     visit root_url(:host => 'test.host')
-    assert_not_authenticated
+    refute_authenticated
 
     visit root_url
     assert_authenticated

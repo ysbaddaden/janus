@@ -7,8 +7,8 @@ class RememberableTest < ActiveSupport::TestCase
 
   test "remember_token" do
     @user.remember_me!
-    assert_not_nil @user.remember_token
-    assert_not_nil @user.remember_created_at
+    refute_nil @user.remember_token
+    refute_nil @user.remember_created_at
 
     @user.forget_me!
     assert_nil @user.remember_token
@@ -19,7 +19,7 @@ class RememberableTest < ActiveSupport::TestCase
     @user.remember_me!
     token = @user.remember_token
     @user.remember_me!
-    assert_not_equal token, @user.remember_token
+    refute_equal token, @user.remember_token
   end
 
   test "find_for_remember_authentication" do

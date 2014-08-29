@@ -68,7 +68,7 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_select "#user_email[value='" + users(:julien).email + "']"
     assert_select "#user_password[value='secret']", 0
     assert_select '#error_explanation'
-    assert_not_authenticated(:user)
+    refute_authenticated(:user)
   end
 
   test "should fail to create with bad password" do
@@ -78,7 +78,7 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_select "#user_email[value='" + users(:martha).email + "']"
     assert_select "#user_password[value='force me in']", 0
     assert_select '#error_explanation'
-    assert_not_authenticated(:user)
+    refute_authenticated(:user)
   end
 
   test "should fail to create with unknown user" do
@@ -88,7 +88,7 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_select "#user_email[value='nobody@localhost']"
     assert_select "#user_password[value='secret']", 0
     assert_select '#error_explanation'
-    assert_not_authenticated(:user)
+    refute_authenticated(:user)
   end
 
   test "should destroy" do
@@ -96,12 +96,12 @@ class Users::SessionsControllerTest < ActionController::TestCase
 
     get :destroy
     assert_redirected_to root_url
-    assert_not_authenticated(:user)
+    refute_authenticated(:user)
   end
 
   test "destroy should silently logout anonymous" do
     get :destroy
     assert_redirected_to root_url
-    assert_not_authenticated(:user)
+    refute_authenticated(:user)
   end
 end

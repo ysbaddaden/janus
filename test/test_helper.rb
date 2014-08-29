@@ -4,6 +4,7 @@ require File.expand_path('../rails_app/config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
 require 'minitest/mock'
+require 'minitest/pride'
 
 ActiveRecord::Migration.verbose = false
 ActiveRecord::Migrator.migrate(Rails.root.join('db', 'migrate').to_s)
@@ -102,7 +103,7 @@ class ActionDispatch::IntegrationTest
     assert has_selector?("a#my_page"), "Expected user to be authenticated."
   end
 
-  def assert_not_authenticated
+  def refute_authenticated
     assert has_selector?("a#sign_in"), "Expected user to not be authenticated."
   end
 

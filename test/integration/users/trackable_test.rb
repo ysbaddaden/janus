@@ -6,7 +6,7 @@ class Users::TrackableTest < ActionDispatch::IntegrationTest
   test "should track user" do
     current_sign_in_at = users(:julien).reload.current_sign_in_at
     sign_in users(:julien)
-    assert_not_equal current_sign_in_at, users(:julien).reload.current_sign_in_at
+    refute_equal current_sign_in_at, users(:julien).reload.current_sign_in_at
   end
 
   test "remote authentication should not track user" do

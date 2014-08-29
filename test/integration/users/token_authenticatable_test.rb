@@ -15,7 +15,7 @@ class Users::TokenAuthenticatableTest < ActionDispatch::IntegrationTest
 
   test "should not sign user with invalid token" do
     visit root_url(:auth_token => 'unknown token')
-    assert_not_authenticated
+    refute_authenticated
   end
 
   test "should reuse token" do
@@ -36,7 +36,7 @@ class Users::TokenAuthenticatableTest < ActionDispatch::IntegrationTest
       sign_out :user
 
       visit root_url(:auth_token => token)
-      assert_not_authenticated
+      refute_authenticated
     end
   end
 end

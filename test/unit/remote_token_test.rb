@@ -4,6 +4,6 @@ class RemoteTokenTest < ActiveSupport::TestCase
   test "should create" do
     remote_token = RemoteToken.create(:user => users(:julien))
     assert remote_token.persisted?, remote_token.errors.to_xml
-    assert_not_nil remote_token.token
+    refute_nil remote_token.token
   end
 end

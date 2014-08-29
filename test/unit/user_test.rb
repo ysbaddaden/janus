@@ -33,7 +33,7 @@ class UserTest < ActiveSupport::TestCase
   test "password" do
     user = User.new(:password => "my pwd")
     assert_equal "my pwd", user.password
-    assert_not_nil user.encrypted_password
+    refute_nil user.encrypted_password
   end
 
   test "should confirm password" do
@@ -46,12 +46,12 @@ class UserTest < ActiveSupport::TestCase
 
   test "clean_up_passwords" do
     user = User.new(:email => 'julien@example.com', :password => 'abc', :password_confirmation => 'def')
-    assert_not_nil user.email
-    assert_not_nil user.password
-    assert_not_nil user.password_confirmation
+    refute_nil user.email
+    refute_nil user.password
+    refute_nil user.password_confirmation
 
     user.clean_up_passwords
-    assert_not_nil user.email
+    refute_nil user.email
     assert_nil user.password
     assert_nil user.password_confirmation
   end

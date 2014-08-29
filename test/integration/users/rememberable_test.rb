@@ -14,7 +14,7 @@ class Users::RememberableTest < ActionDispatch::IntegrationTest
 
     sign_out :user
     visit root_url
-    assert_not_authenticated
+    refute_authenticated
   end
 
   test "registration should remember user" do
@@ -27,6 +27,6 @@ class Users::RememberableTest < ActionDispatch::IntegrationTest
 
     sign_out :user
     visit root_url
-    assert_not_authenticated
+    refute_authenticated
   end
 end

@@ -7,7 +7,7 @@ class RemoteAuthenticatableTest < ActiveSupport::TestCase
 
   test "session token" do
     @user.generate_session_token!
-    assert_not_nil @user.session_token
+    refute_nil @user.session_token
 
     @user.destroy_session_token!
     assert_nil @user.session_token

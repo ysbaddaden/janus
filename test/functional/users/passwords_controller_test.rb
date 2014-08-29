@@ -99,8 +99,8 @@ class Users::PasswordsControllerTest < ActionController::TestCase
 
     users(:julien).reload
 
-    assert_not_nil users(:julien).reset_password_token
-    assert_not_nil users(:julien).reset_password_sent_at
+    refute_nil users(:julien).reset_password_token
+    refute_nil users(:julien).reset_password_sent_at
     assert !users(:julien).valid_password?(@attributes[:password])
   end
 

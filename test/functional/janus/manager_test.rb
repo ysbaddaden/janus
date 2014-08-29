@@ -52,7 +52,7 @@ class Janus::ManagerTest < ActionController::TestCase
     @janus.login(users(:martha), :scope => :admin)
 
     @janus.logout(:admin)
-    assert_not_nil session['janus']
+    refute_nil session['janus']
 
     @janus.logout(:user)
     assert_nil session['janus']
