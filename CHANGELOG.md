@@ -1,8 +1,21 @@
-v0.9.1
+# Change Log
 
-- Fixed compatibility with the latest Rails 4.0 and 4.1 releases that fixed a
-  bug with strong parameters. See 5b5a7e7
+## Unreleased
+
+### Fixed
+
+- Login failure when password wasn't set (invalid encrypted password).
+
+## v0.9.1 - 2014-08-27
+
+### Added
+
 - `Janus::SessionsController#valid_host?(host)` to interrupt a blind redirection
   when `params[:return_to]` is the current host. See b120010.
+
+### Fixed
+
+- Compatibility with the latest Rails 4.0 and 4.1 releases that fixed a
+  bug with strong parameters. See 5b5a7e7
 
 Compare: https://github.com/ysbaddaden/janus/compare/v0.9.0...v0.9.1
