@@ -7,6 +7,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "valid_password?" do
     user = User.new(:password => "azerty")
+    refute user.valid_password?("secret")
     assert user.valid_password?("azerty")
     refute user.valid_password?("secret")
 
@@ -19,6 +20,16 @@ class UserTest < ActiveSupport::TestCase
       user = User.new(:password => "a good secret")
       assert user.valid_password?("a good secret")
       refute user.valid_password?("some lame guessing")
+    end
+  end
+
+  test "valid_password? without encrypted password" do
+    refute User.new.valid_password?("")
+    refute User.new.valid_password?("secret")
+
+    with_encryptor :scrypt do
+      refute User.new.valid_password?("")
+      refute User.new.valid_password?("some lame guessing")
     end
   end
 

@@ -57,8 +57,10 @@ module Janus
         when :bcrypt
           ::BCrypt::Password.new(encrypted_password) == salted_password(password)
         when :scrypt
-          ::SCrypt::Password.new(encrypted_password) == salted_password(password)
+          ::SCrypt::Password.new(encrypted_password || "") == salted_password(password)
         end
+      rescue BCrypt::Errors::InvalidHash, SCrypt::Errors::InvalidHash
+        false
       end
 
       # Digests a password using either bcrypt or scrypt (as configured by `config.encryptor`).
