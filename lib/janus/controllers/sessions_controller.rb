@@ -1,19 +1,18 @@
 require 'addressable/uri'
 
-# This controller is responsible for creating and destroying
-# authenticated user sessions.
+# This controller is responsible for creating and destroying user sessions.
 #
 # The creation uses the DatabaseAuthenticatable strategy, while the destruction
 # simply destroys any session, whatever strategy it was created with. Janus
-# hooks will be called, of course, allowing to destroy any Rememberable cookies
-# for instance, as well as any user defined behavior.
+# hooks will be called, allowing to destroy any Rememberable cookies as well as
+# any user defined behavior.
 #
 class Janus::SessionsController < ApplicationController
   include Janus::InternalHelpers
-#  include Janus::UrlHelpers
 
   helper JanusHelper
-#  skip_before_filter :authenticate_user!
+
+  before_filter :load_resource_from_authentication_params, :only => :create
 
   def new
     params[:return_to] ||= request.env["HTTP_REFERER"]
@@ -27,35 +26,17 @@ class Janus::SessionsController < ApplicationController
   end
 
   def create
-    self.resource = resource_class.find_for_database_authentication(resource_authentication_params)
-
-    if resource && resource.valid_password?(params[resource_name][:password])
+    if valid_resource?
       janus.login(resource, :scope => janus_scope, :rememberable => params[:remember_me])
-
-      respond_to do |format|
-        format.html { redirect_after_sign_in(resource) }
-        format.any  { head :ok }
-      end
+      respond_with_success { redirect_after_sign_in(resource) }
     else
-      respond_to do |format|
-        format.html do
-          self.resource ||= resource_class.new(resource_authentication_params)
-          resource.clean_up_passwords
-          resource.errors.add(:base, :not_found)
-          render "new", :status => :unauthorized
-        end
-        format.any { head :unauthorized }
-      end
+      respond_with_failure :unauthorized
     end
   end
 
   def destroy
     janus.logout(janus_scope)
-
-    respond_to do |format|
-      format.html { redirect_to after_sign_out_url(janus_scope) }
-      format.any  { head :ok }
-    end
+    respond_with_success { redirect_to after_sign_out_url(janus_scope) }
   end
 
   # An overridable method that returns the default path to return the just
@@ -93,7 +74,7 @@ class Janus::SessionsController < ApplicationController
   # actually returns URL to prevent infinite loops. We must for instance
   # never return to new_sesssion_path.
   #
-  # If you ever needd to override this method, don't forget to call `super`.
+  # If you ever need to override this method, don't forget to call `super`.
   # For instance:
   #
   #   def never_return_to(scope)
@@ -103,8 +84,13 @@ class Janus::SessionsController < ApplicationController
   def never_return_to(scope)
     scope = Janus.scope_for(scope)
     list = [new_session_path(scope)]
+
     begin
-      list + [ destroy_session_path(scope), new_password_path(scope), edit_password_path(scope) ]
+      list + [
+        destroy_session_path(scope),
+        new_password_path(scope),
+        edit_password_path(scope)
+      ]
     rescue NoMethodError
       list
     end
@@ -123,25 +109,41 @@ class Janus::SessionsController < ApplicationController
       unless never_return_to(user).include?(return_to.path)
         # path or same host redirection
         if valid_host?(return_to.host || request.host)
-          redirect_to params[:return_to]
-          return
+          redirect_to params[:return_to] and return
         end
 
         # external host redirection
         if valid_remote_host?(return_to.host)
-          if user.class.include?(Janus::Models::RemoteAuthenticatable)
-            query = return_to.query_values || {}
-            return_to.query_values = query.merge(
-              user.class.remote_authentication_key => user.generate_remote_token!
-            )
-          end
-
-          redirect_to return_to.to_s
-          return
+          add_remote_authentication_key(return_to, user) if user.class.include?(Janus::Models::RemoteAuthenticatable)
+          redirect_to return_to.to_s and return
         end
       end
     end
 
     redirect_to after_sign_in_url(user)
+  end
+
+  def add_remote_authentication_key(return_to, user)
+    query = return_to.query_values || {}
+    return_to.query_values = query.merge(
+      user.class.remote_authentication_key => user.generate_remote_token!
+    )
+  end
+
+  private
+
+  def valid_resource?
+    resource && resource.valid_password?(params[resource_name][:password])
+  end
+
+  def initialize_resource
+    resource_class
+      .new(resource_authentication_params)
+      .tap(&:clean_up_passwords)
+  end
+
+  def load_resource_from_authentication_params
+    self.resource = resource_class.find_for_database_authentication(resource_authentication_params)
+    respond_with_failure :unauthorized unless resource
   end
 end

@@ -15,7 +15,7 @@ class Users::ConfirmationsControllerTest < ActionController::TestCase
   test "should not get show without token" do
     assert_no_difference('User.count(:confirmed_at)') do
       get :show
-      assert_response :ok
+      assert_response :bad_request
       assert_template 'new'
       assert_select '#error_explanation'
     end
@@ -24,7 +24,7 @@ class Users::ConfirmationsControllerTest < ActionController::TestCase
   test "should not get show with blank token" do
     assert_no_difference('User.count(:confirmed_at)') do
       get :show, :token => ""
-      assert_response :ok
+      assert_response :bad_request
       assert_template 'new'
       assert_select '#error_explanation'
     end
@@ -35,7 +35,7 @@ class Users::ConfirmationsControllerTest < ActionController::TestCase
 
     assert_no_difference('User.count(:confirmed_at)') do
       get :show, :token => "aiorujfqptezjsmdguspfofkn"
-      assert_response :ok
+      assert_response :bad_request
       assert_template 'new'
       assert_select '#error_explanation'
     end
@@ -59,9 +59,9 @@ class Users::ConfirmationsControllerTest < ActionController::TestCase
   test "should not create" do
     assert_no_email do
       post :create, :user => { :email => 'nobody@example.com' }
+      assert_response :not_found
     end
 
-    assert_response :ok
     assert_template 'new'
     assert_select '#error_explanation'
   end
