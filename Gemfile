@@ -10,5 +10,6 @@ group :test do
   gem 'janus', :path => '.'
   gem 'minitest', :require => 'minitest/autorun'
   gem 'capybara'
+  gem "codeclimate-test-reporter", :group => :test, :require => nil
 end
 

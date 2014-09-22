@@ -1,5 +1,11 @@
 ENV["RAILS_ENV"] = "test"
 
+begin
+  require 'codeclimate-test-reporter'
+  CodeClimate::TestReporter.start
+rescue LoadError
+end
+
 require File.expand_path('../rails_app/config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
