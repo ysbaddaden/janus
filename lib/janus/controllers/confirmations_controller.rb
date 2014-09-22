@@ -5,30 +5,15 @@ class Janus::ConfirmationsController < ApplicationController
 
   helper JanusHelper
 
+  before_filter :load_resource_from_confirmation_token, :only => :show
+  before_filter :load_resource_from_authentication_params, :only => :create
+
   def show
-    self.resource = resource_class.find_for_confirmation(params[resource_class.confirmation_key])
+    resource.confirm!
 
-    if resource
-      resource.confirm!
-
-      respond_to do |format|
-        format.html do
-          redirect_to after_confirmation_url(resource),
-            :notice => t('flash.janus.confirmations.edit.confirmed')
-        end
-
-        format.any { head :ok }
-      end
-    else
-      respond_to do |format|
-        format.html do
-          self.resource = resource_class.new
-          resource.errors.add(:base, :invalid_token)
-          render 'new'
-        end
-
-        format.any { head :bad_request }
-      end
+    respond_with_success do
+      redirect_to after_confirmation_url(resource),
+        notice: t('flash.janus.confirmations.edit.confirmed')
     end
   end
 
@@ -38,29 +23,11 @@ class Janus::ConfirmationsController < ApplicationController
   end
 
   def create
-    self.resource = resource_class.find_for_database_authentication(resource_authentication_params)
+    deliver_confirmation_instructions(resource)
 
-    if resource
-      deliver_confirmation_instructions(resource)
-
-      respond_to do |format|
-        format.html do
-          redirect_to after_resending_confirmation_instructions_url(resource),
-            :notice => t('flash.janus.confirmations.create.email_sent')
-        end
-
-        format.any  { head :ok }
-      end
-    else
-      respond_to do |format|
-        format.html do
-          self.resource = resource_class.new
-          resource.errors.add(:base, :not_found)
-          render 'new'
-        end
-
-        format.any { head :not_found }
-      end
+    respond_with_success do
+      redirect_to after_resending_confirmation_instructions_url(resource),
+        notice: t('flash.janus.confirmations.create.email_sent')
     end
   end
 
@@ -78,5 +45,18 @@ class Janus::ConfirmationsController < ApplicationController
   # Where to redirect when the user has confirmed her account.
   def after_confirmation_url(resource)
     root_url
+  end
+
+  private
+
+  def load_resource_from_confirmation_token
+    token = params[resource_class.confirmation_key]
+    self.resource = resource_class.find_for_confirmation(token)
+    respond_with_failure(:invalid_token, :status => :bad_request) unless resource
+  end
+
+  def load_resource_from_authentication_params
+    self.resource = resource_class.find_for_database_authentication(resource_authentication_params)
+    respond_with_failure(:not_found) unless resource
   end
 end

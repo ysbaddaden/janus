@@ -56,5 +56,29 @@ module Janus
     def mailer_class
       @mailer_class ||= (janus_scope.camelize + 'Mailer').constantize
     end
+
+    def respond_with_success(&block)
+      respond_to do |format|
+        format.html(&block)
+        format.any { head :ok }
+      end
+    end
+
+    def respond_with_failure(error, options = {})
+      status = options[:status] || error
+
+      respond_to do |format|
+        format.html do
+          self.resource = initialize_resource
+          resource.errors.add(:base, error)
+          render 'new', status: status
+        end
+        format.any { head status }
+      end
+    end
+
+    def initialize_resource
+      resource_class.new
+    end
   end
 end
