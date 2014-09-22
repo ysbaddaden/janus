@@ -2,9 +2,15 @@
 
 ## Unreleased
 
+### Changed
+
+- Confirmations controller now returns 400 or 404 HTTP status codes when
+  failing to find a valid resource for the token (or missing token).
+
 ### Fixed
 
 - Login failure when password wasn't set (invalid encrypted password).
+
 
 ## v0.9.1 - 2014-08-27
 
