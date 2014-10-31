@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20130412104138) do
   create_table "users", force: true do |t|
     t.string   "email"
     t.string   "encrypted_password"
+    t.string   "encrypted_legacy_password"
     t.string   "remember_token"
     t.datetime "remember_created_at"
     t.string   "confirmation_token"

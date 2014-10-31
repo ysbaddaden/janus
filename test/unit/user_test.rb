@@ -33,6 +33,23 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "valid_password? fallback on legacy password" do
+    user = User.create!(:email => 'test@example.com', :legacy_password => 'azerty')
+    refute user.valid_password?('secret')
+    assert user.valid_password?('azerty')
+  end
+
+  test "valid_password? fallback on legacy password upgrades to new digest" do
+    user = User.create!(:email => 'test@example.com', :legacy_password => 'azerty')
+    refute_nil user.reload.encrypted_legacy_password
+
+    assert user.valid_password?('azerty')
+    refute_nil user.reload.encrypted_password
+    assert_nil user.reload.encrypted_legacy_password
+
+    assert user.valid_password?('azerty')
+  end
+
   test "should validate current_password on update" do
     @user.update_attributes(:email => 'julien@example.fr', :current_password => 'secret')
     assert @user.persisted?, @user.errors.to_xml
@@ -47,12 +64,23 @@ class UserTest < ActiveSupport::TestCase
     refute_nil user.encrypted_password
   end
 
+  test "legacy_password" do
+    user = User.new(:legacy_password => "my pwd")
+    assert_equal "my pwd", user.legacy_password
+    refute_nil user.encrypted_legacy_password
+  end
+
   test "should confirm password" do
     user = User.create(:password => "my pwd", :password_confirmation => "my pwd")
     assert user.errors[:password].empty?, user.errors.to_xml
 
     user = User.create(:password => "my pwd", :password_confirmation => "my PWD")
     assert user.errors[:password].any? || user.errors[:password_confirmation].any?, user.errors.to_xml
+  end
+
+  test "password isn't required if legacy_password is present" do
+    user = User.create(:legacy_password => "my pwd")
+    refute user.errors[:password].any?
   end
 
   test "clean_up_passwords" do
