@@ -19,7 +19,7 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_response :ok
     assert_select '#user_email', 1
     assert_select '#user_password', 1
-    assert_select 'input[name=return_to][value=/some/path]', 1
+    assert_select "input[name=return_to][value='/some/path']", 1
   end
 
   test "new should pass return_to" do
@@ -27,7 +27,7 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_response :ok
     assert_select '#user_email', 1
     assert_select '#user_password', 1
-    assert_select 'input[name=return_to][value=' + root_path + ']', 1
+    assert_select "input[name=return_to][value='" + root_path + "']", 1
   end
 
   test "should create" do

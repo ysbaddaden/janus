@@ -2,7 +2,7 @@ class <%= class_name.pluralize %>::ConfirmationsController < Janus::Confirmation
   respond_to :html
 
   # def deliver_confirmation_instructions(<%= singular_name %>)
-  #   <%= class_name %>Mailer.confirmation_instructions(<%= singular_name %>).deliver
+  #   <%= class_name %>Mailer.confirmation_instructions(<%= singular_name %>).<%= delivery_method %>
   # end
 
   # def after_resending_confirmation_instructions_url(<%= singular_name %>)

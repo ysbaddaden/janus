@@ -39,5 +39,8 @@ module RailsApp
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:current_password, :password, :password_confirmation]
+
+    # GlobalId chokes on app names with underscores
+    config.global_id.app = "rails-app" if config.respond_to?(:global_id)
   end
 end

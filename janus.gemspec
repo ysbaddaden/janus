@@ -20,6 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'addressable'
 
   gem.add_development_dependency 'rails', '>= 3.0.0'
+  gem.add_development_dependency 'responders', '~> 2.0'
   gem.add_development_dependency 'sqlite3'
   gem.add_development_dependency 'bcrypt'
   gem.add_development_dependency 'scrypt'
