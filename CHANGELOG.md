@@ -2,10 +2,15 @@
 
 ## Unreleased
 
+
+## v0.10.0 - 2014-12-27
+
 ### Changed
 
+- Rails 4.2.0 compatibility
 - Confirmations controller now returns 400 or 404 HTTP status codes when
   failing to find a valid resource for the token (or missing token).
+- The `janus` instance is now accessible in Janus::TestHelper.
 
 ### Fixed
 
