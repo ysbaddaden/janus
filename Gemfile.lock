@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    janus (0.10.0)
+    janus (0.10.1)
       addressable
 
 GEM
