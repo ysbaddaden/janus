@@ -30,7 +30,7 @@ class Janus::SessionsController < ApplicationController
       janus.login(resource, :scope => janus_scope, :rememberable => params[:remember_me])
       respond_with_success { redirect_after_sign_in(resource) }
     else
-      respond_with_failure :unauthorized
+      respond_with_failure :not_found, :status => :unauthorized
     end
   end
 
@@ -144,6 +144,6 @@ class Janus::SessionsController < ApplicationController
 
   def load_resource_from_authentication_params
     self.resource = resource_class.find_for_database_authentication(resource_authentication_params)
-    respond_with_failure :unauthorized unless resource
+    respond_with_failure :not_found, :status => :unauthorized unless resource
   end
 end
