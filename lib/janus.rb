@@ -21,6 +21,7 @@ module Janus
   module Models
     autoload :Base,                    'janus/models/base'
     autoload :DatabaseAuthenticatable, 'janus/models/database_authenticatable'
+    autoload :LegacyPasswordAuthenticatable, 'janus/models/legacy_password_authenticatable'
     autoload :Confirmable,             'janus/models/confirmable'
     autoload :Rememberable,            'janus/models/rememberable'
     autoload :RemoteAuthenticatable,   'janus/models/remote_authenticatable'

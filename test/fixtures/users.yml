@@ -1,10 +1,11 @@
 julien:
   email: "julien@example.com"
-  encrypted_password: "$2a$10$MFILoaQqegEY7swhM1KVeu7f1hls.3YhRRvrhWVX/NULJsqpyTLeO"
-# password: "secret"
+  encrypted_password: <%= User.new.digest_password("secret") %>
 
 martha:
   email: "martha@fai.fr"
-  encrypted_password: "$2a$10$EBsYVyy9rvhC51.5HzQRDet4lh.0hAYwYbM0l6t3x0YfjKFKJNQm6"
-# password: "vacances"
+  encrypted_password: <%= User.new.digest_password("vacances") %>
 
+legacy:
+  email: "legacy@example.com"
+  encrypted_legacy_password: <%= User.new.digest_legacy_password("legacy_secret") %>

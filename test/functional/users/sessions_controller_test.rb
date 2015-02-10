@@ -36,6 +36,12 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_authenticated(:user)
   end
 
+  test "should create using legacy digest" do
+    post :create, :user => { :email => users(:legacy).email, :password => 'legacy_secret' }
+    assert_redirected_to user_url
+    assert_authenticated(:user)
+  end
+
   test "should create and redirect to given path" do
     post :create, :user => @valid, :return_to => blog_path
     assert_redirected_to blog_path
@@ -78,6 +84,12 @@ class Users::SessionsControllerTest < ActionController::TestCase
     assert_select "#user_email[value='" + users(:martha).email + "']"
     assert_select "#user_password[value='force me in']", 0
     assert_select '#error_explanation'
+    refute_authenticated(:user)
+  end
+
+  test "should fail to create with bad password against legacy digest" do
+    post :create, :user => { :email => users(:legacy).email, :password => 'guessing' }
+    assert_response :unauthorized
     refute_authenticated(:user)
   end
 
