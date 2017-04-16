@@ -46,6 +46,7 @@ class Janus::PasswordsController < ApplicationController
 
     if resource
       if resource.reset_password!(params[resource_name])
+        janus.logout
         respond_to do |format|
           format.html { redirect_after_password_change(self.resource, :notice => t('flash.janus.passwords.update.password_updated')) }
           format.any  { head :ok }
